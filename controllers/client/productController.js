@@ -1,5 +1,7 @@
 module.exports.index = (req, res) => {
-  res.send('Products Page')
+  res.render('client/pages/products/index.products.pug', {
+    titlePage: "Products Page"
+  })
 }
 
 module.exports.create = (req, res) => {
