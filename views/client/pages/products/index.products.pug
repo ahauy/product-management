@@ -1,4 +1,18 @@
 extends ../../layout/default.pug
+include ../../mixins/box-header.pug
 
 block main 
-  h1 Product Page
+  .container-fluid
+    .row  
+      .col-12 
+        +box-header("Products page")
+    
+    .row 
+      .col-4
+        .card
+          img(src="/images/iphone-9.jpg", alt="" class="card-img-top")
+          .card-body 
+            h3.card-title Iphone 9
+            .card-price-new.text-success 80$
+            .card-price-old.text-danger 100$
+            span.card-discount.text-white.bg-danger -20%
