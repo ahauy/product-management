@@ -8,11 +8,12 @@ block main
         +box-header("Products page")
     
     .row 
-      .col-4
-        .card
-          img(src="/images/iphone-9.jpg", alt="" class="card-img-top")
-          .card-body 
-            h3.card-title Iphone 9
-            .card-price-new.text-success 80$
-            .card-price-old.text-danger 100$
-            span.card-discount.text-white.bg-danger -20%
+      each item in newProducts
+        .col-4
+          .card
+            img(src=item.thumbnail, alt="" class="card-img-top")
+            .card-body 
+              h3.card-title #{item.title}
+              .card-price-new.text-success #{item.newPrice}$
+              .card-price-old.text-danger #{item.price}$
+              span.card-discount.text-white.bg-danger #{item.discountPercentage}%
