@@ -1,6 +1,8 @@
 const express = require('express')
 const route = require('./routes/client/index.router')
+const routeAdmin = require("./routes/admin/index.router")
 const database = require('./config/database')
+const systemAdmin = require("./config/system")
 
 require('dotenv').config();
 
@@ -17,7 +19,11 @@ app.set('views', "./views")
 app.set('view engine', 'pug')
 
 // call route
-route(app)
+route(app) // client
+routeAdmin(app) // admin
+
+// Local varliables
+app.locals.prefixAdmin = systemAdmin.prefixAdmin
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
