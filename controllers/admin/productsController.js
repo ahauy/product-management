@@ -40,7 +40,15 @@ module.exports.index = async (req, res) => {
     find.status = req.query.status;
   }
 
+  if(req.query.keyword) {
+    const regex = new RegExp(req.query.keyword, "i")
+    find.title = regex;
+  }
+
+
   const products = await Products.find(find)
+
+  console.log((products))
 
   res.render('admin/pages/products/index.pug', {
     title: 'Trang danh sách sản phẩm',

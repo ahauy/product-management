@@ -6,9 +6,24 @@ block main
   .card.mb-3 
     .card-header Bộ lọc và tìm kiếm 
     .card-body 
-      each item in filterStatus 
-        button(class=`btn btn-sm btn-outline-success ${item.active}` button-status=item.status) #{item.name}
-      
+      .row 
+        .col-6 
+          each item in filterStatus 
+            button(class=`btn btn-sm btn-outline-success ${item.active}` button-status=item.status) #{item.name}
+        .col-6 
+          form(id='form-search')
+            .input-group  
+              input(
+                type="text"
+                placeholder="Nhập từ khoá"
+                name='keyword'
+                class='form-control'
+              )
+              .input-group-append 
+                button(
+                  class='btn btn-success'
+                  type='submit'
+                ) Tìm
 
 
   .card.mb-3 
