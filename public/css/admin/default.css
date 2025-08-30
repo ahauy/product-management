@@ -1,0 +1,45 @@
+:root {
+  --bg-header: rgb(36, 36, 36);
+}
+
+
+.header {
+  background: var(--bg-header);
+  position: fixed;
+  top: 0px;
+  height: 50px;
+  width: 100%;
+}
+
+.header .inner-logo a {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.sider {
+  margin-top: 50px;
+  width: 200px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px;
+} 
+
+.sider .inner-menu a{
+  color: white;
+}
+
+.sider .inner-menu ul li {
+  padding: 5px;
+  border-bottom: 1px solid white;
+}
+
+.main {
+  margin-top: 50px;
+  padding: 10px;
+  width: 100%;
+}
+
+.body {
+  display: flex;
+  height: 100vh;
+}
