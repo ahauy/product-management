@@ -3,29 +3,40 @@ extends ../../layout/default.pug
 block main 
   h1 Trang danh sách sản phẩm
 
-  table.table.table-hover 
-    thead 
-      tr 
-        th(scope='col') STT 
-        th(scope='col') Hình ảnh
-        th(scope='col') Tiêu đề 
-        th(scope='col') Giá 
-        th(scope='col') Trạng thái 
-        th(scope='col') Hành động 
+  .card.mb-3 
+    .card-header Bộ lọc và tìm kiếm 
+    .card-body 
+      each item in filterStatus 
+        button(class=`btn btn-sm btn-outline-success ${item.active}` button-status=item.status) #{item.name}
+      
 
-    tbody 
-      each item, index in products
-        tr 
-          th(scope='row') #{index + 1}
-          td  
-            img(src=item.thumbnail, alt="")
-          td=item.title
-          td=item.price
-          td 
-            if(item.status == "active")
-              a(href="#" class='badge badge-success') Hoạt động
-            else 
-              a(href="#" class='badge badge-danger') Dừng hoạt động
-          td  
-            button(class='btn btn-warning btn-sm') Sửa
-            button(class='btn btn-danger btn-sm') Xoá
+
+  .card.mb-3 
+    .card-header Bộ lọc và tìm kiếm 
+    .card-body 
+      table.table.table-hover 
+        thead 
+          tr 
+            th(scope='col') STT 
+            th(scope='col') Hình ảnh
+            th(scope='col') Tiêu đề 
+            th(scope='col') Giá 
+            th(scope='col') Trạng thái 
+            th(scope='col') Hành động 
+
+        tbody 
+          each item, index in products
+            tr 
+              th(scope='row') #{index + 1}
+              td  
+                img(src=item.thumbnail, alt="")
+              td=item.title
+              td=item.price
+              td 
+                if(item.status == "active")
+                  a(href="#" class='badge badge-success') Hoạt động
+                else 
+                  a(href="#" class='badge badge-danger') Dừng hoạt động
+              td  
+                button(class='btn btn-warning btn-sm') Sửa
+                button(class='btn btn-danger btn-sm') Xoá
