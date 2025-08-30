@@ -14,26 +14,18 @@ block main
         th(scope='col') Hành động 
 
     tbody 
-      tr 
-        th(scope='row') 1
-        td  
-          img(src="", alt="")
-        td Sản phẩm 1
-        td 100$
-        td 
-          a(href="#" class='badge badge-success') Hoạt động 
-        td  
-          button(class='btn btn-warning btn-sm') Sửa
-          button(class='btn btn-danger btn-sm') Xoá
-
-      tr 
-        th(scope='row') 2
-        td  
-          img(src="", alt="")
-        td Sản phẩm 1
-        td 100$
-        td 
-          a(href="#" class='badge badge-success') Hoạt động 
-        td  
-          button(class='btn btn-warning btn-sm') Sửa
-          button(class='btn btn-danger btn-sm') Xoá
+      each item, index in products
+        tr 
+          th(scope='row') #{index + 1}
+          td  
+            img(src=item.thumbnail, alt="")
+          td=item.title
+          td=item.price
+          td 
+            if(item.status == "active")
+              a(href="#" class='badge badge-success') Hoạt động
+            else 
+              a(href="#" class='badge badge-danger') Dừng hoạt động
+          td  
+            button(class='btn btn-warning btn-sm') Sửa
+            button(class='btn btn-danger btn-sm') Xoá
