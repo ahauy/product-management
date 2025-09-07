@@ -27,3 +27,17 @@ formSearch.addEventListener('submit', e => {
 
   window.location.href = url.href;
 })
+
+// Phân trang sản phẩm
+const buttonPagination = document.querySelectorAll("[page-pagination]")
+if(buttonPagination.length) {
+  const url = new URL(window.location.href)
+  buttonPagination.forEach(page => {
+    page.addEventListener("click", () => {
+      const pageNumber = page.getAttribute('page-pagination')
+      url.searchParams.set("page", pageNumber)
+      // console.log(url)
+      window.location.href = url.href;
+    })
+  })
+}

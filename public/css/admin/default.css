@@ -47,3 +47,16 @@
 .body button {
   margin-left: 5px;
 }
+
+
+/* CARD-FOOTER - START*/
+.card .card-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card .card-footer nav {
+  margin-top: 10px;
+}
+/* CARD-FOOTER - END*/
