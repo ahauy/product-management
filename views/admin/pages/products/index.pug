@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/filterStatus.pug
+include ../../mixins/search.pug
 
 block main 
   h1 Trang danh sách sản phẩm
@@ -11,19 +12,7 @@ block main
         .col-6 
           +filterStatus(filterStatus)
         .col-6 
-          form(id='form-search')
-            .input-group  
-              input(
-                type="text"
-                placeholder="Nhập từ khoá"
-                name='keyword'
-                class='form-control'
-              )
-              .input-group-append 
-                button(
-                  class='btn btn-success'
-                  type='submit'
-                ) Tìm
+          +search()
 
 
   .card.mb-3 
@@ -34,7 +23,7 @@ block main
           tr 
             th(scope='col') STT 
             th(scope='col') Hình ảnh
-            th(scope='col') Tiêu đề 
+            th(scope='col') Tiêu đề
             th(scope='col') Giá 
             th(scope='col') Trạng thái 
             th(scope='col') Hành động 
