@@ -1,33 +1,13 @@
+const { request } = require('express');
 const Products = require('../../models/products.model')
+
+const filterStatusHelpers = require('../../helpers/admin/filterStatus')
 
 
 module.exports.index = async (req, res) => {
   
-  const filterStatus = [
-    {
-      name: 'All',
-      status: '',
-      active: ''
-    },
-    {
-      name: 'Active',
-      status: 'active',
-      active: ''
-    },
-    {
-      name: 'Inactive',
-      status: 'inactive',
-      active: ''
-    }
-  ]
-
-  if(req.query.status) {
-    let index = filterStatus.findIndex(item => item.status == req.query.status)
-    filterStatus[index].active = 'active';
-  } else {
-    let index = filterStatus.findIndex(item => item.status == '')
-    filterStatus[index].active = 'active';
-  }
+  // Bộ lọc sản phẩm
+  const filterStatus = filterStatusHelpers(req.query)
 
   // console.log(filterStatus)
 
@@ -48,7 +28,7 @@ module.exports.index = async (req, res) => {
 
   const products = await Products.find(find)
 
-  console.log((products))
+  // console.log((products))
 
   res.render('admin/pages/products/index.pug', {
     title: 'Trang danh sách sản phẩm',
