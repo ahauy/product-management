@@ -17,7 +17,7 @@ if(btnChangeStatus.length > 0) {
       // change active
       const activeChange = activeCurrent == 'active' ? 'inactive' : 'active';
 
-      formChangeStatus.action = `${dataPath}/${activeChange}/${id}`
+      formChangeStatus.action = `${dataPath}/${activeChange}/${id}?_method=PATCH`
       formChangeStatus.submit()
     })
   })
