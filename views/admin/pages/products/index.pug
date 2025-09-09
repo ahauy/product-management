@@ -38,9 +38,21 @@ block main
               td=item.price
               td 
                 if(item.status == "active")
-                  a(href="#" class='badge badge-success') Hoạt động
+                  a(
+                    href="javascript:;" 
+                    btn-change-status
+                    itemStatus=item.status 
+                    itemId=item.id
+                    class='badge badge-success'
+                  ) Hoạt động
                 else 
-                  a(href="#" class='badge badge-danger') Dừng hoạt động
+                  a(
+                    href="javascript:;" 
+                    btn-change-status
+                    itemStatus=item.status 
+                    itemId=item.id
+                    class='badge badge-danger'
+                  ) Dừng hoạt động
               td  
                 button(class='btn btn-warning btn-sm') Sửa
                 button(class='btn btn-danger btn-sm') Xoá
@@ -54,3 +66,12 @@ block main
               button(class="page-link" page-pagination=i) #{i}
           li.page-item 
             button(class="page-link" page-pagination=pagination.currentPage+1) Next
+
+  form(
+    action=""
+    method="GET"
+    id = 'form-change-status'
+    data-path = `${prefixAdmin}/products/change-status`
+  ) 
+
+  script(src="/js/admin/changeStatus.js") 
