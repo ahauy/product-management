@@ -57,13 +57,33 @@ module.exports.index = async (req, res) => {
   });
 };
 
-// [GET] admin/products/change-status/:status/:id
+// [PACTCH] admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
-  const { status, id } = req.params
-  
-  await Products.updateOne({ _id: id }, {status: status})
+  const { status, id } = req.params;
+
+  await Products.updateOne({ _id: id }, { status: status });
 
   // res.redirect(`/admin/products/`)
-  const backURL = req.header('Referer') || '/'; // fallback về trang chủ nếu không có Referer
+  const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
-}
+};
+
+// [PACTCH] admin/products/change-multi
+module.exports.changeMulti = async (req, res) => {
+  console.log(req.body)
+
+  const {type, ids} = req.body;
+
+  const arrIds = ids.split(",");
+
+  if(type == "active") {
+    await Products.updateMany({ _id: {$in: arrIds} }, { status: "active" });
+  } else if(type == "inactive") {
+    await Products.updateMany({ _id: {$in: arrIds} }, { status: "inactive" });
+  } else {
+    return;
+  }
+
+  const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
+  res.redirect(backURL);
+};

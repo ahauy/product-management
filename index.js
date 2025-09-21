@@ -4,6 +4,7 @@ const routeAdmin = require("./routes/admin/index.router")
 const database = require('./config/database')
 const systemAdmin = require("./config/system")
 const methodOverride = require('method-override')
+const bodyParser = require('body-parser')
 
 
 require('dotenv').config();
@@ -12,6 +13,9 @@ const app = express()
 const port = process.env.PORT;
 
 app.use(methodOverride('_method'))
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded())
 
 database.connect()
 

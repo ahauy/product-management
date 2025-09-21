@@ -22,3 +22,52 @@ if(btnChangeStatus.length > 0) {
     })
   })
 }
+
+// change status all fontend
+const checkboxMulti = document.querySelector('[checkbox-multi]');
+if(checkboxMulti) {
+  const checkboxAll = checkboxMulti.querySelector("input[name='checkall']")
+  const checkboxId = checkboxMulti.querySelectorAll("input[name='id']")
+
+  checkboxAll.addEventListener('click', () => {
+    if(checkboxAll.checked) {
+      checkboxId.forEach(box => {
+        box.checked = true;
+      })
+    } else {
+      checkboxId.forEach(box => {
+        box.checked = false;
+      })
+    }
+  })
+
+  checkboxId.forEach(box => {
+    box.addEventListener('click', () => {
+      let numberCheck = checkboxMulti.querySelectorAll('input[name="id"]:checked').length
+
+      if(numberCheck === checkboxId.length) {
+        checkboxAll.checked = true;
+      } else {
+        checkboxAll.checked = false;
+      }
+    })
+  })
+}
+
+// form change active
+const formChangeMuti = document.querySelector('[form-change-multi]');
+formChangeMuti.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const checkboxMulti = document.querySelector('[checkbox-multi]');
+  let inputCheck = checkboxMulti.querySelectorAll('input[name="id"]:checked');
+  const inputText = document.querySelector('input[name="ids"]');
+  if(inputCheck) {
+    let ids = [];
+    inputCheck.forEach(input => {
+      ids.push(input.value);
+    })
+    inputText.value = ids.join(',')
+  }
+
+  formChangeMuti.submit()
+})
