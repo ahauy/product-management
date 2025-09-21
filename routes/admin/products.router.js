@@ -9,4 +9,6 @@ routes.patch("/change-status/:status/:id", controller.changeStatus)
 
 routes.patch("/change-multi", controller.changeMulti)
 
+routes.delete("/delete-product/:id", controller.deleteProduct)
+
 module.exports = routes;

@@ -87,3 +87,14 @@ module.exports.changeMulti = async (req, res) => {
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
 };
+
+// [DELETE] admin/product/delete-product/:id
+module.exports.deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
+  await Products.deleteOne({_id: id})
+
+  // res.redirect(`/admin/products/`)
+  const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
+  res.redirect(backURL);
+};

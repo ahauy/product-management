@@ -87,7 +87,11 @@ block main
                   ) Dừng hoạt động
               td  
                 button(class='btn btn-warning btn-sm') Sửa
-                button(class='btn btn-danger btn-sm') Xoá
+                button(
+                  class='btn btn-danger btn-sm'
+                  button-delete
+                  data-id=item.id
+                  ) Xoá
     .card-footer
       nav(aria-label="Page navigation example")
         ul.pagination 
@@ -106,4 +110,14 @@ block main
     data-path = `${prefixAdmin}/products/change-status`
   ) 
 
+  form(
+    action=""
+    method="POST"
+    id = 'form-delete-product'
+    data-path = `${prefixAdmin}/products/delete-product`
+  ) 
+
+
+
   script(src="/js/admin/changeStatus.js") 
+  script(src="/js/admin/deleteProduct.js") 
