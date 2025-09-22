@@ -14,7 +14,7 @@ if (arrBtnDelete.length > 0) {
       if (isConfirm) {
         const idItem = btn.getAttribute("data-id");
 
-        formDeleteProduct.action = `${dataPath}/${idItem}?_method=DELETE`
+        formDeleteProduct.action = `${dataPath}/${idItem}?_method=PATCH`
 
         formDeleteProduct.submit();
       }

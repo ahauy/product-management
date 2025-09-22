@@ -9,6 +9,10 @@ routes.patch("/change-status/:status/:id", controller.changeStatus)
 
 routes.patch("/change-multi", controller.changeMulti)
 
-routes.delete("/delete-product/:id", controller.deleteProduct)
+// xoá hoàn toàn sản phẩm khỏi csdl
+// routes.delete("/delete-product/:id", controller.deleteProduct)
+
+// tắt trạng thái hoạt động của sản phẩm
+routes.patch("/delete-product/:id", controller.deleteProduct)
 
 module.exports = routes;

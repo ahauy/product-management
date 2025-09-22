@@ -92,7 +92,7 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.deleteProduct = async (req, res) => {
   const { id } = req.params;
 
-  await Products.deleteOne({_id: id})
+  await Products.updateOne({ _id: id }, { deleted: true });
 
   // res.redirect(`/admin/products/`)
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
