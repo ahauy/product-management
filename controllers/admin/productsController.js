@@ -70,20 +70,21 @@ module.exports.changeStatus = async (req, res) => {
 
 // [PACTCH] admin/products/change-multi
 module.exports.changeMulti = async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body);
 
-  const {type, ids} = req.body;
+  const { type, ids } = req.body;
 
   const arrIds = ids.split(",");
 
-  if(type == "active") {
-    await Products.updateMany({ _id: {$in: arrIds} }, { status: "active" });
-  } else if(type == "inactive") {
-    await Products.updateMany({ _id: {$in: arrIds} }, { status: "inactive" });
-  } else {
-    return;
+  if(ids) {
+    if (type == "active") {
+      await Products.updateMany({ _id: { $in: arrIds } }, { status: "active" });
+    } else if (type == "inactive") {
+      await Products.updateMany({ _id: { $in: arrIds } }, { status: "inactive" });
+    } else if (type == "delete") {
+      await Products.updateMany({ _id: { $in: arrIds } }, { deleted: true, deleteAt: new Date() });
+    }
   }
-
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
 };
@@ -92,7 +93,13 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.deleteProduct = async (req, res) => {
   const { id } = req.params;
 
-  await Products.updateOne({ _id: id }, { deleted: true });
+  await Products.updateOne(
+    { _id: id },
+    {
+      deleted: true,
+      deleteAt: new Date(),
+    }
+  );
 
   // res.redirect(`/admin/products/`)
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer

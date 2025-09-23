@@ -13,6 +13,6 @@ routes.patch("/change-multi", controller.changeMulti)
 // routes.delete("/delete-product/:id", controller.deleteProduct)
 
 // tắt trạng thái hoạt động của sản phẩm
-routes.patch("/delete-product/:id", controller.deleteProduct)
+routes.delete("/delete-product/:id", controller.deleteProduct)
 
 module.exports = routes;
