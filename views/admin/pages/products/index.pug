@@ -33,6 +33,7 @@ block main
               option(value="active") Active 
               option(value="inactive") Inactive 
               option(value="delete") Delete
+              option(value="position") Sort postion 
           .form-group 
             input(
               type="text"
@@ -58,6 +59,7 @@ block main
             th(scope='col') Hình ảnh
             th(scope='col') Tiêu đề
             th(scope='col') Giá 
+            th(scope='col') Vị trí
             th(scope='col') Trạng thái 
             th(scope='col') Hành động 
 
@@ -71,6 +73,14 @@ block main
                 img(src=item.thumbnail, alt="")
               td=item.title
               td=item.price
+              td  
+                input(
+                  type="number"
+                  min="1"
+                  name="position"
+                  value=item.position
+                  style="width: 50px"
+                )
               td 
                 if(item.status == "active")
                   a(

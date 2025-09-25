@@ -73,14 +73,19 @@ formChangeMuti.addEventListener('submit', (e) => {
     }
   }
 
-  if(inputCheck > 0) {
+  if(inputCheck.length > 0) {
     let ids = [];
     inputCheck.forEach(input => {
-      ids.push(input.value);
+      if(typeOption === 'position') {
+        const postionInput = input.closest("tr").querySelector('input[name="position"]').value;
+        ids.push(`${input.value}-${postionInput}`)
+      } else {
+        ids.push(input.value)
+      }
     })
     inputText.value = ids.join(',')
   } else {
-    alert("Bạn hãy chọn ít nhất một sản phẩmd để thao tác !!!")
+    alert("Bạn hãy chọn ít nhất một sản phẩm để thao tác !!!")
   }
 
   formChangeMuti.submit()

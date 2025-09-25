@@ -43,7 +43,9 @@ module.exports.index = async (req, res) => {
   );
 
   // các sản phẩm trả về
-  const products = await Products.find(find)
+  const products = await Products.find(find).sort({
+    position: "desc"
+  })
     .limit(objPagination.limitItem)
     .skip(objPagination.skip);
 
@@ -76,13 +78,25 @@ module.exports.changeMulti = async (req, res) => {
 
   const arrIds = ids.split(",");
 
-  if(ids) {
+  if (ids) {
     if (type == "active") {
       await Products.updateMany({ _id: { $in: arrIds } }, { status: "active" });
     } else if (type == "inactive") {
-      await Products.updateMany({ _id: { $in: arrIds } }, { status: "inactive" });
+      await Products.updateMany(
+        { _id: { $in: arrIds } },
+        { status: "inactive" }
+      );
     } else if (type == "delete") {
-      await Products.updateMany({ _id: { $in: arrIds } }, { deleted: true, deleteAt: new Date() });
+      await Products.updateMany(
+        { _id: { $in: arrIds } },
+        { deleted: true, deleteAt: new Date() }
+      );
+    } else if (type == "position") {
+      for (const item of arrIds) {
+        const [id, position] = item.split("-");
+        position = parseInt(position);
+        await Products.updateOne({ _id: id }, { position: position });
+      }
     }
   }
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
