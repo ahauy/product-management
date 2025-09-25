@@ -3,6 +3,14 @@ include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
 
 block main 
+
+  - if(messages.success)
+      div(
+        class="alert alert-success"
+        data-time=3000
+        show-alert
+      ) #{messages.success}
+
   h1 Trang danh sách sản phẩm
 
   .card.mb-3 
@@ -134,3 +142,4 @@ block main
 
   script(src="/js/admin/changeStatus.js") 
   script(src="/js/admin/deleteProduct.js") 
+  script(src="/js/admin/alert.js") 

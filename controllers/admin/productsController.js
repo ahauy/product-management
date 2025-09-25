@@ -43,9 +43,10 @@ module.exports.index = async (req, res) => {
   );
 
   // các sản phẩm trả về
-  const products = await Products.find(find).sort({
-    position: "desc"
-  })
+  const products = await Products.find(find)
+    .sort({
+      position: "desc",
+    })
     .limit(objPagination.limitItem)
     .skip(objPagination.skip);
 
@@ -65,6 +66,7 @@ module.exports.changeStatus = async (req, res) => {
 
   await Products.updateOne({ _id: id }, { status: status });
 
+  req.flash("success", "Cập nhật trạng thái thành công !!");
   // res.redirect(`/admin/products/`)
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
@@ -81,11 +83,13 @@ module.exports.changeMulti = async (req, res) => {
   if (ids) {
     if (type == "active") {
       await Products.updateMany({ _id: { $in: arrIds } }, { status: "active" });
+      req.flash("success", "Cập nhật trạng thái thành công !!");
     } else if (type == "inactive") {
       await Products.updateMany(
         { _id: { $in: arrIds } },
         { status: "inactive" }
       );
+      req.flash('success', 'Cập nhật trạng thái thành công !!');
     } else if (type == "delete") {
       await Products.updateMany(
         { _id: { $in: arrIds } },

@@ -64,3 +64,28 @@
 .form-group {
   margin-right: 10px;
 }
+
+/* SHOW ALERT - START */
+[show-alert] {
+  position: fixed !important;
+  top: 50px;
+  right: 30px;
+  z-index: 999;
+  width: 400px;
+}
+
+[show-alert].alert-hidden {
+  animation-name: alert-hidden;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes alert-hidden {
+  from {
+    right: 30px;
+  } to {
+    right: -100%;
+    display: none;
+  }
+}
+/* SHOW ALERT - END */
