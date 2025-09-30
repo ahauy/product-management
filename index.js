@@ -9,7 +9,6 @@ const flash = require('express-flash')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 
-
 require('dotenv').config();
 
 const app = express()
@@ -23,7 +22,7 @@ app.use(bodyParser.urlencoded())
 
 database.connect()
 
-// config static file
+// config static file - chỉ dùng được cho pug
 app.use(express.static('public'))
 
 // config template engines

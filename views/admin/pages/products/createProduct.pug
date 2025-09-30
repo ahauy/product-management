@@ -8,6 +8,7 @@ block main
     action=`${prefixAdmin}/products/create`
     id="form-create-products"
     method="POST"
+    enctype="multipart/form-data"
   ) 
     div.form-group
       label(for="title") Tiêu đề
@@ -53,11 +54,12 @@ block main
     div.form-group
       label(for="thumbnail") Ảnh
       input(
-        type="text"
+        type="file"
         id="thumbnail"
         name="thumbnail"
-        class="form-control"
+        class="form-control-file"
         required
+        accept="image/*"
       ) 
     div.from-group
       label(for="position") Vị trí

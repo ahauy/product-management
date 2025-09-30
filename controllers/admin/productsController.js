@@ -137,6 +137,9 @@ module.exports.create = (req, res) => {
 // [POST] admin/products/create
 module.exports.createPost = async (req, res) => {
 
+  console.log(req.file)
+  console.log(req.body)
+
   // chuyển thành kiểu số nguyên
   req.body.price = parseInt(req.body.price)
   req.body.discountPercentage = parseInt(req.body.discountPercentage)
@@ -148,6 +151,8 @@ module.exports.createPost = async (req, res) => {
     const position = await Products.countDocuments();
     req.body.position = position + 1;
   }
+
+  req.body.thumbnail = `/uploads/${req.file.filename}`
 
   const product = await Products(req.body);
   await product.save()
