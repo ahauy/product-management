@@ -1,9 +1,10 @@
 const { request } = require("express");
 const Products = require("../../models/products.model");
-
+const systemAdmin = require("../../config/system")
 const filterStatusHelpers = require("../../helpers/admin/filterStatus");
 const searchHelpers = require("../../helpers/admin/search");
 const paginationHelpers = require("../../helpers/admin/pagination");
+const { prefixAdmin } = require("../../config/system");
 
 // NOTE: http://localhost:3000/admin/products/change-status/active/123?page=1
 // thì lúc này req.query là những thứ sau dấu ?
@@ -151,6 +152,6 @@ module.exports.createPost = async (req, res) => {
   const product = await Products(req.body);
   await product.save()
 
-  res.redirect('/admin/products');
+  res.redirect(`${systemAdmin.prefixAdmin}/products`);
 
 }

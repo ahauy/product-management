@@ -10,7 +10,6 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 
 
-
 require('dotenv').config();
 
 const app = express()
@@ -40,7 +39,7 @@ app.use(flash());
 route(app) // client
 routeAdmin(app) // admin
 
-// Local varliables
+// Local varliables - chỉ dùng được trong file pub - cái phần render 
 app.locals.prefixAdmin = systemAdmin.prefixAdmin
 
 app.listen(port, () => {
