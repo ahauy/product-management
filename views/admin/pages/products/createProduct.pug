@@ -1,0 +1,96 @@
+extends ../../layout/default.pug
+
+block main 
+
+  h1=title
+
+  form(
+    action=`${prefixAdmin}/products/create`
+    id="form-create-products"
+    method="POST"
+  ) 
+    div.form-group
+      label(for="title") Tiêu đề
+      input(
+        type="text"
+        id="title"
+        name="title"
+        class="form-control"
+        required
+      ) 
+    div.form-group
+      label(for="description") Mô tả
+      textarea(
+        id="description"
+        name="description"
+        class="form-control"
+        rows=5
+      ) 
+    div.form-group
+      label(for="price") Giá - $
+      input(
+        type="number"
+        class="form-control"
+        id="price"
+        name="price"
+      ) 
+    div.form-group
+      label(for="discountPercentage") Giảm giá - %
+      input(
+        type="number"
+        id="discountPercentage"
+        name="discountPercentage"
+        class="form-control"
+      )
+    div.form-group
+      label(for="stock") Số lượng
+      input(
+        type="number"
+        id="stock"
+        name="stock"
+        class="form-control"
+      )
+    div.form-group
+      label(for="thumbnail") Ảnh
+      input(
+        type="text"
+        id="thumbnail"
+        name="thumbnail"
+        class="form-control"
+        required
+      ) 
+    div.from-group
+      label(for="position") Vị trí
+      input(
+        type="text"
+        id="position"
+        name="position"
+        class="form-control"
+        placeholder="Tăng tự động"
+      )
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="active"
+        name="status"
+        value="active"
+        checked
+      )
+      label(for="active") Active 
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="inactive"
+        name="status"
+        value="inactive"
+        checked
+      )
+      label(for="inactive") Inactive 
+    div.form-group
+      button(
+        type="submit"
+        class="btn btn-primary"
+      ) Thêm mới
+    

@@ -95,6 +95,7 @@ module.exports.changeMulti = async (req, res) => {
         { _id: { $in: arrIds } },
         { deleted: true, deleteAt: new Date() }
       );
+      req.flash('success', 'Xoá sản phẩm thành công !!');
     } else if (type == "position") {
       for (const item of arrIds) {
         const [id, position] = item.split("-");
@@ -107,7 +108,7 @@ module.exports.changeMulti = async (req, res) => {
   res.redirect(backURL);
 };
 
-// [DELETE] admin/product/delete-product/:id
+// [DELETE] admin/products/delete-product/:id
 module.exports.deleteProduct = async (req, res) => {
   const { id } = req.params;
 
@@ -119,7 +120,37 @@ module.exports.deleteProduct = async (req, res) => {
     }
   );
 
+  req.flash('success', 'Xoá sản phẩm thành công !!');
   // res.redirect(`/admin/products/`)
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
 };
+
+// [GET] admin/products/create
+module.exports.create = (req, res) => {
+  res.render("admin/pages/products/createProduct.pug", {
+    title: "Thêm mới sản phẩm"
+  })
+}
+
+// [POST] admin/products/create
+module.exports.createPost = async (req, res) => {
+
+  // chuyển thành kiểu số nguyên
+  req.body.price = parseInt(req.body.price)
+  req.body.discountPercentage = parseInt(req.body.discountPercentage)
+  req.body.stock = parseInt(req.body.stock)
+
+  if(req.body.position) {
+    req.body.position = parseInt(req.body.position)
+  } else {
+    const position = await Products.countDocuments();
+    req.body.position = position + 1;
+  }
+
+  const product = await Products(req.body);
+  await product.save()
+
+  res.redirect('/admin/products');
+
+}

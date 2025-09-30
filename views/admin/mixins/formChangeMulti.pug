@@ -1,0 +1,29 @@
+mixin formChangeMulti() 
+  form(
+        action=`${prefixAdmin}/products/change-multi?_method=PATCH`
+        method="POST"
+        form-change-multi
+      ) 
+        .d-flex.align-items-start 
+          .form-group 
+            select(
+              name="type"
+              class="form-control"
+            )
+              option(disable selected) Choose active
+              option(value="active") Active 
+              option(value="inactive") Inactive 
+              option(value="delete") Delete
+              option(value="position") Sort postion 
+          .form-group 
+            input(
+              type="text"
+              name="ids"
+              value=""
+              class="form-control"
+              style="display:none"
+            )    
+          button(
+            type="submit"
+            class="btn btn-primary"
+          ) Áp dụng

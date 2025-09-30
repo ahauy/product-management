@@ -89,3 +89,14 @@
   }
 }
 /* SHOW ALERT - END */
+
+/* RADIO IN PAGE CREATE PRODUCT - START */
+.form-check-inline {
+  margin-top: 10px;
+}
+
+/* lable[for="active"], label[for="inactive"] {
+  font-size: 1rem;
+} */ 
+/* RADIO IN PAGE CREATE PRODUCT - END */
+

@@ -1,6 +1,7 @@
 extends ../../layout/default.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
+include ../../mixins/formChangeMulti.pug
 
 block main 
 
@@ -26,34 +27,14 @@ block main
   .card.mb-3 
     .card-header Danh sách
     .card-body 
-      form(
-        action=`${prefixAdmin}/products/change-multi?_method=PATCH`
-        method="POST"
-        form-change-multi
-      ) 
-        .d-flex.align-items-start 
-          .form-group 
-            select(
-              name="type"
-              class="form-control"
-            )
-              option(disable selected) Choose active
-              option(value="active") Active 
-              option(value="inactive") Inactive 
-              option(value="delete") Delete
-              option(value="position") Sort postion 
-          .form-group 
-            input(
-              type="text"
-              name="ids"
-              value=""
-              class="form-control"
-              style="display:none"
-            )    
-          button(
-            type="submit"
-            class="btn btn-primary"
-          ) Áp dụng
+      .row
+        .col-10
+          +formChangeMulti()
+        .col-2
+          a(href=`${prefixAdmin}/products/create`
+            class="btn btn-success"
+          ) Thêm sản phẩm
+        
 
       table(
         class="table table-hover"

@@ -15,4 +15,11 @@ routes.patch("/change-multi", controller.changeMulti)
 // tắt trạng thái hoạt động của sản phẩm
 routes.delete("/delete-product/:id", controller.deleteProduct)
 
+// in ra giao diện tạo mới sản phẩm
+routes.get('/create', controller.create)
+
+// tạo mới sản phẩm
+routes.post('/create', controller.createPost)
+
+
 module.exports = routes;
