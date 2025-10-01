@@ -51,7 +51,10 @@ block main
         name="stock"
         class="form-control"
       )
-    div.form-group
+    div(
+      class="form-group"
+      upload-image
+    )
       label(for="thumbnail") Ảnh
       input(
         type="file"
@@ -60,7 +63,9 @@ block main
         class="form-control-file"
         required
         accept="image/*"
+        upload-image-input
       ) 
+      img(src=""  upload-image-preview)
     div.from-group
       label(for="position") Vị trí
       input(
@@ -95,4 +100,6 @@ block main
         type="submit"
         class="btn btn-primary"
       ) Thêm mới
+
+  script(src="/js/admin/uploadImage.js") 
     

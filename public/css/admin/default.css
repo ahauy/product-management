@@ -100,3 +100,10 @@
 } */ 
 /* RADIO IN PAGE CREATE PRODUCT - END */
 
+/* upload image */
+[upload-image-preview] {
+  width: 150px;
+  height: 150px;
+  border: 1px solid black;
+}
+/* upload image */
