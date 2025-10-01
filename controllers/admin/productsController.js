@@ -137,8 +137,6 @@ module.exports.create = (req, res) => {
 // [POST] admin/products/create
 module.exports.createPost = async (req, res) => {
 
-  console.log(req.file)
-  console.log(req.body)
 
   // chuyển thành kiểu số nguyên
   req.body.price = parseInt(req.body.price)
@@ -160,3 +158,45 @@ module.exports.createPost = async (req, res) => {
   res.redirect(`${systemAdmin.prefixAdmin}/products`);
 
 }
+
+// [GET] admin/products/edit/:id
+module.exports.edit = async (req, res) => {
+
+  try {
+
+    const find = {
+      _id: req.params.id,
+      deleted: false 
+    }
+  
+    const product = await Products.findOne(find)
+  
+    res.render("admin/pages/products/editProduct.pug", {
+      title: "Sửa mới sản phẩm",
+      product: product
+    })
+    
+  } catch (e) {
+    res.redirect(`${systemAdmin.prefixAdmin}/products`)
+  }
+
+}
+
+// [PATCH] admin/products/edit/:id
+module.exports.editPatch = async (req, res) => {
+    // chuyển thành kiểu số nguyên
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+    req.body.position = parseInt(req.body.position)
+  
+    if(req.file) {
+      req.body.thumbnail = `/uploads/${req.file.filename}`
+    }
+  
+    await Products.updateOne({_id: req.params.id}, req.body)
+
+    req.flash('success', 'Đã cập nhật thành công sản phẩm :)')
+    res.redirect(`${systemAdmin.prefixAdmin}/products/edit/${req.params.id}`);
+}
+
