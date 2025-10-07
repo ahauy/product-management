@@ -13,7 +13,11 @@ block main
           .card
             img(src=item.thumbnail, alt="" class="card-img-top")
             .card-body 
-              h3.card-title #{item.title}
+              a(
+                style="color: black"
+                href=`/products/${item.slug}`
+                )
+                h3.card-title #{item.title} 
               .card-price-new.text-success #{item.newPrice}$
               .card-price-old.text-danger #{item.price}$
               span.card-discount.text-white.bg-danger #{item.discountPercentage}%

@@ -19,3 +19,24 @@ module.exports.index = async (req, res) => {
     newProducts: newProducts
   })
 }
+
+module.exports.detail = async (req, res) => {
+  try {
+    const find = {
+      deleted: false,
+      status: "active", 
+      slug: req.params.slug
+    }
+
+    const product = await Products.findOne(find)
+
+    console.log(product)
+
+    res.render('client/pages/products/detail.products.pug', {
+      titlePage: "Chi tiết sản phẩm",
+      product: product
+    })
+  } catch (error) {
+    res.redrirect('/products')
+  }
+}
