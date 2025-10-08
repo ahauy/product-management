@@ -30,8 +30,6 @@ module.exports.detail = async (req, res) => {
 
     const product = await Products.findOne(find)
 
-    console.log(product)
-
     res.render('client/pages/products/detail.products.pug', {
       titlePage: "Chi tiết sản phẩm",
       product: product

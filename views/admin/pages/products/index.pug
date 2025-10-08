@@ -25,6 +25,30 @@ block main
 
 
   .card.mb-3 
+    .card-header Bộ lọc
+    .card-body  
+      .row 
+        .col-12
+        div(sort)
+          select(
+            class="form-control"
+            name="sort"
+            sort-select
+          )
+            option(disable selected) Sắp xếp
+            option(value="position-desc") Vị trí giảm dần  
+            option(value="position-asc") Vị trí tăng dần
+            option(value="price-desc") Giá giảm dần
+            option(value="price-ase") Giá tăng dần
+            option(value="title-desc") Tiêu đề từ Z-A
+            option(value="title-ase") Tiêu đề từ A-Z
+
+          button(
+            class="btn btn-danger"
+            sort-clear
+          ) Clear
+
+  .card.mb-3 
     .card-header Danh sách
     .card-body 
       .row
@@ -61,7 +85,7 @@ block main
               td  
                 img(src=item.thumbnail, alt="")
               td=item.title
-              td=item.price
+              td #{item.price}$
               td  
                 input(
                   type="number"
@@ -127,3 +151,4 @@ block main
   script(src="/js/admin/changeStatus.js") 
   script(src="/js/admin/deleteProduct.js") 
   script(src="/js/admin/alert.js") 
+  script(src="/js/admin/sort.js") 

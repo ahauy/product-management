@@ -43,11 +43,18 @@ module.exports.index = async (req, res) => {
     countPage
   );
 
+  const sort = {};
+  const {sortKey, sortValue} = req.query;
+  if(sortKey && sortValue) {
+    sort[sortKey] = sortValue
+  } else {
+    sort.position = "desc"
+  }
+
+
   // các sản phẩm trả về
   const products = await Products.find(find)
-    .sort({
-      position: "desc",
-    })
+    .sort(sort)
     .limit(objPagination.limitItem)
     .skip(objPagination.skip);
 
@@ -136,8 +143,6 @@ module.exports.create = (req, res) => {
 
 // [POST] admin/products/create
 module.exports.createPost = async (req, res) => {
-
-
   // chuyển thành kiểu số nguyên
   req.body.price = parseInt(req.body.price)
   req.body.discountPercentage = parseInt(req.body.discountPercentage)

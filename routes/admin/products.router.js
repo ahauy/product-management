@@ -1,8 +1,10 @@
 const express = require("express");
 const routes = express.Router();
 const controller = require("../../controllers/admin/productsController");
-const storageMulter = require('../../helpers/admin/storageMulter')
+const cloudinary = require('cloudinary').v2;
 const validate = require('../../validate/admin/product.validate')
+
+const storageMulter = require('../../helpers/admin/storageMulter')
 const multer  = require('multer')
 const upload = multer({ storage: storageMulter() })
 
