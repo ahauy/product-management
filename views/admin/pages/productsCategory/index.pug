@@ -1,0 +1,16 @@
+extends ../../layout/default.pug
+
+
+block main 
+
+  h1=titlePage
+
+  .card.mb-3 
+    .card-header Danh sách danh mục
+    .card-body 
+      .row 
+        .col-10 
+        .col-2 
+          a(href=`${prefixAdmin}/products-category/create`
+            class="btn btn-success"
+          ) Thêm danh mục

@@ -161,7 +161,6 @@ module.exports.createPost = async (req, res) => {
   await product.save()
 
   res.redirect(`${systemAdmin.prefixAdmin}/products`);
-
 }
 
 // [GET] admin/products/edit/:id
