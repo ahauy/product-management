@@ -1,0 +1,10 @@
+table {
+  margin-top: 10px;
+}
+
+.thumnail-item {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  transition: center;
+}

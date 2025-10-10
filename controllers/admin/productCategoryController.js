@@ -3,8 +3,16 @@ const ProductsCategory = require("../../models/productsCategory.model")
 
 // [GET] admin/product-category
 module.exports.index = async (req, res) => {
+
+  const find = {
+    deleted: false
+  }
+
+  const productCategory = await ProductsCategory.find(find).sort({position: "desc"});
+
   res.render("admin/pages/productsCategory/index.pug", {
     titlePage: "Danh mục sản phẩm", 
+    productCategory: productCategory,
   })
 }
 
@@ -30,6 +38,22 @@ module.exports.createPost = async (req, res) => {
 
   const record = await ProductsCategory(req.body);
   await record.save()
+
+  res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
+}
+
+// [PATCH] admin/product-category/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+  const {status, id} = req.params
+  await ProductsCategory.updateOne({_id: id}, {status: status})
+  res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
+}
+
+// [DELETE] admin/product-category/delete-category/:id
+module.exports.deleteCategory = async (req, res) => {
+  const {id} = req.params
+
+  await ProductsCategory.updateOne({_id: id}, {deleted: true})
 
   res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
 }

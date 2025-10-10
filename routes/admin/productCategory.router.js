@@ -12,4 +12,8 @@ routes.get("/create", controller.create);
 
 routes.post("/create",upload.single('thumbnail'), validate.createPost,controller.createPost);
 
+routes.patch('/change-status/:status/:id', controller.changeStatus)
+
+routes.delete('/delete-category/:id', controller.deleteCategory)
+
 module.exports = routes;

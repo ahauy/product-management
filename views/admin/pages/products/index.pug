@@ -83,7 +83,7 @@ block main
                 input(type="checkbox" name="id" value=item.id)
               th(scope='row') #{index + 1}
               td  
-                img(src=item.thumbnail, alt="")
+                img(src=item.thumbnail, alt="", width="100px")
               td=item.title
               td #{item.price}$
               td  
@@ -142,7 +142,7 @@ block main
   form(
     action=""
     method="POST"
-    id = 'form-delete-product'
+    id = 'form-delete'
     data-path = `${prefixAdmin}/products/delete-product`
   ) 
 
