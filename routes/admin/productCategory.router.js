@@ -16,4 +16,8 @@ routes.patch('/change-status/:status/:id', controller.changeStatus)
 
 routes.delete('/delete-category/:id', controller.deleteCategory)
 
+routes.get("/edit/:id", controller.edit)
+
+routes.patch('/edit/:id', controller.editPatch)
+
 module.exports = routes;

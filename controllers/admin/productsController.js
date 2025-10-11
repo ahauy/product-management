@@ -197,7 +197,7 @@ module.exports.editPatch = async (req, res) => {
     if(req.file) {
       req.body.thumbnail = `/uploads/${req.file.filename}`
     }
-  
+
     await Products.updateOne({_id: req.params.id}, req.body)
 
     req.flash('success', 'Đã cập nhật thành công sản phẩm :)')
