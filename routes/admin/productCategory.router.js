@@ -18,6 +18,6 @@ routes.delete('/delete-category/:id', controller.deleteCategory)
 
 routes.get("/edit/:id", controller.edit)
 
-routes.patch('/edit/:id', controller.editPatch)
+routes.patch('/edit/:id', upload.single('thumbnail'), validate.createPost, controller.editPatch)
 
 module.exports = routes;

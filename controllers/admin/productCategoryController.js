@@ -35,7 +35,7 @@ module.exports.createPost = async (req, res) => {
 
   req.body.thumbnail = `/uploads/${req.file.filename}`;
 
-  req.body.title = req.body.title[0];
+  req.body.title = req.body.title;
 
   const record = await ProductsCategory(req.body);
   await record.save();
@@ -73,14 +73,19 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] admin/product-category/edit/:id
 module.exports.editPatch = async (req, res) => {
-  
-  console.log(req.body);
+  const { id } = req.params;
 
-  if(req.file) {
+  if (req.body.position) {
+    req.body.position = parseInt(req.body.position);
+  }
+
+  if (req.file) {
     req.body.thumbnail = `/uploads/${req.file.filename}`;
   }
 
-  await ProductsCategory.updateOne({_id: req.params.id}, req.body);
+  req.body.title = req.body.title;
+
+  await ProductsCategory.updateOne({ _id: id }, req.body);
 
   res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
 }

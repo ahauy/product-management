@@ -38,7 +38,7 @@ block main
                   - const parentitem = productCategory.find(ele => ele.id == item.parent_Id)
                   #{parentitem ? parentitem.title : 'Error'}
                 else 
-                  ='Root'
+                  ='Danh mục cha'
               td
                 input(
                   type="number"

@@ -6,7 +6,7 @@ block main
 
   form(
     action=`${prefixAdmin}/products-category/edit/${productCategory.id}?_method=PATCH`
-    id="form-create-products"
+    id="form-create-products-cat"
     method="POST"
     enctype="multipart/form-data"
   ) 
@@ -24,11 +24,19 @@ block main
       label(for="title") Danh mục cha
       input(
         type="text"
-        id="title"
-        name="title"
+        id="parent_Id"
+        name="parent_Id"
         class="form-control"
-        value=productCategory.title
+        value=productCategory.parentId ? productCategory.parentId : 'Danh mục cha'
       ) 
+    div.form-group
+      label(for="description") Mô tả
+      textarea(
+        id="description"
+        name="description"
+        class="form-control"
+        rows=5
+      ) #{productCategory.description}
     div(
       class="form-group"
       upload-image
