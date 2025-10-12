@@ -21,14 +21,35 @@ block main
         value=productCategory.title
       ) 
     div.form-group
-      label(for="title") Danh mục cha
-      input(
-        type="text"
-        id="parent_Id"
+      label(for="parent_Id") Danh mục cha
+      //- input(
+      //-   type="text"
+      //-   id="parent_Id"
+      //-   name="parent_Id"
+      //-   class="form-control"
+      //- )
+      select(
         name="parent_Id"
+        id="parent_Id"
         class="form-control"
-        value=productCategory.parentId ? productCategory.parentId : 'Danh mục cha'
       ) 
+        - var choose = productCategory.parent_Id;
+        option(value="") -- Chọn danh mục cha --
+        each category in records
+          - var items = [];
+          if category.parent_Id == "" 
+            option(value=category.id) -- #{category.title} --
+            each subCategory in records
+              if subCategory.parent_Id == category.id
+                - items.push(subCategory);
+            if items.length > 0
+              each item in items
+                option(value=item.id) &nbsp;&nbsp;&nbsp;&nbsp; #{item.title}
+        each option in records
+          if option.id == choose
+            script.
+              document.getElementById('parent_Id').value = "#{choose}";
+
     div.form-group
       label(for="description") Mô tả
       textarea(

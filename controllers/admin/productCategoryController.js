@@ -18,9 +18,17 @@ module.exports.index = async (req, res) => {
 };
 
 // [GET] admin/product-category/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+
+  const find = {
+    deleted: false
+  }
+
+  const records = await ProductsCategory.find(find);
+
   res.render("admin/pages/productsCategory/createProductCategory.pug", {
     titlePage: "Thêm danh mục sản phẩm",
+    records: records
   });
 };
 
@@ -62,12 +70,19 @@ module.exports.deleteCategory = async (req, res) => {
 // [GET] admin/product-category/edit/:id
 module.exports.edit = async (req, res) => {
 
+  const find = {
+    deleted: false
+  }
+
   const { id } = req.params;
   const productCategory = await ProductsCategory.findById(id);
+  const records = await ProductsCategory.find(find);
+
 
   res.render("admin/pages/productsCategory/editProductCategory.pug", {
     title: "Chỉnh sửa danh mục sản phẩm",
-    productCategory: productCategory
+    productCategory: productCategory,
+    records: records
   });
 };
 
@@ -82,8 +97,6 @@ module.exports.editPatch = async (req, res) => {
   if (req.file) {
     req.body.thumbnail = `/uploads/${req.file.filename}`;
   }
-
-  req.body.title = req.body.title;
 
   await ProductsCategory.updateOne({ _id: id }, req.body);
 
