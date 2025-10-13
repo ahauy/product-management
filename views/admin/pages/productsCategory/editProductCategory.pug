@@ -21,6 +21,7 @@ block main
         required
         value=productCategory.title
       ) 
+
     div.form-group
       label(for="parent_Id") Danh mục cha
       //- input(
@@ -34,9 +35,9 @@ block main
         id="parent_Id"
         class="form-control"
       ) 
-        option(value="" selected disable) -- Chọn danh mục cha --
+        option(value="") -- Chọn danh mục cha --
         if(newRecords) 
-          +selectTree(newRecords)
+          +selectTree(newRecords, 1, productCategory.parent_Id)
 
     div.form-group
       label(for="description") Mô tả

@@ -33,12 +33,12 @@ block main
               td 
                 img(src=item.thumbnail, alt="" class="thumnail-item")
               td #{item.title}
-              td 
-                if(item.parent_Id != "") 
-                  - const parentitem = productCategory.find(ele => ele.id == item.parent_Id)
-                  #{parentitem ? parentitem.title : 'Error'}
-                else 
-                  ='Danh mục cha'
+              td
+                if (item.parent_Id != "")
+                  - const parentitem = productCategory.find(i => String(i._id) === String(item.parent_Id));
+                  = parentitem ? parentitem.title : 'Error'
+                else
+                  = 'Danh mục cha'
               td
                 input(
                   type="number"

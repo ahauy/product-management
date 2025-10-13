@@ -84,6 +84,8 @@ module.exports.edit = async (req, res) => {
 
   const newRecords = createTree(records);
 
+  // console.log(newRecords);
+
 
   res.render("admin/pages/productsCategory/editProductCategory.pug", {
     title: "Chỉnh sửa danh mục sản phẩm",
