@@ -5,6 +5,8 @@ const filterStatusHelpers = require("../../helpers/admin/filterStatus");
 const searchHelpers = require("../../helpers/admin/search");
 const paginationHelpers = require("../../helpers/admin/pagination");
 const { prefixAdmin } = require("../../config/system");
+const ProductsCategory = require("../../models/productsCategory.model");
+const createTree = require("../../helpers/admin/createTree")
 
 // NOTE: http://localhost:3000/admin/products/change-status/active/123?page=1
 // thì lúc này req.query là những thứ sau dấu ?
@@ -135,9 +137,18 @@ module.exports.deleteProduct = async (req, res) => {
 };
 
 // [GET] admin/products/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+
+  const find = {
+    deleted: false
+  }
+
+  const records = await ProductsCategory.find(find);
+  const newRecords = createTree(records)
+
   res.render("admin/pages/products/createProduct.pug", {
-    title: "Thêm mới sản phẩm"
+    title: "Thêm mới sản phẩm",
+    newRecords: newRecords
   })
 }
 
@@ -172,12 +183,20 @@ module.exports.edit = async (req, res) => {
       _id: req.params.id,
       deleted: false 
     }
+
+    const findCategory = {
+      deleted: false
+    }
   
+    const records = await ProductsCategory.find(findCategory);
+    const newRecords = createTree(records)
+
     const product = await Products.findOne(find)
   
     res.render("admin/pages/products/editProduct.pug", {
       title: "Sửa mới sản phẩm",
-      product: product
+      product: product,
+      newRecords: newRecords
     })
     
   } catch (e) {
