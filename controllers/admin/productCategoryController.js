@@ -1,5 +1,6 @@
 const systemAdmin = require("../../config/system");
 const ProductsCategory = require("../../models/productsCategory.model");
+const createTree = require("../../helpers/admin/createTree")
 
 // [GET] admin/product-category
 module.exports.index = async (req, res) => {
@@ -26,9 +27,11 @@ module.exports.create = async (req, res) => {
 
   const records = await ProductsCategory.find(find);
 
+  const newRecords = createTree(records);
+
   res.render("admin/pages/productsCategory/createProductCategory.pug", {
     titlePage: "Thêm danh mục sản phẩm",
-    records: records
+    newRecords: newRecords
   });
 };
 
@@ -74,15 +77,18 @@ module.exports.edit = async (req, res) => {
     deleted: false
   }
 
+
   const { id } = req.params;
   const productCategory = await ProductsCategory.findById(id);
   const records = await ProductsCategory.find(find);
+
+  const newRecords = createTree(records);
 
 
   res.render("admin/pages/productsCategory/editProductCategory.pug", {
     title: "Chỉnh sửa danh mục sản phẩm",
     productCategory: productCategory,
-    records: records
+    newRecords: newRecords
   });
 };
 

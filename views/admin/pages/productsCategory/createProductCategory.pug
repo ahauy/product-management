@@ -1,4 +1,5 @@
 extends ../../layout/default.pug
+include ../../mixins/selectTree.pug
 
 block main 
 
@@ -39,17 +40,11 @@ block main
         id="parent_Id"
         class="form-control"
       ) 
-        option(value="" disable selected) -- Chọn danh mục cha --
-        each category in records
-          - var items = [];
-          if category.parent_Id == "" 
-            option(value=category.id) -- #{category.title} --
-            each subCategory in records
-              if subCategory.parent_Id == category.id
-                - items.push(subCategory);
-            if items.length > 0
-              each item in items
-                option(value=item.id) &nbsp;&nbsp;&nbsp;&nbsp; #{item.title}
+        option(value="" selected disable) -- Chọn danh mục cha -- 
+        if(newRecords.length > 0)
+          +selectTree(newRecords)
+        
+
 
     div.form-group
       label(for="description") Mô tả
