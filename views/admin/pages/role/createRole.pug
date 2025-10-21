@@ -1,0 +1,36 @@
+extends ../../layout/default.pug
+
+
+block main 
+
+  h1=titlePage
+
+  form(
+    action=`${prefixAdmin}/role/create`
+    method="POST" 
+  )
+    div.form-group
+      label(for="title") Tiêu đề
+      input(
+        type="text"
+        id="title"
+        name="title"
+        class="form-control"
+        required
+      ) 
+
+    div.form-group
+      label(for="desc") Mô tả
+      input(
+        type="text"
+        id="desc"
+        name="description"
+        class="form-control"
+        required
+      ) 
+
+    div.form-group
+      button(
+        type="submit"
+        class="btn btn-primary"
+      ) Thêm mới

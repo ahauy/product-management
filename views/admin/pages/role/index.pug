@@ -1,0 +1,42 @@
+extends ../../layout/default.pug
+
+
+block main 
+
+  h1=titlePage
+
+  .card.mb-3 
+    .card-header Danh sách nhóm quyền
+    .card-body 
+      .row 
+        .col-10 
+        .col-2 
+          a(href=`${prefixAdmin}/role/create`
+            class="btn btn-success"
+          ) Thêm danh mục
+    
+      table(
+          class="table table-hover"
+        )
+          thead 
+            tr
+              th(scope='col') STT 
+              th(scope='col') Nhóm quyền
+              th(scope='col') Mô tả ngắn
+              th(scope='col') Hành động
+          tbody 
+            each item, index  in role
+              tr 
+                td=(index+1)
+                td=item.title
+                td=item.description
+                td  
+                  a(
+                    href=`${prefixAdmin}/role/edit/${item.id}`
+                    class='btn btn-warning btn-sm'
+                  ) Sửa
+                  button(
+                    class='btn btn-danger btn-sm'
+                    button-delete
+                    data-id=item.id
+                    ) Xoá
