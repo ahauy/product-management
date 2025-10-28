@@ -40,3 +40,17 @@ block main
                     button-delete
                     data-id=item.id
                     ) Xoá
+
+  form(
+    action=`${prefixAdmin}/role/edit/`
+    method="POST"
+  ) 
+
+  form(
+    action=""
+    method="POST"
+    id='form-delete'
+    data-path=`${prefixAdmin}/role/delete-role`
+  )
+
+  script(src="/js/admin/deleteProduct.js") 

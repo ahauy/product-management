@@ -207,6 +207,7 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
+    console.log(req.body)
     // chuyển thành kiểu số nguyên
     req.body.price = parseInt(req.body.price)
     req.body.discountPercentage = parseInt(req.body.discountPercentage)
