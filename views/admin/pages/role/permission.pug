@@ -1,0 +1,30 @@
+extends ../../layout/default.pug
+
+
+block main 
+
+  h1=titlePage
+
+  div(class="text-right")
+    button(
+      type="submit"
+      class="btn btn-primary mb-3"
+      button-submit
+    ) Cập nhật
+
+    table(class="table table-hover text-left")
+      thead(class="thead-light")
+        tr  
+          th(scope="col") Tính năng
+          th(scope="col") Quản trị viên
+          th(scope="col") Quản trị nội dung
+      tbody 
+        tr 
+          td(colspan="3") Danh mục sản phẩm
+        tr(data-name="products-category_view")
+          td Xem
+          td(class="text-left")
+            input(type="checkbox")
+          td(class="text-left")
+            input(type="checkbox")
+

@@ -79,3 +79,18 @@ module.exports.deleteRole = async (req, res) => {
 
   res.redirect(`${systemAdmin.prefixAdmin}/role`);
 };
+
+// [GET] admin/role/role-permission
+module.exports.getPermission = async (req, res) => {
+
+  const find = {
+    deleted: false,
+  };
+
+  const roles = await Role.findOne(find);
+
+  res.render("admin/pages/role/permission.pug", {
+    titlePage: "Trang phân quyền",
+    roles: roles,
+  });
+};

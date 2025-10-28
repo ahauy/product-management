@@ -14,4 +14,6 @@ routes.patch('/edit/:id', controller.patchEdit);
 
 routes.delete("/delete-role/:id", controller.deleteRole)
 
+routes.get('/permission', controller.getPermission)
+
 module.exports = routes
