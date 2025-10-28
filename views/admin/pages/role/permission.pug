@@ -16,15 +16,34 @@ block main
       thead(class="thead-light")
         tr  
           th(scope="col") Tính năng
-          th(scope="col") Quản trị viên
-          th(scope="col") Quản trị nội dung
+          th(scope="col" class="text-center") Quản trị viên
+          th(scope="col" class="text-center") Quản trị nội dung
       tbody 
         tr 
-          td(colspan="3") Danh mục sản phẩm
+          td(colspan="3")
+            h5 Danh mục sản phẩm
         tr(data-name="products-category_view")
           td Xem
-          td(class="text-left")
-            input(type="checkbox")
-          td(class="text-left")
-            input(type="checkbox")
+          td(class="text-center")
+            input(type="checkbox" class="custom-input")
+          td(class="text-center")
+            input(type="checkbox" class="custom-input")
+        tr(data-name="products-category_create")
+          td Thêm mới
+          td(class="text-center")
+            input(type="checkbox" class="custom-input")
+          td(class="text-center")
+            input(type="checkbox" class="custom-input")
+        tr(data-name="products-category_edit")
+          td Chỉnh sửa
+          td(class="text-center")
+            input(type="checkbox" class="custom-input")
+          td(class="text-center")
+            input(type="checkbox" class="custom-input")
+        tr(data-name="products-category_delete")
+          td Xoá
+          td(class="text-center")
+            input(type="checkbox" class="custom-input")
+          td(class="text-center")
+            input(type="checkbox" class="custom-input")
 

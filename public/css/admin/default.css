@@ -107,3 +107,10 @@
   border: 1px solid black;
 }
 /* upload image */
+
+
+.custom-input {
+  width: 20px; /* Adjust as needed */
+  height: 20px; /* Adjust as needed */
+  margin-top: 0.5rem; /* Adjust to align with label if necessary */
+}
