@@ -87,10 +87,19 @@ module.exports.getPermission = async (req, res) => {
     deleted: false,
   };
 
-  const roles = await Role.findOne(find);
+  const roles = await Role.find(find);
 
   res.render("admin/pages/role/permission.pug", {
     titlePage: "Trang phân quyền",
     roles: roles,
   });
 };
+
+// [PATCH] admin/role/permission
+module.exports.patchPermission = async (req, res) => {
+  const permission = JSON.parse(req.body.permission)
+  for(role of permission) {
+    await Role.updateOne({_id: role.id}, {permissions: role.permission})
+  }
+  res.redirect(`${systemAdmin.prefixAdmin}/role/permission`)
+}

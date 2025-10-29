@@ -5,6 +5,13 @@ block main
 
   h1=titlePage
 
+  //- chứa bản ghi
+  input(
+    class="d-none" 
+    value=roles 
+    input-roles
+  )
+
   div(class="text-right")
     button(
       type="submit"
@@ -12,38 +19,56 @@ block main
       button-submit
     ) Cập nhật
 
-    table(class="table table-hover text-left")
+    table(
+      class="table table-hover text-left"
+      table-permission
+    )
       thead(class="thead-light")
         tr  
           th(scope="col") Tính năng
-          th(scope="col" class="text-center") Quản trị viên
-          th(scope="col" class="text-center") Quản trị nội dung
+          each item in roles
+            th(scope="col" class="text-center") #{item.title}
       tbody 
+        tr(data-name="id" class="d-none")
+          td(class="text-center")
+          each item in roles 
+            td(class="text-center")
+              input(type="text" value=item.id)
         tr 
           td(colspan="3")
             h5 Danh mục sản phẩm
         tr(data-name="products-category_view")
           td Xem
-          td(class="text-center")
-            input(type="checkbox" class="custom-input")
-          td(class="text-center")
-            input(type="checkbox" class="custom-input")
+          each item in roles
+            td(class="text-center")
+              input(type="checkbox" class="custom-input")
         tr(data-name="products-category_create")
           td Thêm mới
-          td(class="text-center")
-            input(type="checkbox" class="custom-input")
-          td(class="text-center")
-            input(type="checkbox" class="custom-input")
+          each item in roles
+            td(class="text-center")
+              input(type="checkbox" class="custom-input")
         tr(data-name="products-category_edit")
           td Chỉnh sửa
-          td(class="text-center")
-            input(type="checkbox" class="custom-input")
-          td(class="text-center")
-            input(type="checkbox" class="custom-input")
+          each item in roles
+            td(class="text-center")
+              input(type="checkbox" class="custom-input")
         tr(data-name="products-category_delete")
           td Xoá
-          td(class="text-center")
-            input(type="checkbox" class="custom-input")
-          td(class="text-center")
-            input(type="checkbox" class="custom-input")
+          each item in roles
+            td(class="text-center")
+              input(type="checkbox" class="custom-input")
+  form(
+    action=`${prefixAdmin}/role/permission?_method=PATCH`
+    method="POST"
+    form-submit-permission
+    class="d-none"
+  ) 
+    div.form-group
+      input(
+        type="text"
+        name="permission"
+        id="permission"
+        class="form-control"
+      )
 
+  script(src="/js/admin/roles.js")
