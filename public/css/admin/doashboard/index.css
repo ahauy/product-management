@@ -1,0 +1,312 @@
+/* CARDS BOX START */
+.cardBox {
+  position: relative; 
+  width: 100%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 30px;
+}
+
+.padding-20 .cardBox .card-css { 
+  position: relative;
+  background-color: var(--white);
+  padding: 30px;
+  /* border: 1px solid var(--black2); */
+  box-shadow: 0 7px 35px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cardBox .card-css .number {
+  position: relative;
+  font-weight: 500;
+  font-size: 2.5rem;
+  color: var(--blue);
+}
+
+.cardBox .card-css .cardName {
+  color: var(--black2);
+  font-size: 1.1rem;
+  margin-top: 5px;
+}
+
+.cardBox .card-css .iconBox {
+  font-size: 3.5rem;
+  color: var(--black2);
+}
+
+.cardBox .card-css:hover {
+  background: var(--blue);
+}
+
+.cardBox .card-css:hover .number,
+.cardBox .card-css:hover .cardName,
+.cardBox .card-css:hover .iconBox {
+  color: var(--white)
+}
+
+/* .main .cardBox .card .iconBox {
+  display: none;
+}
+
+.main.active .cardBox .card .iconBox {
+  display: block;
+} */
+/* CARDS BOX END */
+
+/* CHARTJS START */
+.chartBox {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 30px;
+}
+
+.chartBox .chart {
+  position: relative;
+  background: var(--white);
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  border: 1px solid var(--blue);
+}
+/* CHARTJS END*/
+
+/* ORDERS DETAIL LIST START */
+.details {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 30px;
+  margin-top: 10px;
+}
+
+.details .recentOrders {
+  position: relative;
+  display: grid;
+  min-height: 500px;
+  background: var(--white);
+  padding: 20px;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+}
+
+.details .recentOrders .cardHeader {
+  display: flex; 
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.details .recentOrders .cardHeader h2 {
+  font-weight: 600;
+  color: var(--blue);
+  font-size: 2.5rem;
+}
+
+.details .recentOrders .cardHeader .btn_view_all {
+  text-decoration: none;
+  position: relative;
+  padding: 10px 15px;
+  background: var(--blue);
+  color: var(--white);
+  border-radius: 6px;
+  font-size: 1.2rem;
+}
+
+.details .recentOrders table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.details .recentOrders table thead td {
+  font-weight: 600;
+}
+
+.details .recentOrders table thead {
+  pointer-events: none;
+}
+
+.details .recentOrders table tr {
+  color: var(--black1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.details .recentOrders table tr:last-child {
+  border-bottom: none;
+}
+
+.details .recentOrders table tr td {
+  padding: 15px 20px
+}
+
+.details .recentOrders table tr:hover {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.details .recentOrders table tr td:last-child {
+  text-align: right;
+}
+
+.details .recentOrders table tr td:nth-child(3) {
+  text-align: start;
+}
+
+.details .recentOrders table tr td:nth-child(2) {
+  text-align: end;
+}
+
+.status.delivered {
+  padding: 5px 10px;
+  background-color: #8de02c;
+  color: var(--white);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.recentCustomers {
+  position: relative;
+  display: grid;
+  grid-gap: 0px;
+  min-height: 500px;
+  padding: 20px;
+  background-color: var(--white);
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+}
+
+.recentCustomers .cardHeader h2{
+  font-weight: 600;
+  color: var(--blue);
+  font-size: 2.5rem;
+}
+
+.recentCustomers .imageBox {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
+  outline: none;
+}
+
+.recentCustomers .imageBox img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  top: 0;
+  left: 0;
+}
+
+.recentCustomers table {
+  border-collapse: collapse;
+}
+
+.recentCustomers table tr:hover {
+  background: var(--blue);
+  color: var(--white)
+}
+
+.recentCustomers table tr td {
+  padding: 12px 10px;
+}
+
+.recentCustomers table tr td h4 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2rem;
+}
+
+.recentCustomers table tr td span {
+  font-size: 14px;
+  color: var(--black2)
+}
+
+.recentCustomers table tr:hover td span {
+  color: var(--white)
+}
+/* ORDERS DETAIL LIST END */
+/* MAIN END */
+
+/* RESPONSIVE START */
+@media (max-width: 991px) {
+
+  .chartBox {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .navigation {
+    left: -300px;
+  }
+
+  .navigation.active {
+    width: 300px;
+    left: 0;
+  }
+  .main {
+    width: 100%;
+    left: 0;
+  }
+  .main.active {
+    left: 300px;
+  }
+  .cardBox {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .details {
+    grid-template-columns: 1fr;
+  }
+  .recentOrders {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardBox {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .cardHeader h2 {
+    font-size: 20px;
+  }
+  .user {
+    min-width: 40px;
+  }
+  .navigation {
+    width: 100%;
+    left: -100%;
+    z-index: 1000;
+  }
+  .navigation.active {
+    width: 100%;
+    left: 0;
+  }
+  .toggle {
+    z-index: 1001;
+  }
+  .main.active .toggle {
+    color: var(--white);
+    position: fixed;
+    top: 0px;
+    right: 0px;
+  }
+} 
+/* RESPONSIVE END */

@@ -1,4 +1,154 @@
 extends ../../layout/default.pug
 
 block main 
-  h1 Trang tổng quan
+  .cardBox
+    .card-css
+      div
+        .number 1,504
+        .cardName Daily Views
+      div.iconBox
+        ion-icon(name='eye-outline')
+    .card-css
+      div
+        .number 80
+        .cardName Sales
+      div.iconBox
+        ion-icon(name='cart-outline')
+    .card-css
+      div
+        .number 284
+        .cardName Comments
+      div.iconBox
+        ion-icon(name='chatbubbles-outline')
+    .card-css
+      div
+        .number $7,842
+        .cardName Earning
+      div.iconBox
+        ion-icon(name='cash-outline')
+  .chartBox
+    .chart
+      canvas#myChart1
+    .chart
+      canvas#myChart2
+  .details
+    .recentOrders
+      .cardHeader
+        h2 Recent Orders
+        a.btn_view_all(href='') View All
+      table
+        thead
+          tr
+            td Name
+            td Price
+            td Payment
+            td Status
+        tbody
+          tr
+            td Star Refrigetator
+            td $1200
+            td Paid
+            td
+              span.status.delivered Delivered
+          tr
+            td Star Refrigetator
+            td $1200
+            td Paid
+            td
+              span.status.delivered Delivered
+          tr
+            td Star Refrigetator
+            td $1200
+            td Paid
+            td
+              span.status.delivered Delivered
+          tr
+            td Star Refrigetator
+            td $1200
+            td Paid
+            td
+              span.status.delivered Delivered
+          tr
+            td Star Refrigetator
+            td $1200
+            td Paid
+            td
+              span.status.delivered Delivered
+          tr
+            td Star Refrigetator
+            td $1200
+            td Paid
+            td
+              span.status.delivered Delivered
+          tr
+            td Star Refrigetator
+            td $1200
+            td Paid
+            td
+              span.status.delivered Delivered
+          tr
+            td Star Refrigetator
+            td $1200
+            td Paid
+            td
+              span.status.delivered Delivered
+    .recentCustomers
+      .cardHeader
+        h2 Recent Customers
+      table
+        tr
+          td(width='60px')
+            .imageBox
+              img(src='./assets/img/bun_yiu.jpg' alt='')
+          td
+            h4 David
+            span Italy
+        tr
+          td(width='60px')
+            .imageBox
+              img(src='./assets/img/bun_yiu.jpg' alt='')
+          td
+            h4 David
+            span Italy
+        tr
+          td(width='60px')
+            .imageBox
+              img(src='./assets/img/bun_yiu.jpg' alt='')
+          td
+            h4 David
+            span Italy
+        tr
+          td(width='60px')
+            .imageBox
+              img(src='./assets/img/bun_yiu.jpg' alt='')
+          td
+            h4 David
+            span Italy
+        tr
+          td(width='60px')
+            .imageBox
+              img(src='./assets/img/bun_yiu.jpg' alt='')
+          td
+            h4 David
+            span Italy
+        tr
+          td(width='60px')
+            .imageBox
+              img(src='./assets/img/bun_yiu.jpg' alt='')
+          td
+            h4 David
+            span Italy
+        tr
+          td(width='60px')
+            .imageBox
+              img(src='./assets/img/bun_yiu.jpg' alt='')
+          td
+            h4 David
+            span Italy
+        tr
+          td(width='60px')
+            .imageBox
+              img(src='./assets/img/bun_yiu.jpg' alt='')
+          td
+            h4 David
+            span Italy

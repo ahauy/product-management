@@ -1,13 +1,58 @@
-.sider  
-  .inner-menu   
-    ul 
-      li 
-        a(href=`${prefixAdmin}/dashboard`) Tổng quan 
-      li 
-        a(href=`${prefixAdmin}/products`) Sản phẩm 
-      li 
-        a(href=`${prefixAdmin}/products-category`) Danh mục
-      li 
-        a(href=`${prefixAdmin}/role`) Nhóm quyền
-      li 
-        a(href=`${prefixAdmin}/role/permission`) Phân quyền
+//- .sider  
+//-   .inner-menu   
+//-     ul 
+//-       li 
+//-         a(href=`${prefixAdmin}/dashboard`) Tổng quan 
+//-       li 
+//-         a(href=`${prefixAdmin}/products`) Sản phẩm 
+//-       li 
+//-         a(href=`${prefixAdmin}/products-category`) Danh mục
+//-       li 
+//-         a(href=`${prefixAdmin}/role`) Nhóm quyền
+//-       li 
+//-         a(href=`${prefixAdmin}/role/permission`) Phân quyền
+
+
+.navigation
+  ul
+    li
+      a(href='#')
+        span.icon
+          ion-icon(name='logo-apple')
+        span.title  Brand Name 
+    li
+      a(href=`${prefixAdmin}/dashboard`)
+        span.icon
+          ion-icon(name='home-outline')
+        span.title  Dashboard 
+    li
+      a(href=`${prefixAdmin}/products`)
+        span.icon
+          ion-icon(name='home-outline')
+        span.title Products
+    li
+      a(href=`${prefixAdmin}/products-category`)
+        span.icon
+          ion-icon(name='chatbubble-outline')
+        span.title Categories
+    li
+      a(href=`${prefixAdmin}/role`)
+        span.icon
+          ion-icon(name='help-outline')
+        span.title Role
+    li
+      a(href=`${prefixAdmin}/role/permission`)
+        span.icon
+          ion-icon(name='settings-outline')
+        span.title Permission
+    li
+      a(href='#')
+        span.icon
+          ion-icon(name='lock-closed-outline')
+        span.title Password
+    li
+      a(href='#')
+        span.icon
+          ion-icon(name='exit-outline')
+        span.title Sign Out
+
