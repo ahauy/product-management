@@ -36,7 +36,7 @@ block main
       .cardHeader
         h2 Recent Orders
         a.btn_view_all(href='') View All
-      table
+      table(class="table-css")
         thead
           tr
             td Name
@@ -95,7 +95,7 @@ block main
     .recentCustomers
       .cardHeader
         h2 Recent Customers
-      table
+      table.table-css
         tr
           td(width='60px')
             .imageBox
@@ -152,3 +152,5 @@ block main
           td
             h4 David
             span Italy
+
+  //- script(src="/js/admin/fontend/chatJS.js")

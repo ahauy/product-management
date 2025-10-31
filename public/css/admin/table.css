@@ -1,0 +1,39 @@
+
+.table-css {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.table-css thead td {
+  font-weight: 600px;
+  color: var(--white);
+  background-color: var(--blue);
+  border-bottom: 1px solid var(--white);
+  font-weight: 700;
+}
+
+.table-css tr {
+  color: var(--black1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.table-css tr:last-child {
+  border-bottom: none;
+}
+
+.table-css tr td {
+  padding: 15px 20px;
+}
+
+.table-css thead {
+  pointer-events: none;
+}
+
+.table-css tr:hover {
+  background-color: var(--blue);
+  color: var(--white);
+}
+

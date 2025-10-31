@@ -122,48 +122,15 @@
   font-size: 1.2rem;
 }
 
-.details .recentOrders table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-.details .recentOrders table thead td {
-  font-weight: 600;
-}
-
-.details .recentOrders table thead {
-  pointer-events: none;
-}
-
-.details .recentOrders table tr {
-  color: var(--black1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.details .recentOrders table tr:last-child {
-  border-bottom: none;
-}
-
-.details .recentOrders table tr td {
-  padding: 15px 20px
-}
-
-.details .recentOrders table tr:hover {
-  background-color: var(--blue);
-  color: var(--white);
-}
-
-.details .recentOrders table tr td:last-child {
+.details .recentOrders .table-css tr td:last-child {
   text-align: right;
 }
 
-.details .recentOrders table tr td:nth-child(3) {
+.details .recentOrders .table-css tr td:nth-child(3) {
   text-align: start;
 }
 
-.details .recentOrders table tr td:nth-child(2) {
+.details .recentOrders .table-css tr td:nth-child(2) {
   text-align: end;
 }
 
@@ -213,31 +180,31 @@
   left: 0;
 }
 
-.recentCustomers table {
+.recentCustomers .table-css {
   border-collapse: collapse;
 }
 
-.recentCustomers table tr:hover {
+.recentCustomers .table-css tr:hover {
   background: var(--blue);
   color: var(--white)
 }
 
-.recentCustomers table tr td {
+.recentCustomers .table-css tr td {
   padding: 12px 10px;
 }
 
-.recentCustomers table tr td h4 {
+.recentCustomers .table-css tr td h4 {
   font-size: 16px;
   font-weight: 500;
   line-height: 1.2rem;
 }
 
-.recentCustomers table tr td span {
+.recentCustomers .table-css tr td span {
   font-size: 14px;
   color: var(--black2)
 }
 
-.recentCustomers table tr:hover td span {
+.recentCustomers .table-css tr:hover td span {
   color: var(--white)
 }
 /* ORDERS DETAIL LIST END */
