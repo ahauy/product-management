@@ -35,11 +35,12 @@ module.exports.index = async (req, res) => {
   }
 
   // Phân trang
+  const limit = req.query.limit
   const countPage = await Products.countDocuments(find);
   const objPagination = paginationHelpers(
     req.query,
     {
-      limitItem: 4,
+      limitItem: limit == undefined ? 4 : limit,
       currentPage: 1,
     },
     countPage
@@ -62,7 +63,7 @@ module.exports.index = async (req, res) => {
 
   // console.log((products))
 
-  res.render("admin/pages/products/index.pug", {
+  res.render("admin/pages/products/index2.pug", {
     title: "Trang danh sách sản phẩm",
     products: products,
     filterStatus: filterStatus,

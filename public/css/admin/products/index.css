@@ -1,0 +1,10 @@
+.img-css {
+  width: 150px;
+}
+
+.shadow-css{
+  box-shadow: 0 7px 35px rgba(0, 0, 0, 0.08); 
+  border-radius: 20px;
+  background-color: var(--white);
+  border: none;
+}

@@ -36,3 +36,38 @@ h1.title {
   font-weight: 700;
   margin: 20px 0px;
 }
+
+h2.card-title {
+  font-weight: 600;
+  color: var(--blue);
+  font-size: 2rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Custom toolip */
+:root {
+  --bd-red-bg: #c62828;   /* nền tooltip */
+  --bs-black: #000000;    /* màu chữ tooltip */
+}
+
+/* Chú ý: class này phải nằm trên phần tử .tooltip sinh ra,
+   nên ta target .tooltip.custom-tooltip */
+.tooltip.custom-tooltip {
+  /* override css variables Bootstrap dùng */
+  --bs-tooltip-bg: var(--white);
+  --bs-tooltip-color: var(--bs-black);
+  /* thêm drop shadow / bo góc nếu muốn */
+  --bs-tooltip-opacity: 1;
+}
+
+/* Tooltip inner (nội dung) */
+.tooltip.custom-tooltip .tooltip-inner {
+  padding: .5rem .75rem;    /* tuỳ chỉnh */
+  font-size: 0.95rem;
+  border-radius: 0.5rem;
+  /* Nếu muốn viền: */
+  border: 1px solid rgba(0,0,0,.08);
+}

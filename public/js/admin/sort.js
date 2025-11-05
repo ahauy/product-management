@@ -1,10 +1,10 @@
 const sort = document.querySelector('[sort]')
-console.log(sort)
+// console.log(sort)
 if(sort) {
   const url = new URL(window.location.href);
 
   const sortSelect = document.querySelector('[sort-select]')
-  console.log(sortSelect)
+  // console.log(sortSelect)
   sortSelect.addEventListener('change', e => {
     const [sortKey, sortValue] = e.target.value.split('-')
 
