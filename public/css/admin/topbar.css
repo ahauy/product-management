@@ -4,7 +4,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  padding: 40px 10px;
+  box-shadow: 0 7px 35px rgba(0, 0, 0, 0.08);
 }
 
 .toggle {

@@ -30,3 +30,9 @@ body {
   padding: 10px 20px;
   width: 100%;
 }
+
+h1.title {
+  color: var(--blue);
+  font-weight: 700;
+  margin: 20px 0px;
+}

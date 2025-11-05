@@ -1,0 +1,35 @@
+mixin filter() 
+  form(
+    action=""
+    id="form-filter"
+    form-filter
+  )
+    .card.shadow.p-3.mb-5.bg-body-tertiary.rounded
+    .card-body
+      h5.card-title Filter
+      .row
+        .col-4
+          label.form-label(for='') Filter name: 
+          input.form-control(type='text' name="keyword" placeholder="Input name ...")
+        .col-4
+          label.form-label(for='') Filter active: 
+          select.form-select(name='status' id='')
+            option(value="") All 
+            option(value="active") Active
+            option(value="inactive") Inactive   
+        .col-4
+          label.form-label(for='') Filter sort: 
+          select.form-select(name='sort' id='')
+            option(disable selected) Sort
+            option(value="position-desc") Position desc
+            option(value="position-asc") Position asc
+            option(value="price-desc") Price desc
+            option(value="price-asc") Price asc
+            option(value="title-desc") Title desc
+            option(value="title-asc") Title asc
+      .row.mt-2
+        .col-3
+          button(
+            class="btn btn-primary"
+            type="submit"
+          ) Filter
