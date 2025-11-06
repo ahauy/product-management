@@ -76,7 +76,7 @@ module.exports.changeStatus = async (req, res) => {
 
   await Products.updateOne({ _id: id }, { status: status });
 
-  req.flash("success", "Cập nhật trạng thái thành công !!");
+  req.flash("successStatus", "Update status success !!");
   // res.redirect(`/admin/products/`)
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
@@ -86,32 +86,33 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.changeMulti = async (req, res) => {
   // console.log(req.body);
 
-  const { type, ids } = req.body;
+  let { type, ids } = req.body;
 
-  const arrIds = ids.split(",");
+  let arrIds = ids.split(",");
 
   if (ids) {
     if (type == "active") {
       await Products.updateMany({ _id: { $in: arrIds } }, { status: "active" });
-      req.flash("success", "Cập nhật trạng thái thành công !!");
+      req.flash("successStatus", "Update status success !!");
     } else if (type == "inactive") {
       await Products.updateMany(
         { _id: { $in: arrIds } },
         { status: "inactive" }
       );
-      req.flash('success', 'Cập nhật trạng thái thành công !!');
+      req.flash('successStatus', 'Update status success !!');
     } else if (type == "delete") {
       await Products.updateMany(
         { _id: { $in: arrIds } },
         { deleted: true, deleteAt: new Date() }
       );
-      req.flash('success', 'Xoá sản phẩm thành công !!');
+      req.flash('successDelete', 'Delete status success !!');
     } else if (type == "position") {
-      for (const item of arrIds) {
-        const [id, position] = item.split("-");
+      for (let item of arrIds) {
+        let [id, position] = item.split("-");
         position = parseInt(position);
         await Products.updateOne({ _id: id }, { position: position });
       }
+      req.flash('successPosition', 'Position update success !!');
     }
   }
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
@@ -125,7 +126,7 @@ module.exports.changePosition = async (req, res) => {
   if(id && position) {
     await Products.updateOne({_id: id}, {position: position})
   }
-  req.flash("successPosition", "Position update successful")
+  req.flash("successPosition", "Position update successful !!")
   res.redirect(`${prefixAdmin}/products`)
 }
 
@@ -141,7 +142,7 @@ module.exports.deleteProduct = async (req, res) => {
     }
   );
 
-  req.flash('success', 'Xoá sản phẩm thành công !!');
+  req.flash('successDelete', 'Delete product success !!');
   // res.redirect(`/admin/products/`)
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);

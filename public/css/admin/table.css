@@ -28,9 +28,9 @@
   padding: 15px 20px;
 }
 
-.table-css thead {
+/* .table-css thead {
   pointer-events: none;
-}
+} */
 
 .table-css tr:hover {
   background-color: var(--blue);

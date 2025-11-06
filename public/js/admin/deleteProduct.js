@@ -8,7 +8,7 @@ if (arrBtnDelete.length > 0) {
   arrBtnDelete.forEach((btn) => {
     btn.addEventListener("click", () => {
       const isConfirm = confirm(
-        "Bạn có chắc chắn muốn xoá hay không ?"
+        "Are you sure you want to delete ?"
       );
 
       if (isConfirm) {

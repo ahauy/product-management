@@ -9,6 +9,20 @@ block main
       mess= messages.successPosition[0]
     )
 
+  - if (messages.successStatus)
+    div(
+      class="notifications" 
+      status="success" 
+      mess= messages.successStatus[0]
+    )
+
+  - if (messages.successDelete)
+    div(
+      class="notifications" 
+      status="warning" 
+      mess= messages.successDelete[0]
+    )
+
   //- - if (messages.successPosition)
   //-   span= messages.successPosition
 
@@ -57,21 +71,34 @@ block main
               button.btn.btn-secondary  - Export
           .col-1
           .col-4
-            form(action="")
+            form(
+              action=`${prefixAdmin}/products/change-multi?_method=PATCH`
+              method="POST"
+              form-change-multi
+            )
               .input-group
-                select.form-select(name='' id='')
+                select.form-select(name='type' id='')
                   option(disable selected) Choose active
                   option(value="active") Active 
                   option(value="inactive") Inactive 
                   option(value="delete") Delete
-                  option(value="position") Sort postion 
+                  option(value="position") Sort position 
+                input(
+                  type="text"
+                  name="ids"
+                  value=""
+                  class="form-control"
+                  class="d-none"
+                )
                 button.btn.btn-primary(type="submit") Apply Action 
           .col-1
             button.btn.btn-primary  + New
         .row.p-2.mt-3
-          table.table-css.mb-5
+          table.table-css.mb-5(checkbox-multi)
             thead
               tr
+                td 
+                  input(type="checkbox" name="checkall")
                 td(scope='col') #
                 td(scope='col') Image
                 td(scope='col') Title
@@ -82,6 +109,8 @@ block main
             tbody
               each item, index in products 
                 tr 
+                  td 
+                    input(type="checkbox" name="id" value=item.id)
                   th(scope='row' style="padding: 0px 20px") #{index + 1}
                   td 
                     img(src=item.thumbnail, alt="", width='200px' class="img-thumbnail")
@@ -169,8 +198,24 @@ block main
                 - for (let i = 4; i <= 10; i += 2)
                   option(value=i selected=(pagination.limitItem == i ? true : false)) #{i} items per page
 
+  form(
+    action=""
+    method="POST"
+    id = 'form-change-status'
+    data-path = `${prefixAdmin}/products/change-status`
+  ) 
+
+  form(
+    action=""
+    method="POST"
+    id = 'form-delete'
+    data-path = `${prefixAdmin}/products/delete-product`
+  ) 
               
     // LIST PRODUCTS END
   script(src="/js/admin/filter.js")
   script(src="/js/admin/pagination.js")
   script(src="/js/admin/changePosition.js")
+  script(src="/js/admin/changeStatus.js")
+  script(src="/js/admin/deleteProduct.js")
+
