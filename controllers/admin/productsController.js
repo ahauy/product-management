@@ -125,6 +125,7 @@ module.exports.changePosition = async (req, res) => {
   if(id && position) {
     await Products.updateOne({_id: id}, {position: position})
   }
+  req.flash("successPosition", "Position update successful")
   res.redirect(`${prefixAdmin}/products`)
 }
 

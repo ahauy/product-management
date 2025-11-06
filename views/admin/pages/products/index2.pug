@@ -2,6 +2,16 @@ extends ../../layout/default.pug
 
 block main 
 
+  - if (messages.successPosition)
+    div(
+      class="notifications" 
+      status="success" 
+      mess= messages.successPosition[0]
+    )
+
+  //- - if (messages.successPosition)
+  //-   span= messages.successPosition
+
   h1.title Products
 
   .container-fluid.pt-2
