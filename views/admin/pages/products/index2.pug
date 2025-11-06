@@ -55,7 +55,7 @@ block main
                   option(value="inactive") Inactive 
                   option(value="delete") Delete
                   option(value="position") Sort postion 
-                button.btn.btn-primary(type="submit") Choose Action 
+                button.btn.btn-primary(type="submit") Apply Action 
           .col-1
             button.btn.btn-primary  + New
         .row.p-2.mt-3
@@ -78,14 +78,22 @@ block main
                   td=item.title
                   td #{item.price}$
                   td 
-                    input(
-                      type="number"
-                      min="1"
-                      name="position"
-                      value=item.position 
-                      class="form-control"
-                      style="width: 70px"
+                    form(
+                      action="" 
+                      form-change-position
+                      method="POST"
+                      data-path=`${prefixAdmin}/products/change-position`
                     )
+                      input(
+                        change-position
+                        type="text"
+                        min="1"
+                        name="position"
+                        value=item.position 
+                        idItem=item.id
+                        class="form-control"
+                        style="width: 70px"
+                      ) 
                   td 
                     if(item.status == "active")
                       a(
@@ -155,3 +163,4 @@ block main
     // LIST PRODUCTS END
   script(src="/js/admin/filter.js")
   script(src="/js/admin/pagination.js")
+  script(src="/js/admin/changePosition.js")

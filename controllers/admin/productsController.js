@@ -46,6 +46,7 @@ module.exports.index = async (req, res) => {
     countPage
   );
 
+  // sắp xếp sản phẩm
   const sort = {};
   const {sortKey, sortValue} = req.query;
   if(sortKey && sortValue) {
@@ -54,14 +55,12 @@ module.exports.index = async (req, res) => {
     sort.position = "desc"
   }
 
-
   // các sản phẩm trả về
   const products = await Products.find(find)
     .sort(sort)
     .limit(objPagination.limitItem)
     .skip(objPagination.skip);
 
-  // console.log((products))
 
   res.render("admin/pages/products/index2.pug", {
     title: "Trang danh sách sản phẩm",
@@ -118,6 +117,16 @@ module.exports.changeMulti = async (req, res) => {
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
 };
+
+// [PACTCH] admin/products/change-position/:id/:position
+module.exports.changePosition = async (req, res) => {
+  const id = req.params.id
+  const position = parseInt(req.params.position)
+  if(id && position) {
+    await Products.updateOne({_id: id}, {position: position})
+  }
+  res.redirect(`${prefixAdmin}/products`)
+}
 
 // [DELETE] admin/products/delete-product/:id
 module.exports.deleteProduct = async (req, res) => {

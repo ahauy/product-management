@@ -13,6 +13,9 @@ routes.patch("/change-status/:status/:id", controller.changeStatus);
 
 routes.patch("/change-multi", controller.changeMulti);
 
+// thay đổi position của sản phẩm
+routes.patch('/change-position/:id/:position', controller.changePosition)
+
 // xoá hoàn toàn sản phẩm khỏi csdl
 // routes.delete("/delete-product/:id", controller.deleteProduct)
 
