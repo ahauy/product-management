@@ -205,8 +205,8 @@ module.exports.edit = async (req, res) => {
 
     const product = await Products.findOne(find)
   
-    res.render("admin/pages/products/editProduct.pug", {
-      title: "Sửa mới sản phẩm",
+    res.render("admin/pages/products/editProduct2.pug", {
+      title: "Add New Products",
       product: product,
       newRecords: newRecords
     })
