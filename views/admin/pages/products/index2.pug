@@ -5,22 +5,22 @@ block main
   - if (messages.successPosition)
     div(
       class="notifications" 
-      status="success" 
-      mess= messages.successPosition[0]
+      data-status="success" 
+      data-mess= messages.successPosition[0]
     )
 
   - if (messages.successStatus)
     div(
       class="notifications" 
-      status="success" 
-      mess= messages.successStatus[0]
+      data-status="success" 
+      data-mess= messages.successStatus[0]
     )
 
   - if (messages.successDelete)
     div(
       class="notifications" 
-      status="warning" 
-      mess= messages.successDelete[0]
+      data-status="warning" 
+      data-mess=messages.successDelete[0]
     )
 
   //- - if (messages.successPosition)

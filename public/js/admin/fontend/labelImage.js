@@ -7,6 +7,8 @@ formImage.forEach((item, index) => {
   item.addEventListener('change', e => {
     let imageLink = URL.createObjectURL(e.target.files[0])
     uploadImage(e, imageLink)
+    let labelImage = e.target.closest('label')
+    labelImage.style.border = "none"
   })
 })
 

@@ -27,16 +27,16 @@ block main
                   h6.lh-1 Size
                   small.opacity-50 Pick Available Size
                   div
-                    input#size-xs.btn-check(type='radio' name='size-options' autocomplete='off' disabled='')
-                    label.btn.btn-outline-secondary.me-2(for='size-xs') XS
-                    input#size-s.btn-check(type='radio' name='size-options' autocomplete='off')
+                    input#size-xs.btn-check(type='checkbox' name='size-options' autocomplete='off')
+                    label.btn.btn-outline-success.me-2(for='size-xs') XS
+                    input#size-s.btn-check(type='checkbox' name='size-options' autocomplete='off')
                     label.btn.btn-outline-success.me-2(for='size-s') S
-                    input#size-m.btn-check(type='radio' name='size-options' autocomplete='off' checked='')
+                    input#size-m.btn-check(type='checkbox' name='size-options' autocomplete='off')
                     label.btn.btn-outline-success.me-2(for='size-m') M
-                    input#size-xl.btn-check(type='radio' name='size-options' autocomplete='off')
+                    input#size-xl.btn-check(type='checkbox' name='size-options' autocomplete='off')
                     label.btn.btn-outline-success.me-2(for='size-xl') XL
-                    input#size-xxl.btn-check(type='radio' name='size-options' autocomplete='off' disabled='')
-                    label.btn.btn-outline-secondary(for='size-xxl') XXL
+                    input#size-xxl.btn-check(type='checkbox' name='size-options' autocomplete='off')
+                    label.btn.btn-outline-success(for='size-xxl') XXL
                 .col
                   h6.lh-1 Size
                   small.opacity-50 Pick Available Size
@@ -53,7 +53,20 @@ block main
                       input#gender-unisex.form-check-input(type='radio' name='gender-options' value='unisex')
                       label.form-check-label(for='gender-unisex')
                         | Unisex
+              .row.mt-3
+                h6.lh-1 Status
+                small.opacity-50 Pick Available Status
+
+                div(class="form-check ml-2")
+                  input#statusActive.form-check-input(type='radio' name='status' value='active' checked)
+                  label.form-check-label.mr-5(for='statusActive') Active
+
+                  input#statusInactive.form-check-input(type='radio' name='status' value='inactive')
+                  label.form-check-label(for='statusInactive') Inactive
+
+
           // Card general information - end
+
           // Card pricing and stock - start
           .card.shadow-css.p-3.mb-5
             .card-body
@@ -63,8 +76,19 @@ block main
                   label.form-label(for='') Base Pricing
                   input.form-control(type='text' id='')
                 .col
-                  label.form-label(for='') Stock
-                  input.form-control(type='text' id='')
+                  .row
+                    .col 
+                      label(for="") Chosse Size 
+                      select.form-select
+                        option(value="" disable) Size 
+                        option(value="x") X 
+                        option(value="m") M   
+                    .col 
+                      label(for="") Stock Size 
+                      input.form-control(type="text")
+                    .col 
+                      label(for="") Stock 
+                      input.form-control(type="text" value="20" disabled)
               .row
                 .col
                   label.form-label(for='') Discount

@@ -4,7 +4,6 @@ if(formFilter) {
   const filterName = formFilter.querySelector('[filter-name]')
   const filterActive = formFilter.querySelector('[filter-active]')
   const filterSort = formFilter.querySelector('[filter-sort]')
-
   const btnFilter = formFilter.querySelector('[btn-filter]')
 
   formFilter.addEventListener('submit', e => {

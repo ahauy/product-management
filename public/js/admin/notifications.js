@@ -1,6 +1,7 @@
 const notifications = document.querySelector('.notifications');
-const status = notifications.getAttribute('status')
-const message = notifications.getAttribute('mess')
+const status = notifications.dataset.status
+const message = notifications.dataset.mess
+
 // function show and hide notification  
 function createNofification(status, message) {
     let templateInner = ``
