@@ -50,7 +50,11 @@ module.exports.index = async (req, res) => {
   const sort = {};
   const {sortKey, sortValue} = req.query;
   if(sortKey && sortValue) {
-    sort[sortKey] = sortValue
+      if(sortKey == "salesCount") {
+        sort[`rating.${sortKey}`] = sortValue
+      } else {
+        sort[sortKey] = sortValue
+      }
   } else {
     sort.position = "desc"
   }
@@ -158,8 +162,8 @@ module.exports.create = async (req, res) => {
   const records = await ProductsCategory.find(find);
   const newRecords = createTree(records)
 
-  res.render("admin/pages/products/createProduct.pug", {
-    title: "Thêm mới sản phẩm",
+  res.render("admin/pages/products/createProduct2.pug", {
+    title: "Add New Product",
     newRecords: newRecords
   })
 }

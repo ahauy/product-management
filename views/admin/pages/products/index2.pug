@@ -52,8 +52,8 @@ block main
                 option(value="position-asc") Vị trí tăng dần
                 option(value="price-desc") Giá giảm dần
                 option(value="price-ase") Giá tăng dần
-                option(value="title-desc") Tiêu đề từ Z-A
-                option(value="title-ase") Tiêu đề từ A-Z  
+                option(value="salesCount-desc") Lượt bán giảm dần
+                option(value="SalesCount-ase") Lượt bán tăng dần 
           .row.mt-2
             .col-3
               button.btn.btn-primary(type="submit" btn-filter)
@@ -92,7 +92,7 @@ block main
                 )
                 button.btn.btn-primary(type="submit") Apply Action 
           .col-1
-            button.btn.btn-primary  + New
+            a.btn.btn-primary(href=`${prefixAdmin}/products/create`)  + New
         .row.p-2.mt-3
           table.table-css.mb-5(checkbox-multi)
             thead
@@ -102,8 +102,10 @@ block main
                 td(scope='col') #
                 td(scope='col') Image
                 td(scope='col') Title
-                td(scope='col') Price
+                td(scope="col") Category
+                td(scope='col') Price (VND)
                 td(scope='col') Position
+                td(scope='col') Sale Count
                 td(scope='col') Status
                 td(scope='col') Action
             tbody
@@ -113,9 +115,10 @@ block main
                     input(type="checkbox" name="id" value=item.id)
                   th(scope='row' style="padding: 0px 20px") #{index + 1}
                   td 
-                    img(src=item.thumbnail, alt="", width='200px' class="img-thumbnail")
+                    img(src=item.media[0].url alt=item.media[0].alt width='100px' class="img-thumbnail")
                   td=item.title
-                  td #{item.price}$
+                  td abc
+                  td #{item.price}VND
                   td 
                     form(
                       action="" 
@@ -133,6 +136,7 @@ block main
                         class="form-control"
                         style="width: 70px"
                       ) 
+                  td=item.rating.salesCount
                   td 
                     if(item.status == "active")
                       a(
