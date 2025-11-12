@@ -20,11 +20,17 @@
   width: 80px;
 }
 
+.navigation.active ul{
+  padding-left: 0px;
+  transition: 0.3;
+}
+
 .navigation ul {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  padding-left: 0px;
 }
 
 .navigation ul li {
