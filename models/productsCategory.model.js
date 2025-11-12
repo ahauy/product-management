@@ -4,20 +4,36 @@ mongoose.plugin(slug);
 
 const productsCategorySchema = new mongoose.Schema(
   {
-    title: String,
-    parent_Id: {
+    title: {
       type: String,
-      default: ""
+      required: true,
+      trim: true,
+    },
+    parentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "products-category",
+      default: null,
     },
     description: String,
     thumbnail: String,
-    status: String,
-    position: Number,
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
+    position: {
+      type: Number,
+      default: 0,
+    },
+    level: {
+      type: Number,
+      default: 1,
+    },
     deleted: {
       type: Boolean,
       default: false,
     },
-    deleteAt: Date,
+    deletedAt: Date,
     slug: {
       type: String,
       slug: "title",
