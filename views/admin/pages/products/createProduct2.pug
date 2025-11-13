@@ -5,7 +5,7 @@ block main
   
 
   form(
-    action=`${prefixAdmin}/product/create`
+    action=`${prefixAdmin}/products/create`
     method="POST"
     enctype="multipart/form-data"
     id="form-edit-product"
@@ -33,26 +33,26 @@ block main
                   h6.lh-1 Size
                   small.opacity-50 Pick Available Size
                   div(chkBoxSize)
-                    input#size-xs.btn-check(type='checkbox' name='size' autocomplete='off' value="XS")
+                    input#size-xs.btn-check(type='checkbox' autocomplete='off' value="XS")
                     label.btn.btn-outline-success.me-2(for='size-xs') XS
-                    input#size-s.btn-check(type='checkbox' name='size' autocomplete='off' value="S")
+                    input#size-s.btn-check(type='checkbox' autocomplete='off' value="S")
                     label.btn.btn-outline-success.me-2(for='size-s') S
-                    input#size-m.btn-check(type='checkbox' name='size' autocomplete='off' value="M")
+                    input#size-m.btn-check(type='checkbox' autocomplete='off' value="M")
                     label.btn.btn-outline-success.me-2(for='size-m') M
-                    input#size-xl.btn-check(type='checkbox' name='size' autocomplete='off' value="XL")
+                    input#size-xl.btn-check(type='checkbox' autocomplete='off' value="XL")
                     label.btn.btn-outline-success.me-2(for='size-xl') XL
-                    input#size-xxl.btn-check(type='checkbox' name='size' autocomplete='off' value="XXL")
+                    input#size-xxl.btn-check(type='checkbox' autocomplete='off' value="XXL")
                     label.btn.btn-outline-success(for='size-xxl') XXL
                 .col
                   h6.lh-1 Size
                   small.opacity-50 Pick Available Size
                   .d-flex.pt-2
                     .form-check.me-4
-                      input#gender-men.form-check-input(type='radio' name='gender' value='men')
+                      input#gender-men.form-check-input(type='radio' name='gender' value='male')
                       label.form-check-label(for='gender-men')
                         | Men
                     .form-check.me-4
-                      input#gender-woman.form-check-input(type='radio' name='gender' value='woman' checked='')
+                      input#gender-woman.form-check-input(type='radio' name='gender' value='female' checked='')
                       label.form-check-label.text-success(for='gender-woman')
                         | Woman
                     .form-check
@@ -103,13 +103,14 @@ block main
                     .col 
                       label(for="") Stock 
                       input.form-control(type="text" value="" disabled stockSum)
+                      input(type="text" variants value="" name="variants" class="d-none")
               .row
                 .col
                   label.form-label(for='') Discount
-                  input.form-control(type='text' id='')
+                  input.form-control(type='text' id='' name="discountPercentage")
                 .col
                   label.form-label(for='') Discount Type
-                  select.form-select(name='' id='')
+                  select.form-select(name='' id='' )
           // Card pricing and stock - end
         .col-4
           // Card upload image - start
@@ -119,32 +120,32 @@ block main
               .row
                 .col-12
                   label.label-image(for='form-image-0')
-                    input#form-image-0.form-image(type='file' accept='image/*' hidden='')
+                    input#form-image-0.form-image(type='file' accept='image/*' hidden='' name="media")
                     .show-image
                       div
                         i.fa-solid.fa-plus(style='color: #ffffff;')
               .row.p-3.gap-2
                 .col.image
                   label.label-image(for='form-image-1')
-                    input#form-image-1.form-image(type='file' accept='image/*' hidden='')
+                    input#form-image-1.form-image(type='file' accept='image/*' hidden='' name="media")
                     .show-image
                       div
                         i.fa-solid.fa-plus(style='color: #ffffff;')
                 .col.image
                   label.label-image(for='form-image-2')
-                    input#form-image-2.form-image(type='file' accept='image/*' hidden='')
+                    input#form-image-2.form-image(type='file' accept='image/*' hidden='' name="media")
                     .show-image
                       div
                         i.fa-solid.fa-plus(style='color: #ffffff;')
                 .col.image
                   label.label-image(for='form-image-3')
-                    input#form-image-3.form-image(type='file' accept='image/*' hidden='')
+                    input#form-image-3.form-image(type='file' accept='image/*' hidden='' name="media")
                     .show-image
                       div
                         i.fa-solid.fa-plus(style='color: #ffffff;')
                 .col.image
                   label.label-image(for='form-image-4')
-                    input#form-image-4.form-image(type='file' accept='image/*' hidden='')
+                    input#form-image-4.form-image(type='file' accept='image/*' hidden='' name="media")
                     .show-image
                       div
                         i.fa-solid.fa-plus(style='color: #ffffff;')
@@ -154,8 +155,9 @@ block main
             .card-body
               h3.card-title.pb-3 Category
               label.form-label(for='') Product Category
-              select.form-select(name='' id='')
-              button.btn.btn-success.mt-4 Add category
+              select.form-select(name='category' id='')
+                option(value="abc") abc  
+              button.btn.btn-success.mt-4(disabled) Add category
           // Card category - end
       
 

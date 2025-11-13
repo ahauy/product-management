@@ -5,7 +5,8 @@ const cloudinary = require('cloudinary').v2;
 const validate = require('../../validate/admin/product.validate')
 const storageMulter = require('../../helpers/admin/storageMulter')
 const multer  = require('multer')
-const upload = multer({ storage: storageMulter() })
+// const upload = multer({ storage: storageMulter() })
+const upload = multer({ dest: 'uploads/' });
 
 routes.get("/", controller.index);
 
@@ -26,7 +27,7 @@ routes.delete("/delete-product/:id", controller.deleteProduct);
 routes.get("/create", controller.create);
 
 // tạo mới sản phẩm
-routes.post("/create", upload.single('thumbnail'), validate.createPost, controller.createPost);
+routes.post("/create", upload.array('media', 5), controller.createPost);
 
 // in ra giao diện sửa mới sản phẩm
 routes.get("/edit/:id", controller.edit);

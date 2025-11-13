@@ -17,6 +17,7 @@
   /* object-fit: contain; */
   background-position: center;
   background-size: contain;
+  background-repeat: none;
   overflow: hidden;
   border-radius: 10px;
 }

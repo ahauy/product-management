@@ -1,12 +1,14 @@
 const { request } = require("express");
 const Products = require("../../models/products.model");
-const systemAdmin = require("../../config/system")
+const systemAdmin = require("../../config/system");
 const filterStatusHelpers = require("../../helpers/admin/filterStatus");
 const searchHelpers = require("../../helpers/admin/search");
 const paginationHelpers = require("../../helpers/admin/pagination");
 const { prefixAdmin } = require("../../config/system");
 const ProductsCategory = require("../../models/productsCategory.model");
-const createTree = require("../../helpers/admin/createTree")
+const createTree = require("../../helpers/admin/createTree");
+const cloudinary = require("../../config/cloudinary.config");
+const fs = require("fs");
 
 // NOTE: http://localhost:3000/admin/products/change-status/active/123?page=1
 // thì lúc này req.query là những thứ sau dấu ?
@@ -35,7 +37,7 @@ module.exports.index = async (req, res) => {
   }
 
   // Phân trang
-  const limit = req.query.limit
+  const limit = req.query.limit;
   const countPage = await Products.countDocuments(find);
   const objPagination = paginationHelpers(
     req.query,
@@ -48,15 +50,15 @@ module.exports.index = async (req, res) => {
 
   // sắp xếp sản phẩm
   const sort = {};
-  const {sortKey, sortValue} = req.query;
-  if(sortKey && sortValue) {
-      if(sortKey == "salesCount") {
-        sort[`rating.${sortKey}`] = sortValue
-      } else {
-        sort[sortKey] = sortValue
-      }
+  const { sortKey, sortValue } = req.query;
+  if (sortKey && sortValue) {
+    if (sortKey == "salesCount") {
+      sort[`rating.${sortKey}`] = sortValue;
+    } else {
+      sort[sortKey] = sortValue;
+    }
   } else {
-    sort.position = "desc"
+    sort.position = "desc";
   }
 
   // các sản phẩm trả về
@@ -64,7 +66,6 @@ module.exports.index = async (req, res) => {
     .sort(sort)
     .limit(objPagination.limitItem)
     .skip(objPagination.skip);
-
 
   res.render("admin/pages/products/index2.pug", {
     title: "Trang danh sách sản phẩm",
@@ -103,20 +104,20 @@ module.exports.changeMulti = async (req, res) => {
         { _id: { $in: arrIds } },
         { status: "inactive" }
       );
-      req.flash('successStatus', 'Update status success !!');
+      req.flash("successStatus", "Update status success !!");
     } else if (type == "delete") {
       await Products.updateMany(
         { _id: { $in: arrIds } },
         { deleted: true, deleteAt: new Date() }
       );
-      req.flash('successDelete', 'Delete status success !!');
+      req.flash("successDelete", "Delete status success !!");
     } else if (type == "position") {
       for (let item of arrIds) {
         let [id, position] = item.split("-");
         position = parseInt(position);
         await Products.updateOne({ _id: id }, { position: position });
       }
-      req.flash('successPosition', 'Position update success !!');
+      req.flash("successPosition", "Position update success !!");
     }
   }
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
@@ -125,14 +126,14 @@ module.exports.changeMulti = async (req, res) => {
 
 // [PACTCH] admin/products/change-position/:id/:position
 module.exports.changePosition = async (req, res) => {
-  const id = req.params.id
-  const position = parseInt(req.params.position)
-  if(id && position) {
-    await Products.updateOne({_id: id}, {position: position})
+  const id = req.params.id;
+  const position = parseInt(req.params.position);
+  if (id && position) {
+    await Products.updateOne({ _id: id }, { position: position });
   }
-  req.flash("successPosition", "Position update successful !!")
-  res.redirect(`${prefixAdmin}/products`)
-}
+  req.flash("successPosition", "Position update successful !!");
+  res.redirect(`${prefixAdmin}/products`);
+};
 
 // [DELETE] admin/products/delete-product/:id
 module.exports.deleteProduct = async (req, res) => {
@@ -146,7 +147,7 @@ module.exports.deleteProduct = async (req, res) => {
     }
   );
 
-  req.flash('successDelete', 'Delete product success !!');
+  req.flash("successDelete", "Delete product success !!");
   // res.redirect(`/admin/products/`)
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
@@ -154,89 +155,113 @@ module.exports.deleteProduct = async (req, res) => {
 
 // [GET] admin/products/create
 module.exports.create = async (req, res) => {
-
   const find = {
-    deleted: false
-  }
+    deleted: false,
+  };
 
   const records = await ProductsCategory.find(find);
-  const newRecords = createTree(records)
+  const newRecords = createTree(records);
 
   res.render("admin/pages/products/createProduct2.pug", {
     title: "Add New Product",
-    newRecords: newRecords
-  })
-}
+    newRecords: newRecords,
+  });
+};
 
 // [POST] admin/products/create
 module.exports.createPost = async (req, res) => {
-  // chuyển thành kiểu số nguyên
-  req.body.price = parseInt(req.body.price)
-  req.body.discountPercentage = parseInt(req.body.discountPercentage)
-  req.body.stock = parseInt(req.body.stock)
+  try {
+    const find = { deleted: false };
+    const files = req.files;
 
-  if(req.body.position) {
-    req.body.position = parseInt(req.body.position)
-  } else {
-    const position = await Products.countDocuments();
-    req.body.position = position + 1;
+    // Upload song song
+    const uploadPromises = files.map((file) =>
+      cloudinary.uploader.upload(file.path, { folder: "uploads" })
+    );
+
+    const results = await Promise.all(uploadPromises);
+
+    // Xóa file local sau khi upload xong
+    files.forEach((file) => fs.unlinkSync(file.path));
+
+    // Lấy URL từ kết quả
+    const urls = results.map((result) => result.secure_url);
+
+    // Đếm số lượng sản phẩm hiện tại
+    const count = await Products.countDocuments(find);
+
+    const product = {
+      title: req.body.title,
+      description: req.body.description,
+      category: req.body.category,
+      price: parseInt(req.body.price),
+      currency: req.body.currency,
+      discountPercentage: parseInt(req.body.discountPercentage),
+      salePrice:
+        (parseInt(req.body.price) *
+          (100 - parseInt(req.body.discountPercentage))) /
+        100,
+      gender: req.body.gender,
+      variants: JSON.parse(req.body.variants),
+      media: urls.map((url) => ({ url, alt: req.body.title })),
+      status: req.body.status,
+      position: count + 1,
+      deleted: false,
+    };
+
+    const record = new Products(product);
+    await record.save();
+
+    // Chỉ redirect sau khi tất cả hoàn tất
+    res.redirect(`${systemAdmin.prefixAdmin}/products`);
+  } catch (error) {
+    console.error("Upload error:", error);
+    res.status(500).send("Có lỗi xảy ra khi upload ảnh hoặc lưu sản phẩm!");
   }
-
-  req.body.thumbnail = `/uploads/${req.file.filename}`
-
-  const product = await Products(req.body);
-  await product.save()
-
-  res.redirect(`${systemAdmin.prefixAdmin}/products`);
-}
+};
 
 // [GET] admin/products/edit/:id
 module.exports.edit = async (req, res) => {
-
   try {
-
     const find = {
       _id: req.params.id,
-      deleted: false 
-    }
+      deleted: false,
+    };
 
     const findCategory = {
-      deleted: false
-    }
-  
-    const records = await ProductsCategory.find(findCategory);
-    const newRecords = createTree(records)
+      deleted: false,
+    };
 
-    const product = await Products.findOne(find)
-  
+    const records = await ProductsCategory.find(findCategory);
+    const newRecords = createTree(records);
+
+    const product = await Products.findOne(find);
+
     res.render("admin/pages/products/editProduct2.pug", {
       title: "Add New Products",
       product: product,
-      newRecords: newRecords
-    })
-    
+      newRecords: newRecords,
+    });
   } catch (e) {
-    res.redirect(`${systemAdmin.prefixAdmin}/products`)
+    res.redirect(`${systemAdmin.prefixAdmin}/products`);
   }
-
-}
+};
 
 // [PATCH] admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
-    console.log(req.body)
-    // chuyển thành kiểu số nguyên
-    req.body.price = parseInt(req.body.price)
-    req.body.discountPercentage = parseInt(req.body.discountPercentage)
-    req.body.stock = parseInt(req.body.stock)
-    req.body.position = parseInt(req.body.position)
-  
-    if(req.file) {
-      req.body.thumbnail = `/uploads/${req.file.filename}`
-    }
+  console.log(req.body);
+  // chuyển thành kiểu số nguyên
+  req.body.price = parseInt(req.body.price);
+  req.body.discountPercentage = parseInt(req.body.discountPercentage);
+  req.body.stock = parseInt(req.body.stock);
+  req.body.position = parseInt(req.body.position);
 
-    await Products.updateOne({_id: req.params.id}, req.body)
+  if (req.file) {
+    req.body.thumbnail = `/uploads/${req.file.filename}`;
+  }
 
-    req.flash('success', 'Đã cập nhật thành công sản phẩm :)')
-    res.redirect(`${systemAdmin.prefixAdmin}/products/edit/${req.params.id}`);
-}
+  await Products.updateOne({ _id: req.params.id }, req.body);
 
+  req.flash("success", "Đã cập nhật thành công sản phẩm :)");
+  res.redirect(`${systemAdmin.prefixAdmin}/products/edit/${req.params.id}`);
+};

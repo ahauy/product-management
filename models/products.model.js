@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema(
     description: { type: String, default: "" },
 
     category: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "products-category",
       required: true,
     },
@@ -33,8 +33,8 @@ const productSchema = new mongoose.Schema(
     // Biến thể (size, màu sắc)
     variants: [
       {
-        sku: { type: String, required: true },
-        color: { type: String, required: true },
+        sku: { type: String},
+        color: { type: String},
         size: { type: String, required: true },
         stock: { type: Number, default: 0 },
         imageUrl: { type: String },

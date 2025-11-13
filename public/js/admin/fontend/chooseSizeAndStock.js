@@ -3,7 +3,10 @@ const inputSize = chkBoxSize.querySelectorAll("input");
 const selectChooseSize = document.querySelector("[selectChooseSize]");
 const inputStock = document.querySelector("[inputStock]");
 const stockSum = document.querySelector("[stockSum]");
+const variants = document.querySelector("[variants]")
 const arrSizeStock = [];
+
+console.log(variants)
 
 inputSize.forEach((item) => {
   item.addEventListener("change", () => {
@@ -55,6 +58,8 @@ inputStock.addEventListener("keydown", (e) => {
     stockSum.value = arrSizeStock.reduce((acc, currentValue) => {
       return acc + currentValue.stock
     }, 0)
+
+    variants.value = JSON.stringify(arrSizeStock)
 
     // Reset input
     inputStock.value = "";
