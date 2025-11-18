@@ -2,8 +2,6 @@ extend ../../layout/default.pug
 
 block main 
 
-  
-
   form(
     action=`${prefixAdmin}/products/create`
     method="POST"
@@ -50,11 +48,11 @@ block main
                     .form-check.me-4
                       input#gender-men.form-check-input(type='radio' name='gender' value='male')
                       label.form-check-label(for='gender-men')
-                        | Men
+                        | Male
                     .form-check.me-4
-                      input#gender-woman.form-check-input(type='radio' name='gender' value='female' checked='')
+                      input#gender-woman.form-check-input(type='radio' name='gender' value='female')
                       label.form-check-label.text-success(for='gender-woman')
-                        | Woman
+                        | Female
                     .form-check
                       input#gender-unisex.form-check-input(type='radio' name='gender' value='unisex')
                       label.form-check-label(for='gender-unisex')
