@@ -33,6 +33,6 @@ routes.post("/create", upload.array('media', 5), controller.createPost);
 routes.get("/edit/:id", controller.edit);
 
 // sửa sản phẩm
-routes.patch("/edit/:id", upload.single('thumbnail'), validate.editPatch,controller.editPatch);
+routes.patch("/edit/:id", upload.array('media'), validate.editPatch,controller.editPatch);
 
 module.exports = routes;

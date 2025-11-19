@@ -2,9 +2,15 @@ extend ../../layout/default.pug
 
 block main 
 
+  - if (messages.successEdit)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=messages.successEdit[0]
+    )
 
   form(
-    action=`${prefixAdmin}/products/${product.id}?_method=PATCH`
+    action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
     method="POST"
     enctype="multipart/form-data"
     id="form-edit-product"
@@ -26,7 +32,7 @@ block main
                 label.form-label(for='') Name Product
                 input.mb-4.form-control(type='' id='' placeholder='Input name product ...' name="title" value=product.title)
                 label.form-label(for='') Description Product
-                textarea.form-control(id='' rows='4' name="description" value=product.description)
+                textarea.form-control(id='' rows='4' name="description")=product.description
               .row.mt-5
                 .col
                   h6.lh-1 Size
@@ -48,7 +54,7 @@ block main
                   small.opacity-50 Pick Available Size
                   .d-flex.pt-2
                     .form-check.me-4
-                      input#gender-men.form-check-input(type='radio' name='gender' checked=(product.gender == 'male'))
+                      input#gender-men.form-check-input(type='radio' name='gender' value="male" checked=(product.gender == 'male') )
                       label.form-check-label(for='gender-men')
                         | Male
                     .form-check.me-4
@@ -162,4 +168,5 @@ block main
       
 
   script(src="/js/admin/fontend/labelImage.js")
-  script(src="/js/admin/fontend/chooseSizeAndStock.js")
+  //- script(src="/js/admin/fontend/chooseSizeAndStock.js")
+  script(src="/js/admin/fontend/editPage.js")

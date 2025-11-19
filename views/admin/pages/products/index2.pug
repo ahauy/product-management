@@ -23,6 +23,21 @@ block main
       data-mess=messages.successDelete[0]
     )
 
+    - if (successEdit && successEdit.length > 0)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=successEdit[0]
+    )
+
+    - if (messages.successCreate)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=messages.successCreate[0]
+    )
+    
+
   //- - if (messages.successPosition)
   //-   span= messages.successPosition
 

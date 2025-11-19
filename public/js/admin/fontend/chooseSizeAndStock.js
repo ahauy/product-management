@@ -1,15 +1,15 @@
-const chkBoxSize = document.querySelector("[chkBoxSize]");
-const inputSize = chkBoxSize.querySelectorAll("input");
-const selectChooseSize = document.querySelector("[selectChooseSize]");
-const inputStock = document.querySelector("[inputStock]");
-const stockSum = document.querySelector("[stockSum]");
-const variants = document.querySelector("[variants]");
-const arrSizeStock = [];
+let chkBoxSize = document.querySelector("[chkBoxSize]");
+let inputSize = chkBoxSize.querySelectorAll("input");
+let selectChooseSize = document.querySelector("[selectChooseSize]");
+let inputStock = document.querySelector("[inputStock]");
+let stockSum = document.querySelector("[stockSum]");
+let variants = document.querySelector("[variants]");
+let arrSizeStock = [];
 
 // chọn size nào thì size đấy sẽ được hiện ơ selectChooseSize
 inputSize.forEach((item) => {
   item.addEventListener("change", () => {
-    const selectSizes = Array.from(inputSize)
+    let selectSizes = Array.from(inputSize)
       .filter((i) => i.checked)
       .map((i) => i.value);
 
@@ -18,7 +18,7 @@ inputSize.forEach((item) => {
 
     // thêm option cho size dc chọn
     selectSizes.forEach((size) => {
-      const option = document.createElement("option");
+      let option = document.createElement("option");
       option.value = size;
       option.textContent = size;
       selectChooseSize.appendChild(option);
@@ -31,8 +31,8 @@ inputStock.addEventListener("keydown", (e) => {
   if (e.code === "Enter") {
     e.preventDefault();
 
-    const selectedSize = selectChooseSize.value;
-    const stockValue = inputStock.value.trim();
+    let selectedSize = selectChooseSize.value;
+    let stockValue = inputStock.value.trim();
 
     if (!selectedSize) {
       alert("Please select a size!");
@@ -44,7 +44,7 @@ inputStock.addEventListener("keydown", (e) => {
     }
 
     // Kiểm tra nếu size đã tồn tại trong mảng → cập nhật, ngược lại thì thêm mới
-    const existingIndex = arrSizeStock.findIndex(
+    let existingIndex = arrSizeStock.findIndex(
       (item) => item.size === selectedSize
     );
     if (existingIndex !== -1) {
@@ -66,52 +66,51 @@ inputStock.addEventListener("keydown", (e) => {
   }
 });
 
-// bên trên là dữ liệu nhập tay
-// đây là phần đổ từ cớ sở dữ liệu sang
-let product = document.querySelector("[product]").value;
-product = JSON.parse(product)
-console.log(product)
-let arrSizeDB = (product.variants).map((item) => item.size);
-let variantsDB = product.variants;
+// // bên trên là dữ liệu nhập tay
+// // đây là phần đổ từ cớ sở dữ liệu sang
+// if (window.location.pathname.includes("edit")) {
+//   let product = document.querySelector("[product]").value;
+//   product = JSON.parse(product);
+//   let arrSizeDB = product.variants.map((item) => item.size);
+//   let variantsDB = product.variants;
+//   arrSizeDB = []
+//   arrSizeDB.push(...variantsDB)
 
-// đổ các size có trong variants vào các input checkbox
-inputSize.forEach((item) => {
-  if (arrSizeDB.includes(item.value)) {
-    item.checked = true;
-  }
-});
+//   // đổ các size có trong variants vào các input checkbox
+//   inputSize.forEach((item) => {
+//     if (arrSizeDB.includes(item.value)) {
+//       item.checked = true;
+//     }
+//   });
 
-// đỗ các size trong db vào trong select size
-selectChooseSize.innerHTML = '<option value="">Size</option>';
-arrSizeDB.forEach((size) => {
-  const option = document.createElement("option");
-  option.value = size;
-  option.textContent = size;
-  selectChooseSize.appendChild(option);
-});
+//   // đỗ các size trong db vào trong select size
+//   selectChooseSize.innerHTML = '<option value="">Size</option>';
+//   arrSizeDB.forEach((size) => {
+//     const option = document.createElement("option");
+//     option.value = size;
+//     option.textContent = size;
+//     selectChooseSize.appendChild(option);
+//   });
 
-// khi chọn các size sẽ hiện ra số lượng stock của size đó
-selectChooseSize.addEventListener("change", (e) => {
-  let index = arrSizeDB.indexOf(e.target.value);
-  inputStock.value = `${variantsDB[index].stock}`;
-});
+//   // khi chọn các size sẽ hiện ra số lượng stock của size đó
+//   selectChooseSize.addEventListener("change", (e) => {
+//     let index = arrSizeDB.indexOf(e.target.value);
+//     inputStock.value = `${variantsDB[index].stock}`;
+//   });
 
-// lấy tổng số lượng sản phẩm đổ vào trong inputStock
-let sumStock = variantsDB.reduce((accumulator, currentValue) => {
-  return accumulator + currentValue.stock;
-}, 0);
+//   // lấy tổng số lượng sản phẩm đổ vào trong inputStock
+//   let sumStock = variantsDB.reduce((accumulator, currentValue) => {
+//     return accumulator + currentValue.stock;
+//   }, 0);
+//   stockSum.value = sumStock;
 
-stockSum.value = sumStock;
-
-
-
-// đổ hình ảnh vào editPage
-const showImages = document.querySelectorAll('.show-image')
-console.log(showImages)
-showImages.forEach((item, index) => {
-  let imageLink = `url(${product.media[index].url})`
-  item.style.backgroundImage = imageLink;
-  let div = item.querySelector('div')
-  div.remove()
-  item.closest('label').style.border = "none"
-})
+//   // đổ hình ảnh vào editPage
+//   const showImages = document.querySelectorAll(".show-image");
+//   showImages.forEach((item, index) => {
+//     let imageLink = `url(${product.media[index].url})`;
+//     item.style.backgroundImage = imageLink;
+//     let div = item.querySelector("div");
+//     div.remove();
+//     item.closest("label").style.border = "none";
+//   });
+// }

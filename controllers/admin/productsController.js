@@ -7,8 +7,9 @@ const paginationHelpers = require("../../helpers/admin/pagination");
 const { prefixAdmin } = require("../../config/system");
 const ProductsCategory = require("../../models/productsCategory.model");
 const createTree = require("../../helpers/admin/createTree");
-const cloudinary = require("../../config/cloudinary.config");
-const fs = require("fs");
+// const cloudinary = require("../../config/cloudinary.config");
+// const fs = require("fs");
+const uploadImage = require("../../helpers/admin/uploadImage")
 
 // NOTE: http://localhost:3000/admin/products/change-status/active/123?page=1
 // thì lúc này req.query là những thứ sau dấu ?
@@ -67,11 +68,14 @@ module.exports.index = async (req, res) => {
     .limit(objPagination.limitItem)
     .skip(objPagination.skip);
 
+  console.log(req.flash('successEdit'))
+
   res.render("admin/pages/products/index2.pug", {
     title: "Trang danh sách sản phẩm",
     products: products,
     filterStatus: filterStatus,
     pagination: objPagination,
+    successEdit: req.flash("successEdit")
   });
 };
 
@@ -174,18 +178,20 @@ module.exports.createPost = async (req, res) => {
     const find = { deleted: false };
     const files = req.files;
 
-    // Upload song song
-    const uploadPromises = files.map((file) =>
-      cloudinary.uploader.upload(file.path, { folder: "uploads" })
-    );
+    // // Upload song song
+    // const uploadPromises = files.map((file) =>
+    //   cloudinary.uploader.upload(file.path, { folder: "uploads" })
+    // );
 
-    const results = await Promise.all(uploadPromises);
+    // const results = await Promise.all(uploadPromises);
 
-    // Xóa file local sau khi upload xong
-    files.forEach((file) => fs.unlinkSync(file.path));
+    // // Xóa file local sau khi upload xong
+    // files.forEach((file) => fs.unlinkSync(file.path));
 
-    // Lấy URL từ kết quả
-    const urls = results.map((result) => result.secure_url);
+    // // Lấy URL từ kết quả
+    // const urls = results.map((result) => result.secure_url);
+
+    const urls = uploadImage(files)
 
     // Đếm số lượng sản phẩm hiện tại
     const count = await Products.countDocuments(find);
@@ -213,6 +219,7 @@ module.exports.createPost = async (req, res) => {
     await record.save();
 
     // Chỉ redirect sau khi tất cả hoàn tất
+    req.flash("successCreate", "Đã tạo mới thành công sản phẩm :)");
     res.redirect(`${systemAdmin.prefixAdmin}/products`);
   } catch (error) {
     console.error("Upload error:", error);
@@ -251,19 +258,32 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
-  console.log(req.body);
-  // chuyển thành kiểu số nguyên
-  req.body.price = parseInt(req.body.price);
-  req.body.discountPercentage = parseInt(req.body.discountPercentage);
-  req.body.stock = parseInt(req.body.stock);
-  req.body.position = parseInt(req.body.position);
+  const product = {
+    title: req.body.title,
+    description: req.body.description,
+    category: req.body.category,
+    price: parseInt(req.body.price),
+    currency: req.body.currency,
+    discountPercentage: parseInt(req.body.discountPercentage),
+    salePrice:
+      (parseInt(req.body.price) *
+        (100 - parseInt(req.body.discountPercentage))) /
+      100,
+    gender: req.body.gender,
+    variants: JSON.parse(req.body.variants),
+    // media: urls.map((url) => ({ url, alt: req.body.title })),
+    status: req.body.status,
+  };
 
   if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
+    let urls = uploadImage(req.files)
+    product.media = urls.map((url) => ({ url, alt: req.body.title }))
   }
 
-  await Products.updateOne({ _id: req.params.id }, req.body);
 
-  req.flash("success", "Đã cập nhật thành công sản phẩm :)");
-  res.redirect(`${systemAdmin.prefixAdmin}/products/edit/${req.params.id}`);
+  await Products.updateOne({ _id: req.params.id }, product);
+
+  req.flash("successEdit", "Đã cập nhật thành công sản phẩm :)");
+  // console.log(req.flash("successEdit"))
+  res.redirect(`${systemAdmin.prefixAdmin}/products`);
 };
