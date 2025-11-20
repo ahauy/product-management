@@ -32,7 +32,7 @@ block main
                 label.form-label(for='') Name Product
                 input.mb-4.form-control(type='' id='' placeholder='Input name product ...' name="title" value=product.title)
                 label.form-label(for='') Description Product
-                textarea.form-control(id='' rows='4' name="description")=product.description
+                textarea.form-control(id='description' rows='4' name="description")=product.description
               .row.mt-5
                 .col
                   h6.lh-1 Size
@@ -170,3 +170,4 @@ block main
   script(src="/js/admin/fontend/labelImage.js")
   //- script(src="/js/admin/fontend/chooseSizeAndStock.js")
   script(src="/js/admin/fontend/editPage.js")
+  script(src="/js/admin/tinymce.js")

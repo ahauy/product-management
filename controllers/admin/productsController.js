@@ -68,14 +68,15 @@ module.exports.index = async (req, res) => {
     .limit(objPagination.limitItem)
     .skip(objPagination.skip);
 
-  console.log(req.flash('successEdit'))
-
   res.render("admin/pages/products/index2.pug", {
     title: "Trang danh sách sản phẩm",
     products: products,
     filterStatus: filterStatus,
     pagination: objPagination,
-    successEdit: req.flash("successEdit")
+    message: {
+      successEdit: req.flash('successEdit'),
+      successCreate: req.flash('successCreate')
+    }
   });
 };
 
@@ -219,7 +220,7 @@ module.exports.createPost = async (req, res) => {
     await record.save();
 
     // Chỉ redirect sau khi tất cả hoàn tất
-    req.flash("successCreate", "Đã tạo mới thành công sản phẩm :)");
+    req.flash("successCreate", "Success Create Product");
     res.redirect(`${systemAdmin.prefixAdmin}/products`);
   } catch (error) {
     console.error("Upload error:", error);
@@ -283,7 +284,7 @@ module.exports.editPatch = async (req, res) => {
 
   await Products.updateOne({ _id: req.params.id }, product);
 
-  req.flash("successEdit", "Đã cập nhật thành công sản phẩm :)");
+  req.flash("successEdit", "Success Edit Product !!");
   // console.log(req.flash("successEdit"))
   res.redirect(`${systemAdmin.prefixAdmin}/products`);
 };

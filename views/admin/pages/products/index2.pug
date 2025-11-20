@@ -23,18 +23,18 @@ block main
       data-mess=messages.successDelete[0]
     )
 
-    - if (successEdit && successEdit.length > 0)
+  - if (message.successEdit.length > 0)
     div(
       class="notifications" 
       data-status="success" 
-      data-mess=successEdit[0]
+      data-mess=message.successEdit[0]
     )
 
-    - if (messages.successCreate)
+  - if (message.successCreate)
     div(
       class="notifications" 
       data-status="success" 
-      data-mess=messages.successCreate[0]
+      data-mess=message.successCreate[0]
     )
     
 
@@ -42,6 +42,7 @@ block main
   //-   span= messages.successPosition
 
   h1.title Products
+
 
   .container-fluid.pt-2
     // FILTER START

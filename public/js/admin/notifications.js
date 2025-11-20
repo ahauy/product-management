@@ -50,4 +50,6 @@ function createNofification(status, message) {
     }, 6000);
 }
 
-createNofification(status, message)
+if(message) {
+    createNofification(status, message)
+}
