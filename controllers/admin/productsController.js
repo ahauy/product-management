@@ -10,6 +10,7 @@ const createTree = require("../../helpers/admin/createTree");
 const cloudinary = require("../../config/cloudinary.config");
 // const fs = require("fs");
 const uploadImage = require("../../helpers/admin/uploadImage")
+const treeToFlatArray = require("../../helpers/admin/treeToPlatArray");
 // const cloudinary = require('cloudinary').v2;
 
 // NOTE: http://localhost:3000/admin/products/change-status/active/123?page=1
@@ -166,7 +167,8 @@ module.exports.create = async (req, res) => {
   };
 
   const records = await ProductsCategory.find(find);
-  const newRecords = createTree(records);
+  const newRecords = treeToFlatArray(records);
+  console.log(newRecords)
 
   res.render("admin/pages/products/createProduct2.pug", {
     title: "Add New Product",
@@ -193,7 +195,7 @@ module.exports.createPost = async (req, res) => {
     // // Lấy URL từ kết quả
     // const urls = results.map((result) => result.secure_url);
 
-    const urls = uploadImage(files)
+    const urls = await uploadImage(files)
 
     // Đếm số lượng sản phẩm hiện tại
     const count = await Products.countDocuments(find);
@@ -289,30 +291,6 @@ module.exports.editPatch = async (req, res) => {
   // console.log(req.flash("successEdit"))
   res.redirect(`${systemAdmin.prefixAdmin}/products`);
 };
-
-
-// [POST] admin/upload/uploadTinymce
-module.exports.uploadTinymce = async (req, res) => {
-  try {
-    // [Thêm dòng này để debug] Kiểm tra xem file có tồn tại không
-    console.log("File received:", req.file); 
-    if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
-    }
-
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "tinymce",
-    });
-
-    res.json({
-      location: result.secure_url
-    });
-
-  } catch (error) {
-    console.log("Lỗi upload tinymce:", error); // Log lỗi chi tiết ra terminal
-    res.status(500).json({ error: "Upload failed" });
-  }
-}
 
 // [GET] admin/read/:id
 module.exports.readProduct = async (req, res) => {

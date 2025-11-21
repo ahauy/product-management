@@ -3,7 +3,7 @@ extend ../../layout/default.pug
 block main 
 
   form(
-    action=`${prefixAdmin}/products-category/edit/${productCategory.id}?_method=PATCH`
+    action=`${prefixAdmin}/products-category`
     method="POST"
     enctype="multipart/form-data"
     id="form-edit-product"
@@ -13,7 +13,7 @@ block main
         h1.title #{title} 
       .col-2.text-end
         button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px")
-            <i class="fa-solid fa-check pr-2"></i>Edit Product Category
+            <i class="fa-solid fa-rotate-right"></i> Back
     .container-fluid.pt-2
       .row
         .col-8
@@ -23,23 +23,23 @@ block main
               h3.card-title.pb-3 General Information
               .row
                 label.form-label(for='') Name Product Category
-                input.mb-4.form-control(type='' id='' placeholder='Input name product category...' name="title" value=productCategory.title)
+                input.mb-4.form-control(type='' id='' placeholder='Input name product category...' name="title" value=productCategory.title style="pointer-events: none")
                 label.form-label(for='') Description Product
-                textarea.form-control(id='description' rows='4' name="description")=productCategory.description
+                div.description.border.p-3=productCategory.description
               .row.mt-4
                 .col-6 
                   h6.lh-1 Status
                   small.opacity-50 Pick Available Status
 
                   div(class="form-check ml-2")
-                    input#statusActive.form-check-input(type='radio' name='status' value='active' checked=(productCategory.status == 'active'))
-                    label.form-check-label.mr-5(for='statusActive') Active
+                    input#statusActive.form-check-input(type='radio' name='status' value='active' checked=(productCategory.status == 'active') style="pointer-events: none")
+                    label.form-check-label.mr-5(for='statusActive' style="pointer-events: none") Active
 
-                    input#statusInactive.form-check-input(type='radio' name='status' value='inactive' checked=(productCategory.status == 'inactive'))
-                    label.form-check-label(for='statusInactive') Inactive
+                    input#statusInactive.form-check-input(type='radio' name='status' value='inactive' checked=(productCategory.status == 'inactive') style="pointer-events: none")
+                    label.form-check-label(for='statusInactive' style="pointer-events: none") Inactive
                 .col-6 
                   h6.lh-1 Parent Category
-                  select.form-select.mt-3(name="parentId")
+                  select.form-select.mt-3(name="parentId" style="pointer-events: none")
                     option(value="" selected=!productCategory.parentId) -- Là danh mục gốc (Root) --
                     if newRecords
                       each item in newRecords
@@ -57,7 +57,7 @@ block main
               h3.card-title.pb-3 Upload Image
               .row
                 .col-12
-                  label.label-image(for='form-image-0')
+                  label.label-image(for='form-image-0' style="pointer-events: none")
                     div.thumbnail.d-none=productCategory.thumbnail
                     input#form-image-0.form-image(type='file' accept='image/*' hidden='' name="thumbnail")
                     .show-image
@@ -68,3 +68,4 @@ block main
 
   script(src="/js/admin/fontend/labelImage.js")
   script(src="/js/admin/fontend/editProductCategory.js")
+  script(src="/js/admin/fontend/readProduct.js")

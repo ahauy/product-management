@@ -36,7 +36,7 @@ routes.get("/edit/:id", controller.edit);
 routes.patch("/edit/:id", upload.array('media'), validate.editPatch,controller.editPatch);
 
 // upload ảnh trong tinymce
-routes.post('/upload/tinymce', upload.single('file'), controller.uploadTinymce)
+// routes.post('/upload/tinymce', upload.single('file'), controller.uploadTinymce)
 
 // xem chi tiết sản phẩm
 routes.get('/read/:id', controller.readProduct)

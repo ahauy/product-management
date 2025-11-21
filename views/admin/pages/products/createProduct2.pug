@@ -10,7 +10,7 @@ block main
   ) 
     .row 
       .col-10 
-        h1.title #{title}
+        h1.title #{title} 
       .col-2.text-end
         button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px")
           <i class="fa-solid fa-check pr-2"></i>Add Product
@@ -153,8 +153,11 @@ block main
             .card-body
               h3.card-title.pb-3 Category
               label.form-label(for='') Product Category
-              select.form-select(name='category' id='')
-                option(value="abc") abc  
+              select.form-select.mt-3(name='parentId')
+                option(value='') -- Là danh mục gốc (Root) --
+                  - if (newRecords)
+                    each item in newRecords
+                      option(value=item._id)=item.prefixTitle
               button.btn.btn-success.mt-4(disabled) Add category
           // Card category - end
       

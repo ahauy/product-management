@@ -1,108 +1,66 @@
-extends ../../layout/default.pug
-include ../../mixins/selectTree.pug
+extend ../../layout/default.pug
 
 block main 
 
-  - if(messages.error)
-      div(
-        class="alert alert-danger"
-        data-time=3000
-        show-alert
-      ) #{messages.error}
-
-  h1=title
-
   form(
     action=`${prefixAdmin}/products-category/create`
-    id="form-create-products"
     method="POST"
     enctype="multipart/form-data"
+    id="form-edit-product"
   ) 
-    div.form-group
-      label(for="title") Tiêu đề
-      input(
-        type="text"
-        id="title"
-        name="title"
-        class="form-control"
-        required
-      ) 
-    div.form-group
-      label(for="parent_Id") Danh mục cha
-      //- input(
-      //-   type="text"
-      //-   id="parent_Id"
-      //-   name="parent_Id"
-      //-   class="form-control"
-      //- )
-      select(
-        name="parent_Id"
-        id="parent_Id"
-        class="form-control"
-      ) 
-        option(value="" selected disable) -- Chọn danh mục cha -- 
-        if(newRecords.length > 0)
-          +selectTree(newRecords)
-        
+    .row 
+      .col-10 
+        h1.title #{title} 
+      .col-2.text-end
+        button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px")
+          <i class="fa-solid fa-check pr-2"></i>Add Product Category
+    .container-fluid.pt-2
+      .row
+        .col-8
+          // Card general information - start
+          .card.shadow-css.p-3.mb-5
+            .card-body
+              h3.card-title.pb-3 General Information
+              .row
+                label.form-label(for='') Name Product Category
+                input.mb-4.form-control(type='' id='' placeholder='Input name product category...' name="title")
+                label.form-label(for='') Description Product
+                textarea.form-control(id='description' rows='4' name="description")
+              .row.mt-4
+                .col-6 
+                  h6.lh-1 Status
+                  small.opacity-50 Pick Available Status
 
+                  div(class="form-check ml-2")
+                    input#statusActive.form-check-input(type='radio' name='status' value='active' checked)
+                    label.form-check-label.mr-5(for='statusActive') Active
 
-    div.form-group
-      label(for="description") Mô tả
-      textarea(
-        id="description"
-        name="description"
-        class="form-control"
-        rows=5
-      ) 
-    div(
-      class="form-group"
-      upload-image
-    )
-      label(for="thumbnail") Ảnh
-      input(
-        type="file"
-        id="thumbnail"
-        name="thumbnail"
-        class="form-control-file"
-        accept="image/*"
-        upload-image-input
-      ) 
-      img(src=""  upload-image-preview)
-    div.from-group
-      label(for="position") Vị trí
-      input(
-        type="text"
-        id="position"
-        name="position"
-        class="form-control"
-        placeholder="Tăng tự động"
-      )
-    div(class="form-group form-check form-check-inline")
-      input(
-        type="radio"
-        class="form-check-input"
-        id="active"
-        name="status"
-        value="active"
-        checked
-      )
-      label(for="active") Active 
-    div(class="form-group form-check form-check-inline")
-      input(
-        type="radio"
-        class="form-check-input"
-        id="inactive"
-        name="status"
-        value="inactive"
-        checked
-      )
-      label(for="inactive") Inactive 
-    div.form-group
-      button(
-        type="submit"
-        class="btn btn-primary"
-      ) Thêm mới
+                    input#statusInactive.form-check-input(type='radio' name='status' value='inactive')
+                    label.form-check-label(for='statusInactive') Inactive
+                .col-6 
+                  h6.lh-1 Parent Category
+                  select.form-select.mt-3(name='parentId')
+                    option(value='') -- Là danh mục gốc (Root) --
+                    - if (newRecord)
+                      each item in newRecord 
+                        option(value=item._id)=item.prefixTitle
 
-  script(src="/js/admin/uploadImage.js") 
-  script(src="/js/admin/alert.js")  
+          // Card general information - end
+
+        .col-4
+          // Card upload image - start
+          .card.shadow-css.p-3.mb-5
+            .card-body
+              h3.card-title.pb-3 Upload Image
+              .row
+                .col-12
+                  label.label-image(for='form-image-0')
+                    input#form-image-0.form-image(type='file' accept='image/*' hidden='' name="thumbnail")
+                    .show-image
+                      div
+                        i.fa-solid.fa-plus(style='color: #ffffff;')
+          // Card upload image - end
+      
+
+  script(src="/js/admin/fontend/labelImage.js")
   

@@ -8,7 +8,7 @@ tinymce.init({
   images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
-    xhr.open('POST', '/admin/products/upload/tinymce');
+    xhr.open('POST', '/admin/upload/tinymce');
 
     xhr.upload.onprogress = (e) => {
       progress(e.loaded / e.total * 100);

@@ -1,4 +1,4 @@
-module.exports.treeToFlatArray = (items, parentId = null, level = 1, result = []) => {
+const treeToFlatArray = (items, parentId = null, level = 1, result = []) => {
   items.forEach((item) => {
     // Kiểm tra xem item này có phải là con của parentId đang xét không
     const isChild = item.parentId == parentId; 
@@ -20,9 +20,11 @@ module.exports.treeToFlatArray = (items, parentId = null, level = 1, result = []
       result.push(newItem);
 
       // Gọi đệ quy: Tăng level lên 1 cho lớp con tiếp theo
-      module.exports.treeToFlatArray(items, item.id, level + 1, result);
+      treeToFlatArray(items, item.id, level + 1, result);
     }
   });
   
   return result;
 };
+
+module.exports = treeToFlatArray

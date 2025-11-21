@@ -1,11 +1,13 @@
 const systemAdmin = require("../../config/system");
 const ProductsCategory = require("../../models/productsCategory.model");
-const createTree = require("../../helpers/admin/createTree")
+const createTree = require("../../helpers/admin/createTree");
 const filterStatusHelpers = require("../../helpers/admin/filterStatus");
 const searchHelpers = require("../../helpers/admin/search");
 const paginationHelpers = require("../../helpers/admin/pagination");
-const createPath = require("../../helpers/admin/createPathCategory")
 const { prefixAdmin } = require("../../config/system");
+const treeToFlatArray = require("../../helpers/admin/treeToPlatArray");
+const cloudinary = require("../../config/cloudinary.config");
+const uploadImage = require("../../helpers/admin/uploadImage");
 
 // [GET] admin/products-category
 module.exports.index = async (req, res) => {
@@ -55,18 +57,18 @@ module.exports.index = async (req, res) => {
 
   // Query 2: Lấy "bản đồ" toàn bộ danh mục để tra cứu tổ tiên
   // Chỉ lấy id, title, parentId => Cực nhẹ
-  const allCategories = await ProductsCategory.find({ deleted: false })
-    .select("_id title parentId");
+  const allCategories = await ProductsCategory.find({ deleted: false }).select(
+    "_id title parentId"
+  );
 
   // --- PHẦN 3: TẠO HÀM TRA CỨU ĐƯỜNG DẪN ---
-  
+
   // Biến đổi mảng allCategories thành Object để tra cứu cho nhanh (O(1))
   // Kết quả dạng: { "id_abc": { title: "...", parentId: "..." }, ... }
   const dataMap = {};
-  allCategories.forEach(item => {
+  allCategories.forEach((item) => {
     dataMap[item.id] = item;
   });
-
 
   // Hàm đệ quy tìm cha từ dataMap (không cần query DB nữa)
   const getFullPath = (parentId, currentTitle) => {
@@ -81,12 +83,12 @@ module.exports.index = async (req, res) => {
   };
 
   // --- PHẦN 4: GHÉP DỮ LIỆU ---
-  const newRecord = record.map(item => {
+  const newRecord = record.map((item) => {
     const itemObj = item.toObject();
     // Gọi hàm tạo đường dẫn, truyền vào parentId và title hiện tại
     itemObj.fullPath = getFullPath(item.parentId, item.title);
     return itemObj;
-  }); 
+  });
 
   res.render("admin/pages/productsCategory/index.pug", {
     title: "Product Category",
@@ -94,9 +96,9 @@ module.exports.index = async (req, res) => {
     filterStatus: filterStatus,
     pagination: objPagination,
     message: {
-      successEdit: req.flash('successEdit'),
-      successCreate: req.flash('successCreate')
-    }
+      successEdit: req.flash("successEdit"),
+      successCreate: req.flash("successCreate"),
+    },
   });
 };
 
@@ -107,9 +109,7 @@ module.exports.changeStatus = async (req, res) => {
   await ProductsCategory.updateOne({ _id: id }, { status: status });
 
   req.flash("successStatus", "Update status success !!");
-  // res.redirect(`/admin/products/`)
-  const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
-  res.redirect(backURL);
+  res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
 };
 
 // [PACTCH] admin/products/change-multi
@@ -122,7 +122,10 @@ module.exports.changeMulti = async (req, res) => {
 
   if (ids) {
     if (type == "active") {
-      await ProductsCategory.updateMany({ _id: { $in: arrIds } }, { status: "active" });
+      await ProductsCategory.updateMany(
+        { _id: { $in: arrIds } },
+        { status: "active" }
+      );
       req.flash("successStatus", "Update status success !!");
     } else if (type == "inactive") {
       await ProductsCategory.updateMany(
@@ -160,31 +163,71 @@ module.exports.changePosition = async (req, res) => {
   res.redirect(`${prefixAdmin}/products-category`);
 };
 
+// [GET] admin/products-category/create
+module.exports.create = async (req, res) => {
+  const find = {
+    deleted: false,
+  };
+
+  const record = await ProductsCategory.find(find);
+
+  const newRecord = treeToFlatArray(record);
+
+  res.render("admin/pages/productsCategory/createProductCategory.pug", {
+    title: "Create Product Category",
+    newRecord: newRecord,
+  });
+};
+
 // [POST] admin/products-category/create
 module.exports.createPost = async (req, res) => {
-  if (req.body.position) {
-    req.body.position = parseInt(req.body.position);
-  } else {
-    const count = await ProductsCategory.countDocuments();
+  // --- 1. Xử lý logic Position (Vị trí) ---
+  // Nếu người dùng không nhập vị trí, tự động tính toán tăng lên 1
+  if (!req.body.position) {
+    const count = await ProductsCategory.countDocuments({ deleted: false });
     req.body.position = count + 1;
+  } else {
+    req.body.position = parseInt(req.body.position);
   }
 
-  req.body.thumbnail = `/uploads/${req.file.filename}`;
+  // --- 2. Xử lý logic Image (Ảnh) ---
+  // Chỉ upload khi có file, tránh lỗi crash server
+  if (req.file) {
+    req.body.thumbnail = await uploadImage(req.file);
+  }
 
-  req.body.title = req.body.title;
+  // --- 3. Xử lý logic ParentId & Level (QUAN TRỌNG) ---
+  if (req.body.parentId) {
+    // Nếu có chọn cha: Tìm cha để lấy level của cha
+    const parent = await ProductsCategory.findOne({
+      _id: req.body.parentId,
+      deleted: false
+    });
+    
+    // Level con = Level cha + 1
+    // (Thêm toán tử ? để an toàn: nếu lỡ ko tìm thấy cha thì mặc định là 1)
+    req.body.level = parent ? parent.level + 1 : 1;
+  } else {
+    // Nếu không chọn cha (Root)
+    req.body.parentId = null; // Đảm bảo parentId là null chứ không phải ""
+    req.body.level = 1;
+  }
 
-  const record = await ProductsCategory(req.body);
+  // --- 4. Lưu dữ liệu ---
+  // Lúc này req.body đã đầy đủ và sạch sẽ, chỉ cần ném vào Model
+  const record = new ProductsCategory(req.body);
   await record.save();
 
+  req.flash("successCreate", "Success Create Product Category !");
   res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
 };
 
-// [PATCH] admin/product-category/change-status/:status/:id
-module.exports.changeStatus = async (req, res) => {
-  const { status, id } = req.params;
-  await ProductsCategory.updateOne({ _id: id }, { status: status });
-  res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
-};
+// // [PATCH] admin/product-category/change-status/:status/:id
+// module.exports.changeStatus = async (req, res) => {
+//   const { status, id } = req.params;
+//   await ProductsCategory.updateOne({ _id: id }, { status: status });
+//   res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
+// };
 
 // [DELETE] admin/product-category/delete-category/:id
 module.exports.deleteCategory = async (req, res) => {
@@ -192,28 +235,26 @@ module.exports.deleteCategory = async (req, res) => {
 
   await ProductsCategory.updateOne({ _id: id }, { deleted: true });
 
+  req.flash("successDelete", "Success Delete Product Category !")
   res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
 };
 
 // [GET] admin/product-category/edit/:id
 module.exports.edit = async (req, res) => {
-
   const find = {
-    deleted: false
-  }
+    deleted: false,
+  };
 
   const { id } = req.params;
   const productCategory = await ProductsCategory.findById(id);
   const records = await ProductsCategory.find(find);
 
-  const newRecords = createTree(records);
-
-
+  const newRecords = treeToFlatArray(records);
 
   res.render("admin/pages/productsCategory/editProductCategory.pug", {
-    title: "Chỉnh sửa danh mục sản phẩm",
+    title: "Edit Product Category",
     productCategory: productCategory,
-    newRecords: newRecords
+    newRecords: newRecords,
   });
 };
 
@@ -221,15 +262,33 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   const { id } = req.params;
 
-  if (req.body.position) {
-    req.body.position = parseInt(req.body.position);
+  if (req.file) {
+    req.body.thumbnail = await uploadImage(req.file);
   }
 
-  if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
-  }
+  req.body.parentId = req.body.parentId === "" ? null : req.body.parentId
 
   await ProductsCategory.updateOne({ _id: id }, req.body);
 
+  req.flash("successEdit", "Success Edit Product Category !")
   res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
+};
+
+// [GET] admin/products-category/read/:id
+module.exports.read = async (req, res) => {
+  const find = {
+    deleted: false,
+  };
+
+  const { id } = req.params;
+  const productCategory = await ProductsCategory.findById(id);
+  const records = await ProductsCategory.find(find);
+
+  const newRecords = treeToFlatArray(records);
+
+  res.render("admin/pages/productsCategory/readProductCategory.pug", {
+    title: "Read Product Category",
+    productCategory: productCategory,
+    newRecords: newRecords,
+  });
 }
