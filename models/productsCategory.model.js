@@ -34,11 +34,7 @@ const productsCategorySchema = new mongoose.Schema(
       default: false,
     },
     deletedAt: Date,
-    slug: {
-      type: String,
-      slug: "title",
-      unique: true,
-    },
+    slug: { type: String, slug: "title", unique: true },
   },
   {
     timestamps: true,

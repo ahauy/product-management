@@ -8,7 +8,12 @@ const upload = multer({ storage: storageMulter() })
 
 routes.get("/", controller.index);
 
-routes.get("/create", controller.create);
+routes.patch("/change-status/:status/:id", controller.changeStatus);
+
+routes.patch("/change-multi", controller.changeMulti);
+
+// thay đổi position của sản phẩm
+routes.patch('/change-position/:id/:position', controller.changePosition)
 
 routes.post("/create",upload.single('thumbnail'), validate.createPost,controller.createPost);
 

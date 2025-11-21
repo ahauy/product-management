@@ -7,9 +7,10 @@ const paginationHelpers = require("../../helpers/admin/pagination");
 const { prefixAdmin } = require("../../config/system");
 const ProductsCategory = require("../../models/productsCategory.model");
 const createTree = require("../../helpers/admin/createTree");
-// const cloudinary = require("../../config/cloudinary.config");
+const cloudinary = require("../../config/cloudinary.config");
 // const fs = require("fs");
 const uploadImage = require("../../helpers/admin/uploadImage")
+// const cloudinary = require('cloudinary').v2;
 
 // NOTE: http://localhost:3000/admin/products/change-status/active/123?page=1
 // thì lúc này req.query là những thứ sau dấu ?
@@ -288,3 +289,42 @@ module.exports.editPatch = async (req, res) => {
   // console.log(req.flash("successEdit"))
   res.redirect(`${systemAdmin.prefixAdmin}/products`);
 };
+
+
+// [POST] admin/upload/uploadTinymce
+module.exports.uploadTinymce = async (req, res) => {
+  try {
+    // [Thêm dòng này để debug] Kiểm tra xem file có tồn tại không
+    console.log("File received:", req.file); 
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "tinymce",
+    });
+
+    res.json({
+      location: result.secure_url
+    });
+
+  } catch (error) {
+    console.log("Lỗi upload tinymce:", error); // Log lỗi chi tiết ra terminal
+    res.status(500).json({ error: "Upload failed" });
+  }
+}
+
+// [GET] admin/read/:id
+module.exports.readProduct = async (req, res) => {
+  const find = {
+    deleted: false,
+    _id: req.params.id
+  }
+
+  const product = await Products.findOne(find)
+
+  res.render("admin/pages/products/readProduct.pug", {
+    title: "Detail Product",
+    product: product
+  })
+}

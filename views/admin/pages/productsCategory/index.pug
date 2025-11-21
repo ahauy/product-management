@@ -1,93 +1,244 @@
 extends ../../layout/default.pug
 
-
 block main 
 
-  h1=titlePage
+  - if (messages.successPosition)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess= messages.successPosition[0]
+    )
 
-  .card.mb-3 
-    .card-header Danh sách danh mục
-    .card-body 
-      .row 
-        .col-10 
-        .col-2 
-          a(href=`${prefixAdmin}/products-category/create`
-            class="btn btn-success"
-          ) Thêm danh mục
-      table(
-        class="table table-hover"
-      )
-        thead 
-          tr
-            th(scope='col') STT 
-            th(scope='col') Hình ảnh 
-            th(scope='col') Tên danh mục
-            th(scope='col') Danh mục cha  
-            th(scope='col') Vị trí
-            th(scope='col') Trạng thái
-            th(scope='col') Hành động
-        tbody 
-          each item, index in productCategory 
-            tr
-              th(scope='row') #{index + 1}
-              td 
-                img(src=item.thumbnail, alt="" class="thumnail-item")
-              td #{item.title}
-              td
-                if (item.parent_Id != "")
-                  - const parentitem = productCategory.find(i => String(i._id) === String(item.parent_Id));
-                  = parentitem ? parentitem.title : 'Error'
-                else
-                  = 'Danh mục cha'
-              td
+  - if (messages.successStatus)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess= messages.successStatus[0]
+    )
+
+  - if (messages.successDelete)
+    div(
+      class="notifications" 
+      data-status="warning" 
+      data-mess=messages.successDelete[0]
+    )
+
+  //- - if (message.successEdit.length > 0)
+  //-   div(
+  //-     class="notifications" 
+  //-     data-status="success" 
+  //-     data-mess=message.successEdit[0]
+  //-   )
+
+  //- - if (message.successCreate)
+  //-   div(
+  //-     class="notifications" 
+  //-     data-status="success" 
+  //-     data-mess=message.successCreate[0]
+  //-   )
+    
+
+  //- - if (messages.successPosition)
+  //-   span= messages.successPosition
+
+  h1.title=title
+
+
+  .container-fluid.pt-2
+    // FILTER START
+    .card.shadow-css.p-3.mb-5
+      form(action='' form-filter)
+        .card-body
+          h2.card-title.pb-3 Filter
+          .row
+            .col-4
+              label.form-label(for='filter-name') Filter name: 
+              input.form-control(type='text' placeholder="Input name ..." id="filter-name")
+            .col-4
+              label.form-label(for='filter-active') Filter active: 
+              select.form-select(name='' id='filter-active')
+                option(value="") All
+                option(value="active") Active 
+                option(value="inactive") Inactive   
+            .col-4
+              label.form-label(for='filter-sort') Filter sort: 
+              select.form-select(name='' id='filter-sort')
+                option(value="") Sort 
+                option(value="position-desc") Vị trí giảm dần  
+                option(value="position-asc") Vị trí tăng dần
+          .row.mt-2
+            .col-3
+              button.btn.btn-primary(type="submit" btn-filter)
+                <i class="fa-solid fa-filter mr-1" style="border: none"></i> Filter
+    // FILTER END
+    // LIST PRODUCTS START
+    .card.shadow-css.p-3.mb-5
+      .card-body
+        h2.card-title.pb-3 List Prodcuts Category
+        .row
+          .col-6
+            .input-group
+              input.form-control(type='file')
+              button.btn.btn-success  + Import
+              button.btn.btn-secondary  - Export
+          .col-1
+          .col-4
+            form(
+              action=`${prefixAdmin}/products-category/change-multi?_method=PATCH`
+              method="POST"
+              form-change-multi
+            )
+              .input-group
+                select.form-select(name='type' id='')
+                  option(disable selected) Choose active
+                  option(value="active") Active 
+                  option(value="inactive") Inactive 
+                  option(value="delete") Delete
+                  option(value="position") Sort position 
                 input(
-                  type="number"
-                  min='1'
-                  name='position'
-                  value=item.position 
-                  style="width: 50px"
+                  type="text"
+                  name="ids"
+                  value=""
+                  class="form-control"
+                  class="d-none"
                 )
-              td 
-                  if(item.status == "active")
+                button.btn.btn-primary(type="submit") Apply Action 
+          .col-1
+            a.btn.btn-primary(href=`${prefixAdmin}/products-category/create`)  + New
+        .row.p-2.mt-3
+          table.table-css.mb-5(checkbox-multi)
+            thead
+              tr
+                td 
+                  input(type="checkbox" name="checkall")
+                td(scope='col') #
+                td(scope='col') Image
+                td(scope='col') Category
+                td(scope="col") Parent Category
+                td(scope='col') Position
+                td(scope='col') Status
+                td(scope='col') Action
+            tbody
+              each item, index in newRecord
+                tr 
+                  td 
+                    input(type="checkbox" name="id" value=item._id)
+                  th(scope='row' style="padding: 0px 20px") #{index + 1}
+                  td 
+                    img(src=item.thumbnail alt=item.title width='100px' class="img-thumbnail")
+                  td=item.title
+                  td #{item.level === 1 ? "Root" : item.fullPath}                    
+                  td 
+                    form(
+                      action="" 
+                      form-change-position
+                      method="POST"
+                      data-path=`${prefixAdmin}/products-category/change-position`
+                    )
+                      input(
+                        change-position
+                        type="text"
+                        min="1"
+                        name="position"
+                        value=item.position 
+                        idItem=item._id
+                        class="form-control"
+                        style="width: 70px"
+                      ) 
+                  td 
+                    if(item.status == "active")
+                      a(
+                        href="javascript:;" 
+                        btn-change-status
+                        itemStatus=item.status 
+                        itemId=item._id
+                        class='badge badge-success p-2'
+                        style="font-size: 0.9rem"
+                      ) Active
+                    else 
+                      a(
+                        href="javascript:;" 
+                        btn-change-status
+                        itemStatus=item.status 
+                        itemId=item._id
+                        class='badge badge-danger p-2'
+                        style="font-size: 0.9rem"
+                      ) Inactive
+                  td  
                     a(
-                      href="javascript:;" 
-                      btn-change-status
-                      itemStatus=item.status 
-                      itemId=item.id
-                      class='badge badge-success'
-                    ) Hoạt động
-                  else 
+                        href=`${prefixAdmin}/products-category/read/${item._id}`
+                        class='btn btn-primary btn-sm p-2 m-2'
+                        style="font-size: 0.9rem"
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top" 
+                        data-bs-offset="0,10"
+                        data-bs-custom-class="custom-tooltip"
+                        title="Read"
+                    ) <i class="fa-brands fa-readme"></i>
                     a(
-                      href="javascript:;" 
-                      btn-change-status
-                      itemStatus=item.status 
-                      itemId=item.id
-                      class='badge badge-danger'
-                    ) Dừng hoạt động
-              td  
-                a(
-                  href=`${prefixAdmin}/products-category/edit/${item.id}`
-                  class='btn btn-warning btn-sm'
-                ) Sửa
-                button(
-                  class='btn btn-danger btn-sm'
-                  button-delete
-                  data-id=item.id
-                  ) Xoá
+                      href=`${prefixAdmin}/products-category/edit/${item._id}`
+                      class='btn btn-warning btn-sm p-2 m-2'
+                      style="font-size: 0.9rem"
+                      data-bs-toggle="tooltip" 
+                      data-bs-placement="top" 
+                      data-bs-offset="0,10"
+                      data-bs-custom-class="custom-tooltip"
+                      title="Edit"
+                    ) <i class="fa-solid fa-pen-to-square"></i>
+                    button(
+                      class='btn btn-danger btn-sm p-2 m-2'
+                      button-delete
+                      data-id=item._id
+                      style="font-size: 0.9rem"
+                      data-bs-toggle="tooltip" 
+                      data-bs-placement="top"
+                      data-bs-offset="0,10"
+                      data-bs-custom-class="custom-tooltip"
+                      title="Delete"
+                    ) <i class="fa-regular fa-trash"></i>
+                    
+
+
+        .row
+          .col-10
+            nav(aria-label='Page navigation example')
+              ul.pagination
+                li.page-item
+                  button.page-link(page-pagination=pagination.currentPage-1)
+                    span(aria-hidden='true') &laquo;
+                - for(let i = 1; i <= pagination.totalPage; i ++) 
+                  li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
+                    button.page-link(page-pagination=i) #{i}
+                li.page-item
+                  button.page-link(page-pagination=pagination.currentPage+1)
+                    span(aria-hidden='true') &raquo;
+          .col
+            form(
+              action=""
+              form-number-items-page
+            )
+              select.form-select(name='numberItemPage' select-number-items-page)
+                - for (let i = 4; i <= 10; i += 2)
+                  option(value=i selected=(pagination.limitItem == i ? true : false)) #{i} items per page
 
   form(
     action=""
     method="POST"
-    id='form-change-status'
-    data-path=`${prefixAdmin}/products-category/change-status`
+    id = 'form-change-status'
+    data-path = `${prefixAdmin}/products-category/change-status`
   ) 
 
   form(
     action=""
     method="POST"
-    id='form-delete'
-    data-path=`${prefixAdmin}/products-category/delete-category`
-  )
+    id = 'form-delete'
+    data-path = `${prefixAdmin}/products-category/delete-product`
+  ) 
+              
+    // LIST PRODUCTS END
+  script(src="/js/admin/filter.js")
+  script(src="/js/admin/pagination.js")
+  script(src="/js/admin/changePosition.js")
+  script(src="/js/admin/changeStatus.js")
+  script(src="/js/admin/deleteProduct.js")
 
-  script(src="/js/admin/changeStatus.js") 
-  script(src="/js/admin/deleteProduct.js") 
