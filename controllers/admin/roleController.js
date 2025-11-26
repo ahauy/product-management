@@ -1,5 +1,7 @@
 const Role = require("../../models/role.model");
 const systemAdmin = require("../../config/system");
+const searchHelpers = require("../../helpers/admin/search");
+const paginationHelpers = require("../../helpers/admin/pagination");
 
 // [GET] /admin/role/index
 module.exports.index = async (req, res) => {
@@ -7,18 +9,42 @@ module.exports.index = async (req, res) => {
     deleted: false,
   };
 
-  const role = await Role.find(find);
+  // Tìm kiếm sản phẩm
+  if (searchHelpers(req.query)) {
+    find.title = searchHelpers(req.query);
+  }
+
+  // Phân trang
+  const limit = req.query.limit;
+  const countPage = await Role.countDocuments(find);
+  const objPagination = paginationHelpers(
+    req.query,
+    {
+      limitItem: limit == undefined ? 4 : limit,
+      currentPage: 1,
+    },
+    countPage
+  );
+
+  const role = await Role.find(find)
+    .limit(objPagination.limitItem)
+    .skip(objPagination.skip)
 
   res.render("admin/pages/role/index.pug", {
-    titlePage: "Nhóm quyền",
+    title: "Role",
     role: role,
+    pagination: objPagination,
+    message: {
+      successEdit: req.flash('successEdit'),
+      successCreate: req.flash('successCreate')
+    }
   });
 };
 
 // [GET] admin/role/create
 module.exports.getCreate = (req, res) => {
   res.render("admin/pages/role/createRole.pug", {
-    titlePage: "Thêm mới nhóm quyền",
+    title: "Create Role",
   });
 };
 
@@ -27,6 +53,7 @@ module.exports.postCreate = async (req, res) => {
   const record = new Role(req.body);
   await record.save();
 
+  req.flash("successCreate", "Success create Role");
   res.redirect(`${systemAdmin.prefixAdmin}/role`);
 };
 
@@ -42,7 +69,7 @@ module.exports.getEdit = async (req, res) => {
   const record = await Role.findOne(find);
 
   res.render("admin/pages/role/editRole.pug", {
-    titlePage: "Sửa nhóm quyền",
+    title: "Edit Role",
     record: record,
   });
 };
@@ -50,14 +77,13 @@ module.exports.getEdit = async (req, res) => {
 // [PATCH] admin/role/edit/:id
 module.exports.patchEdit = async (req, res) => {
   const { id } = req.params;
-  const dataUpdate = req.body; // Dữ liệu đã được parse
-  console.log(dataUpdate);
   try {
     await Role.updateOne(
       { _id: id },
-      dataUpdate // Sử dụng dataUpdate
+      req.body
     );
-    res.redirect(`${systemAdmin.prefixAdmin}/role/edit/${id}`);
+    req.flash("successEdit", "Success Edit Role");
+    res.redirect(`${systemAdmin.prefixAdmin}/role/`);
   } catch (error) {
     console.error(error);
     // Xử lý lỗi nếu update thất bại
@@ -76,7 +102,7 @@ module.exports.deleteRole = async (req, res) => {
       deleteAt: new Date(),
     }
   );
-
+  req.flash("successDelete", "Delete role success !!");
   res.redirect(`${systemAdmin.prefixAdmin}/role`);
 };
 

@@ -7,7 +7,7 @@ const accountSchema = new mongoose.Schema(
     fullName: { type: String, required: true },
     email: { type: String, required: true, unique: true }, // Email không được trùng
     password: { type: String, required: true },
-    
+    phone: { type: String, required: true },
     // SỬA LỖI TOKEN TẠI ĐÂY:
     token: {
       type: String,
@@ -19,7 +19,8 @@ const accountSchema = new mongoose.Schema(
     // Cải thiện Role (Nếu có bảng Roles riêng thì dùng ObjectId)
     role_id: { 
       type: mongoose.Schema.Types.ObjectId, 
-      ref: "Role" // Tên model Role (nếu bạn tạo sau này)
+      ref: "Role", // Tên model Role (nếu bạn tạo sau này)
+      required: true,
     },
 
     status: {

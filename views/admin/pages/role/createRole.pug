@@ -1,36 +1,27 @@
-extends ../../layout/default.pug
-
+extend ../../layout/default.pug
 
 block main 
 
-  h1=titlePage
-
   form(
     action=`${prefixAdmin}/role/create`
-    method="POST" 
-  )
-    div.form-group
-      label(for="title") Tiêu đề
-      input(
-        type="text"
-        id="title"
-        name="title"
-        class="form-control"
-        required
-      ) 
-
-    div.form-group
-      label(for="desc") Mô tả
-      input(
-        type="text"
-        id="desc"
-        name="description"
-        class="form-control"
-        required
-      ) 
-
-    div.form-group
-      button(
-        type="submit"
-        class="btn btn-primary"
-      ) Thêm mới
+    method="POST"
+    id="form-edit-product"
+  ) 
+    .row 
+      .col-10 
+        h1.title #{title} 
+      .col-2.text-end
+        button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px")
+          <i class="fa-solid fa-check pr-2"></i>Add Role
+    .container-fluid.pt-2
+      .row
+        .col-12
+          // Card general information - start
+          .card.shadow-css.p-3.mb-5
+            .card-body
+              h3.card-title.pb-3 General Information
+              .row
+                label.form-label(for='') Title Role
+                input.mb-4.form-control(type='' id='' placeholder='Input title role ...' name="title")
+                label.form-label(for='') Description Role
+                textarea.form-control(id='description' rows='4' name="description")
