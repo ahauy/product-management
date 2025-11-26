@@ -1,18 +1,33 @@
 const mongoose = require("mongoose");
-const generateRandomString = require("../helpers/admin/generate.js")
+// Giả sử hàm này trả về string
+const generateRandomString = require("../helpers/admin/generate.js"); 
 
 const accountSchema = new mongoose.Schema(
   {
-    fullName: String,
-    email: String,
-    password: String,
+    fullName: { type: String, required: true },
+    email: { type: String, required: true, unique: true }, // Email không được trùng
+    password: { type: String, required: true },
+    
+    // SỬA LỖI TOKEN TẠI ĐÂY:
     token: {
       type: String,
-      default: generateRandomString(20), // generate String random length 20 character
+      default: () => generateRandomString.generateRandomString(20), // Dùng arrow function để tạo mới mỗi lần save
     },
+    
     avatar: String,
-    role_id: String,
-    status: String,
+    
+    // Cải thiện Role (Nếu có bảng Roles riêng thì dùng ObjectId)
+    role_id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "Role" // Tên model Role (nếu bạn tạo sau này)
+    },
+
+    status: {
+      type: String,
+      enum: ["active", "inactive"], // Chỉ cho phép 2 trạng thái này
+      default: "active",
+    },
+
     deleted: {
       type: Boolean,
       default: false,
@@ -25,5 +40,4 @@ const accountSchema = new mongoose.Schema(
 );
 
 const Accounts = mongoose.model("Accounts", accountSchema, "accounts");
-
 module.exports = Accounts;
