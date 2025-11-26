@@ -106,6 +106,17 @@ module.exports.deleteRole = async (req, res) => {
   res.redirect(`${systemAdmin.prefixAdmin}/role`);
 };
 
+// [GET] /admin/role/read/:id
+module.exports.read = async (req, res) => {
+  const {id} = req.params
+  const role = await Role.findOne({_id: id})
+
+  res.render("admin/pages/role/readRole.pug", {
+    title: "Read Role",
+    role: role,
+  })
+}
+
 // [GET] admin/role/role-permission
 module.exports.getPermission = async (req, res) => {
 
@@ -115,8 +126,8 @@ module.exports.getPermission = async (req, res) => {
 
   const roles = await Role.find(find);
 
-  res.render("admin/pages/role/permission.pug", {
-    titlePage: "Trang phân quyền",
+  res.render("admin/pages/role/permission2.pug", {
+    title: "Permission",
     roles: roles,
   });
 };

@@ -49,6 +49,12 @@ h3.card-title {
   font-size: 2rem;
 }
 
+h5.card-title {
+  font-weight: 600;
+  color: var(--blue);
+  font-size: 1.4rem;
+}
+
 a {
   text-decoration: none;
 }

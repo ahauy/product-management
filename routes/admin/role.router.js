@@ -18,4 +18,6 @@ routes.get('/permission', controller.getPermission)
 
 routes.patch('/permission', controller.patchPermission)
 
+routes.get('/read/:id', controller.read)
+
 module.exports = routes

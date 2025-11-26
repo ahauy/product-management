@@ -1,0 +1,80 @@
+extend ../../layout/default.pug
+
+block main 
+
+  //- chứa bản ghi
+  input(
+    class="d-none" 
+    value=roles 
+    input-roles
+  )
+
+  .row 
+    .col-10 
+      h1.title #{title} 
+    .col-2.text-end
+      button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px" button-submit)
+          <i class="fa-solid fa-check pr-2"></i>Update Permission
+    
+  .container-fluid.pt-2  
+    .card.shadow-css.p-3.mb-5
+      .card-body
+        .row.p-2.mt-3
+          table.table-css.mb-5(table-permission)
+            thead
+              tr
+                td(scope='col') Feature
+                each item in roles 
+                  td.text-center(scope='col') #{item.title}
+            tbody
+              tr(data-name='id' class='d-none')
+                td.text-center 
+                  each item in roles 
+                    input(type="text" value=item.id)
+              //- CATEGOERY - START
+              tr  
+                td(colspan='3')
+                  h5.card-title Category 
+              tr(data-name='products-categopy_view')
+                td.align-middle View 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='products-categopy_create')
+                td.align-middle Create
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='products-categopy_edit')
+                td.align-middle Edit
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='products-categopy_delete')
+                td.align-middle Delete 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              
+              
+              //- CATEGOERY - END
+
+  form(
+    action=`${prefixAdmin}/role/permission?_method=PATCH`
+    method="POST"
+    form-submit-permission
+    class="d-none"
+  ) 
+    div.form-group
+      input(
+        type="text"
+        name="permission"
+        id="permission"
+        class="form-control"
+      )
+
+  script(src="/js/admin/roles.js")

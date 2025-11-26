@@ -1,0 +1,29 @@
+extend ../../layout/default.pug
+
+block main 
+
+  form(
+    action=`${prefixAdmin}/role`
+    method="GET"
+    id="form-edit-product"
+  ) 
+    .row 
+      .col-10 
+        h1.title #{title}
+      .col-2.text-end
+        button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px")
+          <i class="fa-solid fa-rotate-right"></i> Back
+    .container-fluid.pt-2
+      .row
+        .col-12
+          // Card general information - start
+          .card.shadow-css.p-3.mb-5
+            .card-body
+              h3.card-title.pb-3 General Information
+              .row
+                label.form-label(for='') Name Role
+                input.mb-4.form-control(type='' id='' placeholder='Input name product ...' name="title" value=role.title)
+                label.form-label(for='') Description Role
+                div.description.border.p-3=role.description
+    
+    script(src="/js/admin/fontend/readProduct.js")
