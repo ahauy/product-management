@@ -66,51 +66,12 @@ inputStock.addEventListener("keydown", (e) => {
   }
 });
 
-// // bên trên là dữ liệu nhập tay
-// // đây là phần đổ từ cớ sở dữ liệu sang
-// if (window.location.pathname.includes("edit")) {
-//   let product = document.querySelector("[product]").value;
-//   product = JSON.parse(product);
-//   let arrSizeDB = product.variants.map((item) => item.size);
-//   let variantsDB = product.variants;
-//   arrSizeDB = []
-//   arrSizeDB.push(...variantsDB)
+// khi chọn các size sẽ hiện ra số lượng stock của size đó
+selectChooseSize.addEventListener("change", (e) => {
+  let size = e.target.value
+  let found = arrSizeStock.find(item => item.size === size)
 
-//   // đổ các size có trong variants vào các input checkbox
-//   inputSize.forEach((item) => {
-//     if (arrSizeDB.includes(item.value)) {
-//       item.checked = true;
-//     }
-//   });
-
-//   // đỗ các size trong db vào trong select size
-//   selectChooseSize.innerHTML = '<option value="">Size</option>';
-//   arrSizeDB.forEach((size) => {
-//     const option = document.createElement("option");
-//     option.value = size;
-//     option.textContent = size;
-//     selectChooseSize.appendChild(option);
-//   });
-
-//   // khi chọn các size sẽ hiện ra số lượng stock của size đó
-//   selectChooseSize.addEventListener("change", (e) => {
-//     let index = arrSizeDB.indexOf(e.target.value);
-//     inputStock.value = `${variantsDB[index].stock}`;
-//   });
-
-//   // lấy tổng số lượng sản phẩm đổ vào trong inputStock
-//   let sumStock = variantsDB.reduce((accumulator, currentValue) => {
-//     return accumulator + currentValue.stock;
-//   }, 0);
-//   stockSum.value = sumStock;
-
-//   // đổ hình ảnh vào editPage
-//   const showImages = document.querySelectorAll(".show-image");
-//   showImages.forEach((item, index) => {
-//     let imageLink = `url(${product.media[index].url})`;
-//     item.style.backgroundImage = imageLink;
-//     let div = item.querySelector("div");
-//     div.remove();
-//     item.closest("label").style.border = "none";
-//   });
-// }
+  if(found) {
+    inputStock.value = found.stock
+  }
+});

@@ -50,7 +50,7 @@ block main
                       label.form-check-label(for='gender-men')
                         | Male
                     .form-check.me-4
-                      input#gender-woman.form-check-input(type='radio' name='gender' value='female')
+                      input#gender-woman.form-check-input(type='radio' name='gender' value='female' checked)
                       label.form-check-label.text-success(for='gender-woman')
                         | Female
                     .form-check
@@ -153,7 +153,7 @@ block main
             .card-body
               h3.card-title.pb-3 Category
               label.form-label(for='') Product Category
-              select.form-select.mt-3(name='parentId')
+              select.form-select.mt-3(name='category')
                 option(value='') -- Là danh mục gốc (Root) --
                   - if (newRecords)
                     each item in newRecords

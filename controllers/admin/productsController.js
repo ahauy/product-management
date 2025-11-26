@@ -68,7 +68,8 @@ module.exports.index = async (req, res) => {
   const products = await Products.find(find)
     .sort(sort)
     .limit(objPagination.limitItem)
-    .skip(objPagination.skip);
+    .skip(objPagination.skip)
+    .populate('category', 'title')
 
   res.render("admin/pages/products/index2.pug", {
     title: "Trang danh sách sản phẩm",
@@ -181,22 +182,7 @@ module.exports.createPost = async (req, res) => {
   try {
     const find = { deleted: false };
     const files = req.files;
-
-    // // Upload song song
-    // const uploadPromises = files.map((file) =>
-    //   cloudinary.uploader.upload(file.path, { folder: "uploads" })
-    // );
-
-    // const results = await Promise.all(uploadPromises);
-
-    // // Xóa file local sau khi upload xong
-    // files.forEach((file) => fs.unlinkSync(file.path));
-
-    // // Lấy URL từ kết quả
-    // const urls = results.map((result) => result.secure_url);
-
     const urls = await uploadImage(files)
-
     // Đếm số lượng sản phẩm hiện tại
     const count = await Products.countDocuments(find);
 
@@ -244,7 +230,7 @@ module.exports.edit = async (req, res) => {
     };
 
     const records = await ProductsCategory.find(findCategory);
-    const newRecords = createTree(records);
+    const newRecords = treeToFlatArray(records);
 
     const product = await Products.findOne(find);
 

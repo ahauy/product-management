@@ -133,7 +133,11 @@ block main
                   td 
                     img(src=item.media[0].url alt=item.media[0].alt width='100px' class="img-thumbnail")
                   td=item.title
-                  td abc
+                  td 
+                    if item.category 
+                      | #{item.category.title}
+                    else 
+                      | No Category
                   td #{item.price}VND
                   td 
                     form(
