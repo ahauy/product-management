@@ -1,0 +1,84 @@
+extend ../../layout/default.pug
+
+block main 
+
+  form(
+    action=`${prefixAdmin}/products-category/create`
+    method="POST"
+    enctype="multipart/form-data"
+    id="form-edit-product"
+  ) 
+    .row 
+      .col-10 
+        h1.title #{title} 
+      .col-2.text-end
+        button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px")
+          <i class="fa-solid fa-check pr-2"></i>Add Account
+    .container-fluid.pt-2
+      .row
+
+        .col-4.pl-3
+          .row.p-4
+            .col-4
+              label.label-image(for='form-image-0' style="border-radius: 100%; overflow: hidden")
+                input#form-image-0.form-image(type='file' accept='image/*' hidden='' name="thumbnail")
+                .show-image
+                  div
+                    i.fa-solid.fa-plus(style='color: #ffffff;')
+          .row.pl-4 
+            p.fs-2 comerow@gmail.com
+
+        .col-8
+          // Card general information - start
+          .card.shadow-css.p-3.mb-5
+            .card-body
+              h3.card-title.pb-3 Personal Information
+              .row
+                .row 
+                  .col-6 
+                    label.form-label(for='') First Name
+                    input.mb-4.form-control(type='' id='' placeholder='First Name...' name="firstName")
+                  .col-6
+                    label.form-label(for='') Last Name
+                    input.mb-4.form-control(type='' id='' placeholder='Last Name...' name="lastName")
+                .row
+                  .col-12 
+                    label.form-label(for='') Email Address
+                    input.mb-4.form-control(type='' id='' placeholder='comerow@gmail.com' name="email")
+                .row
+                  .col-12 
+                    label.form-label(for='') Phone Number
+                    input.mb-4.form-control(type='' id='' placeholder='0375568408' name="phone")
+              .row.mt-4.pr-4.pl-2
+                .col-6 
+                  h6.lh-1 Status
+                  small.opacity-50 Pick Available Status
+
+                  div(class="form-check ml-2")
+                    input#statusActive.form-check-input(type='radio' name='status' value='active' checked)
+                    label.form-check-label.mr-5(for='statusActive') Active
+
+                    input#statusInactive.form-check-input(type='radio' name='status' value='inactive')
+                    label.form-check-label(for='statusInactive') Inactive
+                .col-6 
+                  h6.lh-1 Feature
+                  select.form-select.mt-3(name='roleId')
+                    option(value='') Employee
+
+          .card.shadow-css.p-3.mb-5 
+            .card-body 
+              h3.card-title.pb-3 Password 
+              .row
+                .row 
+                  .col-12
+                    label.form-label(for='') Password
+                    input.mb-4.form-control(type='' id='' placeholder='Password...')
+                .row 
+                  .col-12
+                    label.form-label(for='') Confirm Password
+                    input.mb-4.form-control(type='' id='' placeholder='Confirm Password' name="password")
+          // Card general information - end
+      
+
+  script(src="/js/admin/fontend/labelImage.js")
+  

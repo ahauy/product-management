@@ -4,7 +4,8 @@ const generateRandomString = require("../helpers/admin/generate.js");
 
 const accountSchema = new mongoose.Schema(
   {
-    fullName: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true }, // Email không được trùng
     password: { type: String, required: true },
     phone: { type: String, required: true },
@@ -17,7 +18,7 @@ const accountSchema = new mongoose.Schema(
     avatar: String,
     
     // Cải thiện Role (Nếu có bảng Roles riêng thì dùng ObjectId)
-    role_id: { 
+    roleId: { 
       type: mongoose.Schema.Types.ObjectId, 
       ref: "Role", // Tên model Role (nếu bạn tạo sau này)
       required: true,

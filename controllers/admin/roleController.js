@@ -124,11 +124,14 @@ module.exports.getPermission = async (req, res) => {
     deleted: false,
   };
 
+  const count = await Role.countDocuments(find)
+
   const roles = await Role.find(find);
 
   res.render("admin/pages/role/permission2.pug", {
     title: "Permission",
     roles: roles,
+    count: count,
   });
 };
 

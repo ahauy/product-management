@@ -2,6 +2,7 @@ extend ../../layout/default.pug
 
 block main 
 
+
   //- chứa bản ghi
   input(
     class="d-none" 
@@ -33,7 +34,7 @@ block main
                     input(type="text" value=item.id)
               //- CATEGOERY - START
               tr  
-                td(colspan='3')
+                td(colspan=count + 1)
                   h5.card-title Category 
               tr(data-name='products-categopy_view')
                 td.align-middle View 
