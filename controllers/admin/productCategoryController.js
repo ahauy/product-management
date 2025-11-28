@@ -222,12 +222,6 @@ module.exports.createPost = async (req, res) => {
   res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
 };
 
-// // [PATCH] admin/product-category/change-status/:status/:id
-// module.exports.changeStatus = async (req, res) => {
-//   const { status, id } = req.params;
-//   await ProductsCategory.updateOne({ _id: id }, { status: status });
-//   res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
-// };
 
 // [DELETE] admin/product-category/delete-category/:id
 module.exports.deleteCategory = async (req, res) => {

@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 const flash = require('express-flash')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
+const moment = require('moment')
 
 require('dotenv').config();
 
@@ -37,6 +38,9 @@ app.use(flash());
 
 // config thư viện TinyMCE
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
+// định dạng thời gian
+app.locals.moment = moment;
 
 // call route
 route(app) // client

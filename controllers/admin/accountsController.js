@@ -6,11 +6,9 @@ const searchHelpers = require("../../helpers/admin/search");
 const paginationHelpers = require("../../helpers/admin/pagination");
 const { prefixAdmin } = require("../../config/system");
 const Role = require("../../models/role.model");
-const createTree = require("../../helpers/admin/createTree");
 const cloudinary = require("../../config/cloudinary.config");
 // const fs = require("fs");
 const uploadImage = require("../../helpers/admin/uploadImage")
-const treeToFlatArray = require("../../helpers/admin/treeToPlatArray");
 
 // NOTE: http://localhost:3000/admin/products/change-status/active/123?page=1
 // thì lúc này req.query là những thứ sau dấu ?
@@ -34,10 +32,11 @@ module.exports.index = async (req, res) => {
   }
 
   // Tìm kiếm sản phẩm
-  if (searchHelpers(req.query)) {
-    find.title = searchHelpers(req.query);
-  }
-
+  // Tìm kiếm sản phẩm
+    const regex = searchHelpers(req.query); // Gọi hàm helper 1 lần thôi để lấy regex
+    if (regex) {
+      find.fullName = regex
+    }
   // Phân trang
   const limit = req.query.limit;
   const countPage = await Accounts.countDocuments(find);
@@ -77,10 +76,54 @@ module.exports.index = async (req, res) => {
   });
 };
 
-
 // [GET] /admin/role/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+
+  const find = {
+    deleted: false,
+  }
+
+  const role = await Role.find(find);
+
   res.render("admin/pages/accounts/createAccount.pug", {
-    title: "Accounts"
+    title: "Accounts",
+    role: role
   })
 }
+
+// [POST] /admin/role/create
+module.exports.createPost = async (req, res) => {
+  
+  // upload Image
+  if(req.file) {
+    req.body.avatar = await uploadImage(req.file)
+  }
+
+  req.body.fullName = `${req.body.lastName} ${req.body.firstName}`
+
+  const account = new Accounts(req.body)  
+  await account.save()
+
+  req.flash("successCreate", "Success Create Account !!")
+  res.redirect(`${systemAdmin.prefixAdmin}/accounts`)
+}
+
+// [PATCH] admin/acccounts/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+  const { status, id } = req.params;
+
+  await Accounts.updateOne({ _id: id }, { status: status });
+
+  req.flash("successStatus", "Update status success !!");
+  res.redirect(`${systemAdmin.prefixAdmin}/accounts`);
+};
+
+// [DELETE] admin/accounts/delete-accounts/:id
+module.exports.deleteAccount = async (req, res) => {
+  const { id } = req.params;
+
+  await Accounts.updateOne({ _id: id }, { deleted: true });
+
+  req.flash("successDelete", "Success Delete Account !")
+  res.redirect(`${systemAdmin.prefixAdmin}/accounts`);
+};

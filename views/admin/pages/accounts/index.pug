@@ -130,7 +130,7 @@ block main
                     img(src=item.avatar width='100px' class="img-thumbnail")
                   td #{item.lastName} #{item.firstName}
                   td=item.email
-                  td=item.createAt
+                  td #{moment(item.createdAt).format("DD/MM/YYYY HH:mm")}
                   td 
                     if(item.status == "active")
                       a(
@@ -218,7 +218,7 @@ block main
     action=""
     method="POST"
     id = 'form-delete'
-    data-path = `${prefixAdmin}/accounts/delete-accounts`
+    data-path = `${prefixAdmin}/accounts/delete-account`
   ) 
               
     // LIST PRODUCTS END
