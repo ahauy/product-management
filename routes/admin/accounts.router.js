@@ -14,4 +14,13 @@ routes.patch("/change-status/:status/:id", controller.changeStatus);
 
 routes.delete('/delete-account/:id', controller.deleteAccount)
 
+routes.patch("/change-multi", controller.changeMulti);
+
+routes.get('/edit/:id', controller.edit)
+
+
+routes.patch('/edit/:id', upload.single('avatar'), controller.editPatch)
+
+routes.get('/read/:id', controller.read)
+
 module.exports = routes

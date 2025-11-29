@@ -1,7 +1,9 @@
 const divDescription = document.querySelector(".description")
-const html = divDescription.textContent
-divDescription.textContent = ""
-divDescription.innerHTML = html
+if(divDescription) {
+  const html = divDescription.textContent
+  divDescription.textContent = ""
+  divDescription.innerHTML = html
+}
 
 const input = document.querySelectorAll("input")
 input.forEach(item => {

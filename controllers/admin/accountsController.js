@@ -9,6 +9,7 @@ const Role = require("../../models/role.model");
 const cloudinary = require("../../config/cloudinary.config");
 // const fs = require("fs");
 const uploadImage = require("../../helpers/admin/uploadImage")
+const md5 = require('md5')
 
 // NOTE: http://localhost:3000/admin/products/change-status/active/123?page=1
 // thì lúc này req.query là những thứ sau dấu ?
@@ -53,13 +54,7 @@ module.exports.index = async (req, res) => {
   const sort = {};
   const { sortKey, sortValue } = req.query;
   if (sortKey && sortValue) {
-    if (sortKey == "salesCount") {
-      sort[`rating.${sortKey}`] = sortValue;
-    } else {
-      sort[sortKey] = sortValue;
-    }
-  } else {
-    sort.position = "desc";
+    sort[sortKey] = sortValue;
   }
 
   // các sản phẩm trả về
@@ -67,6 +62,7 @@ module.exports.index = async (req, res) => {
     .sort(sort)
     .limit(objPagination.limitItem)
     .skip(objPagination.skip)
+    .populate('roleId', 'title')
 
   res.render("admin/pages/accounts/index.pug", {
     title: "Accounts",
@@ -76,7 +72,7 @@ module.exports.index = async (req, res) => {
   });
 };
 
-// [GET] /admin/role/create
+// [GET] /admin/accounts/create
 module.exports.create = async (req, res) => {
 
   const find = {
@@ -91,21 +87,34 @@ module.exports.create = async (req, res) => {
   })
 }
 
-// [POST] /admin/role/create
+// [POST] /admin/acccounts/create
 module.exports.createPost = async (req, res) => {
-  
-  // upload Image
-  if(req.file) {
-    req.body.avatar = await uploadImage(req.file)
+
+  const find = {
+    deleted: false,
+    email: req.body.email
   }
+  const isCheckEmail = await Accounts.findOne(find)
 
-  req.body.fullName = `${req.body.lastName} ${req.body.firstName}`
+  if(!isCheckEmail) {
+    // upload Image
+    if(req.file) {
+      req.body.avatar = await uploadImage(req.file)
+    }
 
-  const account = new Accounts(req.body)  
-  await account.save()
+    req.body.fullName = `${req.body.lastName} ${req.body.firstName}`
 
-  req.flash("successCreate", "Success Create Account !!")
-  res.redirect(`${systemAdmin.prefixAdmin}/accounts`)
+    req.body.password = md5(req.body.password)
+
+    const account = new Accounts(req.body)  
+    await account.save()
+
+    req.flash("successCreate", "Success Create Account !!")
+    res.redirect(`${systemAdmin.prefixAdmin}/accounts`)
+  } {
+    req.flash("errorCreate", "Email already exists !!")
+    res.redirect(`${systemAdmin.prefixAdmin}/accounts/create`)
+  }
 }
 
 // [PATCH] admin/acccounts/change-status/:status/:id
@@ -127,3 +136,112 @@ module.exports.deleteAccount = async (req, res) => {
   req.flash("successDelete", "Success Delete Account !")
   res.redirect(`${systemAdmin.prefixAdmin}/accounts`);
 };
+
+// [PACTCH] admin/products/change-multi
+module.exports.changeMulti = async (req, res) => {
+  // console.log(req.body);
+
+  let { type, ids } = req.body;
+
+  let arrIds = ids.split(",");
+
+  if (ids) {
+    if (type == "active") {
+      await Accounts.updateMany(
+        { _id: { $in: arrIds } },
+        { status: "active" }
+      );
+      req.flash("successStatus", "Update status success !!");
+    } else if (type == "inactive") {
+      await Accounts.updateMany(
+        { _id: { $in: arrIds } },
+        { status: "inactive" }
+      );
+      req.flash("successStatus", "Update status success !!");
+    } else if (type == "delete") {
+      await Accounts.updateMany(
+        { _id: { $in: arrIds } },
+        { deleted: true, deleteAt: new Date() }
+      );
+      req.flash("successDelete", "Delete status success !!");
+    }
+  }
+  const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
+  res.redirect(backURL);
+};
+
+// [GET] admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
+  const find = {
+    deleted: false
+  }
+
+  const findRole = {
+    deleted: false
+  }
+
+  const account = await Accounts.findOne(find)
+  const roles = await Role.find(findRole)
+
+  // account.password = md5(account.password)
+
+  res.render("admin/pages/accounts/editAccounts.pug", {
+    title: "Edit Account",
+    account: account,
+    roles: roles
+  })
+}
+
+// [PATCH] admin/accounts/edit/:id
+module.exports.editPatch = async (req, res) => {
+  const {id} = req.params
+
+  // tìm tất cả các bản ghi có email là req.body.email và ngoại trừ bản ghi có id là id
+  const find = {
+    _id: { $ne: id },
+    email: req.body.email,
+    deleted: false
+  }
+
+  const isCheckEmail = await Accounts.findOne(find)
+
+  if(!isCheckEmail) {
+    if(req.file) {
+      req.body.avatar = await uploadImage(req.file)
+    }
+  
+    req.body.fullName = `${req.body.lastName} ${req.body.firstName}`
+  
+    req.body.password = md5(req.body.password)
+  
+    // update accounts by id
+    await Accounts.updateOne({_id: id}, req.body)
+    
+    req.flash("successEdit", "Success Edit Accout")
+    res.redirect(`${systemAdmin.prefixAdmin}/accounts`)
+  } else {
+    req.flash('errorEdit', "Email already exists !!")
+    res.redirect(`${systemAdmin.prefixAdmin}/acccounts/edit/${id}`)
+  }
+
+}
+
+// [GET] admin/accounts/read/:id
+module.exports.read = async (req, res) => {
+  const find = {
+    deleted: false
+  }
+
+  const findRole = {
+    deleted: false
+  }
+
+  const account = await Accounts.findOne(find)
+  const roles = await Role.find(findRole)
+
+  res.render("admin/pages/accounts/readAccount.pug", {
+    title: "Edit Account",
+    account: account,
+    roles: roles
+  })
+}

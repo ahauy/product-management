@@ -64,10 +64,10 @@ block main
               label.form-label(for='filter-sort') Filter sort: 
               select.form-select(name='' id='filter-sort')
                 option(value="") Sort 
-                option(value="firstName-asc") Sắp xếp theo tên (A-Z) 
-                option(value="position-desc") Sắp xếp theo tên (Z-A)
-                option(value="createAt-ase") Thời gian tạo mới nhất
-                option(value="createAt-desc") Thời gian tạo lâu nhất
+                option(value="fullName-desc") Sắp xếp theo tên (A-Z) 
+                option(value="fullName-asc") Sắp xếp theo tên (Z-A)
+                option(value="createdAt-desc") Thời gian tạo mới nhất
+                option(value="createdAt-asc") Thời gian tạo lâu nhất
           .row.mt-2
             .col-3
               button.btn.btn-primary(type="submit" btn-filter)
@@ -96,7 +96,6 @@ block main
                   option(value="active") Active 
                   option(value="inactive") Inactive 
                   option(value="delete") Delete
-                  option(value="position") Sort position 
                 input(
                   type="text"
                   name="ids"
@@ -116,6 +115,7 @@ block main
                 td(scope='col') #
                 td(scope='col') Avatar
                 td(scope='col') Full Name
+                td(scope='col') Role
                 td(scope="col") Email
                 td(scope='col') Create At
                 td(scope='col') Status
@@ -128,7 +128,8 @@ block main
                   th(scope='row' style="padding: 0px 20px") #{index + 1}
                   td 
                     img(src=item.avatar width='100px' class="img-thumbnail")
-                  td #{item.lastName} #{item.firstName}
+                  td #{item.fullName}
+                  td #{item.roleId.title}
                   td=item.email
                   td #{moment(item.createdAt).format("DD/MM/YYYY HH:mm")}
                   td 
