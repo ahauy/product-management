@@ -3,7 +3,13 @@ const systemAdmin = require("../../config/system");
 const md5 = require('md5')
 
 // [GET] admin/auth/login
-module.exports.login = (req, res) => {
+module.exports.login = async (req, res) => {
+  if(req.cookies.token) {
+    const user = await Accounts.findOne({token: req.cookies.token})
+    if(user) {
+      res.redirect(`${systemAdmin.prefixAdmin}/dashboard`)
+    }
+  }
   res.render('admin/pages/auth/login.pug')
 }
 
