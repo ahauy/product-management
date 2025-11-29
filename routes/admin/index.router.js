@@ -4,6 +4,7 @@ const productsRouter = require('./products.router')
 const productsCategoryRouter = require('./productCategory.router')
 const roleRouter = require('./role.router.js')
 const accountsRouter = require('./accounts.router.js')
+const authRouter = require('./auth.router.js')
 const uploadRouter = require('./upload.router.js')
 
 module.exports = (app) => {
@@ -18,6 +19,8 @@ module.exports = (app) => {
   app.use(`${PATH_ADMIN}/role`, roleRouter)
 
   app.use(`${PATH_ADMIN}/accounts`, accountsRouter)
+
+  app.use(`${PATH_ADMIN}/auth`, authRouter)
 
   app.use(`${PATH_ADMIN}/upload`, uploadRouter)
 }

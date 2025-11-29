@@ -223,7 +223,6 @@ module.exports.editPatch = async (req, res) => {
     req.flash('errorEdit', "Email already exists !!")
     res.redirect(`${systemAdmin.prefixAdmin}/acccounts/edit/${id}`)
   }
-
 }
 
 // [GET] admin/accounts/read/:id
@@ -244,4 +243,4 @@ module.exports.read = async (req, res) => {
     account: account,
     roles: roles
   })
-}
+} 

@@ -1,0 +1,64 @@
+extends ../../layout/auth.pug
+
+block main 
+
+  - if (messages.error)
+    div(
+      class="notifications" 
+      data-status="error" 
+      data-mess= messages.error[0]
+    )
+
+  #container.container
+    .form-container.sign-up-container
+      form(action='#')
+        h1 Create Account
+        .social-container
+          a.social(href='#')
+            i.fab.fa-facebook-f
+          a.social(href='#')
+            i.fab.fa-google-plus-g
+          a.social(href='#')
+            i.fab.fa-linkedin-in
+        span or use your email for registration
+        .infield
+          input(type='text' placeholder='Name')
+          label
+        .infield
+          input(type='email' placeholder='Email' name='email')
+          label
+        .infield
+          input(type='password' placeholder='Password')
+          label
+        button Sign Up
+    .form-container.sign-in-container
+      form(action=`${prefixAdmin}/auth/login` method="POST")
+        h1 Sign in
+        .social-container
+          a.social(href='#')
+            i.fab.fa-facebook-f
+          a.social(href='#')
+            i.fab.fa-google-plus-g
+          a.social(href='#')
+            i.fab.fa-linkedin-in
+        span or use your account
+        .infield
+          input(type='email' placeholder='Email' name='email' required)
+          label
+        .infield
+          input(type='password' placeholder='Password' name='password' required)
+          label
+        a.forgot(href='#') Forgot your password?
+        button Sign In
+    #overlayCon.overlay-container
+      .overlay
+        .overlay-panel.overlay-left
+          h1 Welcome Back!
+          p To keep connected with us please login with your personal info
+          button Sign In
+        .overlay-panel.overlay-right
+          h1 Hello, Friend!
+          p Enter your personal details and start journey with us
+          button Sign In
+      button#overlayBtn
+
