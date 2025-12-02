@@ -35,34 +35,213 @@ block main
               //- CATEGOERY - START
               tr  
                 td(colspan=count + 1)
-                  h5.card-title Category 
-              tr(data-name='products-categopy_view')
-                td.align-middle View 
+                  h5.card-title Quản lý sản phẩm
+              tr(data-name='product_create')
+                td.align-middle Thêm 
                 each item in roles 
                   td.text-center.align-middle
                     .form-check.form-switch.d-inline-block 
                       input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='product_view')
+                td.align-middle Xem
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='product_edit')
+                td.align-middle Sửa
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='product_delete')
+                td.align-middle Xoá 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              //- CATEGOERY - END
+
+
+              //- PRODUCT - START
+              tr  
+                td(colspan=count + 1)
+                  h5.card-title Quản lý danh mục
               tr(data-name='products-categopy_create')
-                td.align-middle Create
+                td.align-middle Thêm 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='products-categopy_view')
+                td.align-middle Xem
                 each item in roles 
                   td.text-center.align-middle
                     .form-check.form-switch.d-inline-block 
                       input.form-check-input(type='checkbox' role='switch')
               tr(data-name='products-categopy_edit')
-                td.align-middle Edit
+                td.align-middle Sửa
                 each item in roles 
                   td.text-center.align-middle
                     .form-check.form-switch.d-inline-block 
                       input.form-check-input(type='checkbox' role='switch')
               tr(data-name='products-categopy_delete')
-                td.align-middle Delete 
+                td.align-middle Xoá 
                 each item in roles 
                   td.text-center.align-middle
                     .form-check.form-switch.d-inline-block 
                       input.form-check-input(type='checkbox' role='switch')
-              
-              
-              //- CATEGOERY - END
+              //- PRODUCT - END
+
+              //- Quản lý đơn hàng - START
+              tr  
+                td(colspan=count + 1)
+                  h5.card-title Quản lý đơn hàng
+              tr(data-name='order_create')
+                td.align-middle Thêm 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='order_view')
+                td.align-middle Xem
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='order_edit')
+                td.align-middle Sửa
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='order_delete')
+                td.align-middle Xoá 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              //- Quản lý đơn hàng - END
+
+              //- Quản lý nhân viên - START
+              tr  
+                td(colspan=count + 1)
+                  h5.card-title Quản lý nhân viên
+              tr(data-name='account_create')
+                td.align-middle Thêm 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='account_view')
+                td.align-middle Xem
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='account_edit')
+                td.align-middle Sửa
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='account_delete')
+                td.align-middle Xoá 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              //- Quản lý nhân viên - END
+
+              //- Quản lý phân quyền - START
+              tr  
+                td(colspan=count + 1)
+                  h5.card-title Quản lý phân quyền
+              tr(data-name='permission_create')
+                td.align-middle Thêm 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='permission_view')
+                td.align-middle Xem
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='permission_edit')
+                td.align-middle Sửa
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='permission_delete')
+                td.align-middle Xoá 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              //- Quản lý phân quyền - END 
+
+              //- Quản lý chương trình khuyến mãi - START
+              tr  
+                td(colspan=count + 1)
+                  h5.card-title Quản lý chương trình khuyến mãi
+              tr(data-name='promotions_create')
+                td.align-middle Thêm 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='promotions_view')
+                td.align-middle Xem
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='promotions_edit')
+                td.align-middle Sửa
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='promotions_delete')
+                td.align-middle Xoá 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              //- Quản lý chương trình khuyến mãi - END
+
+              //- Báo cáo và danh thu - START
+              tr  
+                td(colspan=count + 1)
+                  h5.card-title Báo cáo & Doanh thu
+              tr(data-name='dashboard_create')
+                td.align-middle Thêm 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='dashboard_view')
+                td.align-middle Xem
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='dashboard_edit')
+                td.align-middle Sửa
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='dashboard_delete')
+                td.align-middle Xoá 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              //- Báo cáo và doanh thu - END
 
   form(
     action=`${prefixAdmin}/role/permission?_method=PATCH`

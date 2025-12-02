@@ -44,7 +44,7 @@ module.exports.index = async (req, res) => {
   const objPagination = paginationHelpers(
     req.query,
     {
-      limitItem: limit == undefined ? 4 : limit,
+      limitItem: limit == undefined ? 6 : limit,
       currentPage: 1,
     },
     countPage
