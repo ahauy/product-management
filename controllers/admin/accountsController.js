@@ -69,6 +69,10 @@ module.exports.index = async (req, res) => {
     accounts: accounts,
     filterStatus: filterStatus,
     pagination: objPagination,
+    message: {
+      successEdit: req.flash('successEdit'),
+      successCreate: req.flash('successCreate')
+    }
   });
 };
 

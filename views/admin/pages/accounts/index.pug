@@ -2,45 +2,35 @@ extends ../../layout/default.pug
 
 block main 
 
-  //- - if (messages.successPosition)
-  //-   div(
-  //-     class="notifications" 
-  //-     data-status="success" 
-  //-     data-mess= messages.successPosition[0]
-  //-   )
 
-  //- - if (messages.successStatus)
-  //-   div(
-  //-     class="notifications" 
-  //-     data-status="success" 
-  //-     data-mess= messages.successStatus[0]
-  //-   )
+  - if (messages.successStatus)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess= messages.successStatus[0]
+    )
 
-  //- - if (messages.successDelete)
-  //-   div(
-  //-     class="notifications" 
-  //-     data-status="warning" 
-  //-     data-mess=messages.successDelete[0]
-  //-   )
+  - if (messages.successDelete)
+    div(
+      class="notifications" 
+      data-status="warning" 
+      data-mess=messages.successDelete[0]
+    )
 
-  //- - if (message.successEdit.length > 0)
-  //-   div(
-  //-     class="notifications" 
-  //-     data-status="success" 
-  //-     data-mess=message.successEdit[0]
-  //-   )
+  - if (message.successEdit.length > 0)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=message.successEdit[0]
+    )
 
-  //- - if (message.successCreate)
-  //-   div(
-  //-     class="notifications" 
-  //-     data-status="success" 
-  //-     data-mess=message.successCreate[0]
-  //-   )
+  - if (message.successCreate)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=message.successCreate[0]
+    )
     
-
-  //- - if (messages.successPosition)
-  //-   span= messages.successPosition
-
   h1.title #{title}
 
 
