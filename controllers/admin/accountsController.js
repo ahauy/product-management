@@ -238,7 +238,8 @@ module.exports.editPatch = async (req, res) => {
 // [GET] admin/accounts/read/:id
 module.exports.read = async (req, res) => {
   const find = {
-    deleted: false
+    deleted: false,
+    _id: req.params.id
   }
 
   const findRole = {
@@ -248,10 +249,8 @@ module.exports.read = async (req, res) => {
   const account = await Accounts.findOne(find)
   const roles = await Role.find(findRole)
 
-  // account.password = md5(account.password)
-
   res.render("admin/pages/accounts/readAccount.pug", {
-    title: "Edit Account",
+    title: "Account",
     account: account,
     roles: roles
   })

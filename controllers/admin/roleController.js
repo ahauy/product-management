@@ -26,13 +26,13 @@ module.exports.index = async (req, res) => {
     countPage
   );
 
-  const role = await Role.find(find)
+  const records = await Role.find(find)
     .limit(objPagination.limitItem)
     .skip(objPagination.skip)
 
   res.render("admin/pages/role/index.pug", {
     title: "Role",
-    role: role,
+    records: records,
     pagination: objPagination,
     message: {
       successEdit: req.flash('successEdit'),
@@ -109,11 +109,11 @@ module.exports.deleteRole = async (req, res) => {
 // [GET] /admin/role/read/:id
 module.exports.read = async (req, res) => {
   const {id} = req.params
-  const role = await Role.findOne({_id: id})
+  const record = await Role.findOne({_id: id})
 
   res.render("admin/pages/role/readRole.pug", {
     title: "Read Role",
-    role: role,
+    record: record,
   })
 }
 
@@ -138,8 +138,8 @@ module.exports.getPermission = async (req, res) => {
 // [PATCH] admin/role/permission
 module.exports.patchPermission = async (req, res) => {
   const permission = JSON.parse(req.body.permission)
-  for(role of permission) {
-    await Role.updateOne({_id: role.id}, {permissions: role.permission})
+  for(item of permission) {
+    await Role.updateOne({_id: item.id}, {permissions: item.permission})
   }
   res.redirect(`${systemAdmin.prefixAdmin}/role/permission`)
 }

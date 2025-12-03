@@ -13,7 +13,7 @@ module.exports.login = async (req, res) => {
   res.render('admin/pages/auth/login.pug')
 }
 
-// [GET] admin/auth/login
+// [POST] admin/auth/login
 module.exports.loginPost = async (req, res) => {
   const {email, password} = req.body
 

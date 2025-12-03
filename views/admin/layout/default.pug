@@ -26,7 +26,8 @@ head
 
 body 
 
-  if(role.permissions.length > 0) 
+
+  if (role.permissions)
     .container1
     //- include ../partials/header.pug
     include ../partials/sider.pug
@@ -57,4 +58,4 @@ body
     //- nhúng notifications
     script(src="/js/admin/notifications.js")
   else 
-    h3.title Bạn không có quyền để truy cập website
+    h3.notFound Bạn không thể truy cập vào website

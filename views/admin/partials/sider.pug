@@ -5,52 +5,60 @@
         span.icon
           ion-icon(name='bag-handle-outline')
         span.title  Tenclothes 
-    if (role.permissions.include(""))
-    li
-      a(href=`${prefixAdmin}/dashboard`)
-        span.icon
-          ion-icon(name='home-outline')
-        span.title  Dashboard 
-    li
-      a(href=`${prefixAdmin}/products`)
-        span.icon
-          ion-icon(name='storefront-outline')
-        span.title Products
-    li
-      a(href=`${prefixAdmin}/products-category`)
-        span.icon
-          ion-icon(name='grid-outline')
-        span.title Product Cat
-    li
-      a(href=`${prefixAdmin}/promotions`)
-        span.icon
-          ion-icon(name='volume-high-outline')
-        span.title Promotions
-    li
-      a(href=`${prefixAdmin}/blog`)
-        span.icon
-          ion-icon(name='book-outline')
-        span.title Blog
-    li
-      a(href=`${prefixAdmin}/bloc-category`)
-        span.icon
-          ion-icon(name='layers-outline')
-        span.title Blog Cat
-    li
-      a(href=`${prefixAdmin}/role`)
-        span.icon
-          ion-icon(name='help-outline')
-        span.title Role
-    li
-      a(href=`${prefixAdmin}/role/permission`)
-        span.icon
-          ion-icon(name='settings-outline')
-        span.title Permission
-    li
-      a(href=`${prefixAdmin}/accounts`)
-        span.icon
-          ion-icon(name='person-outline')
-        span.title Accounts
+    if (role.permissions.includes("dashboard_view"))
+      li
+        a(href=`${prefixAdmin}/dashboard`)
+          span.icon
+            ion-icon(name='home-outline')
+          span.title  Dashboard 
+    if (role.permissions.includes("product_view"))
+      li
+        a(href=`${prefixAdmin}/products`)
+          span.icon
+            ion-icon(name='storefront-outline')
+          span.title Products
+    if (role.permissions.includes("products-category_view"))
+      li
+        a(href=`${prefixAdmin}/products-category`)
+          span.icon
+            ion-icon(name='grid-outline')
+          span.title Product Cat
+    if (role.permissions.includes("promotions_view"))
+      li
+        a(href=`${prefixAdmin}/promotions`)
+          span.icon
+            ion-icon(name='volume-high-outline')
+          span.title Promotions
+    if (role.permissions.includes("blog_view"))
+      li
+        a(href=`${prefixAdmin}/blog`)
+          span.icon
+            ion-icon(name='book-outline')
+          span.title Blog
+    if (role.permissions.includes("blog-category_view"))
+      li
+        a(href=`${prefixAdmin}/bloc-category`)
+          span.icon
+            ion-icon(name='layers-outline')
+          span.title Blog Cat
+    if (role.permissions.includes("permission_view"))
+      li
+        a(href=`${prefixAdmin}/role`)
+          span.icon
+            ion-icon(name='help-outline')
+          span.title Role
+    if (role.permissions.includes("permission_view"))
+      li
+        a(href=`${prefixAdmin}/role/permission`)
+          span.icon
+            ion-icon(name='settings-outline')
+          span.title Permission
+    if (role.permissions.includes("account_view"))
+      li
+        a(href=`${prefixAdmin}/accounts`)
+          span.icon
+            ion-icon(name='person-outline')
+          span.title Accounts
     li
       a(href=`${prefixAdmin}/auth/logout`)
         span.icon
