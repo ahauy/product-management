@@ -3,8 +3,9 @@
     li
       a(href='#')
         span.icon
-          ion-icon(name='logo-apple')
+          ion-icon(name='bag-handle-outline')
         span.title  Tenclothes 
+    if (role.permissions.include(""))
     li
       a(href=`${prefixAdmin}/dashboard`)
         span.icon
@@ -19,7 +20,22 @@
       a(href=`${prefixAdmin}/products-category`)
         span.icon
           ion-icon(name='grid-outline')
-        span.title Categories
+        span.title Product Cat
+    li
+      a(href=`${prefixAdmin}/promotions`)
+        span.icon
+          ion-icon(name='volume-high-outline')
+        span.title Promotions
+    li
+      a(href=`${prefixAdmin}/blog`)
+        span.icon
+          ion-icon(name='book-outline')
+        span.title Blog
+    li
+      a(href=`${prefixAdmin}/bloc-category`)
+        span.icon
+          ion-icon(name='layers-outline')
+        span.title Blog Cat
     li
       a(href=`${prefixAdmin}/role`)
         span.icon
@@ -35,11 +51,6 @@
         span.icon
           ion-icon(name='person-outline')
         span.title Accounts
-    li
-      a(href='#')
-        span.icon
-          ion-icon(name='lock-closed-outline')
-        span.title Password
     li
       a(href=`${prefixAdmin}/auth/logout`)
         span.icon

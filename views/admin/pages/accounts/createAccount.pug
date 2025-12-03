@@ -26,7 +26,7 @@ block main
                   div
                     i.fa-solid.fa-plus(style='color: #ffffff;')
           .row.pl-4 
-            p.fs-2 comerow@gmail.com
+            p#emailDisplay.fs-2 comerow@gmail.com
 
         .col-8
           // Card general information - start
@@ -43,8 +43,8 @@ block main
                     input.mb-4.form-control(type='text' id='' placeholder='Last Name...' name="lastName" required)
                 .row
                   .col-12 
-                    label.form-label(for='') Email Address
-                    input.mb-4.form-control(type='email' id='' placeholder='comerow@gmail.com' name="email" required)
+                    label.form-label(for='emailInput') Email Address
+                    input#emailInput.mb-4.form-control(type='email' placeholder='comerow@gmail.com' name="email" required)
                 .row
                   .col-12 
                     label.form-label(for='') Phone Number
@@ -83,4 +83,19 @@ block main
       
 
   script(src="/js/admin/fontend/labelImage.js")
-  
+  script.
+    // Lấy phần tử ô nhập liệu và phần tử hiển thị
+    const emailInput = document.querySelector("#emailInput");
+    const emailDisplay = document.querySelector("#emailDisplay");
+
+    // Kiểm tra xem 2 phần tử có tồn tại không để tránh lỗi
+    if (emailInput && emailDisplay) {
+      // Lắng nghe sự kiện 'input' (khi người dùng gõ)
+      emailInput.addEventListener("input", function(e) {
+        const val = e.target.value;
+        
+        // Cập nhật nội dung thẻ hiển thị. 
+        // Nếu ô input trống thì hiển thị text mặc định
+        emailDisplay.textContent = val ? val : "comerow@gmail.com"; 
+      });
+    }

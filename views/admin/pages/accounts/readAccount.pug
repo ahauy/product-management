@@ -66,18 +66,18 @@ block main
                     each item in roles 
                       option(value=item.id selected=(String(account.roleId) === String(item.id))) #{item.title}
 
-          .card.shadow-css.p-3.mb-5 
-            .card-body 
-              h3.card-title.pb-3 Password 
-              .row
-                .row 
-                  .col-12
-                    label.form-label(for='') Password
-                    input.mb-4.form-control(type='' id='' placeholder='Password...' value=account.password)
-                .row 
-                  .col-12
-                    label.form-label(for='') Confirm Password
-                    input.mb-4.form-control(type='' id='' placeholder='Confirm Password' name="password" value=account.password)
+          //- .card.shadow-css.p-3.mb-5 
+          //-   .card-body 
+          //-     h3.card-title.pb-3 Password 
+          //-     .row
+          //-       .row 
+          //-         .col-12
+          //-           label.form-label(for='') Password
+          //-           input.mb-4.form-control(type='' id='' placeholder='Password...' value=account.password)
+          //-       .row 
+          //-         .col-12
+          //-           label.form-label(for='') Confirm Password
+          //-           input.mb-4.form-control(type='' id='' placeholder='Confirm Password' name="password" value=account.password)
           // Card general information - end
       
 

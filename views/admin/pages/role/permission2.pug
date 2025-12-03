@@ -23,7 +23,7 @@ block main
         .row.p-2.mt-3
           table.table-css.mb-5(table-permission)
             thead
-              tr
+              tr.sticky-top
                 td(scope='col') Feature
                 each item in roles 
                   td.text-center(scope='col') #{item.title}
@@ -32,7 +32,7 @@ block main
                 td.text-center 
                   each item in roles 
                     input(type="text" value=item.id)
-              //- CATEGOERY - START
+              //- PRODUCT - START
               tr  
                 td(colspan=count + 1)
                   h5.card-title Quản lý sản phẩm
@@ -60,13 +60,12 @@ block main
                   td.text-center.align-middle
                     .form-check.form-switch.d-inline-block 
                       input.form-check-input(type='checkbox' role='switch')
-              //- CATEGOERY - END
+              //- PRODUCT - END
 
-
-              //- PRODUCT - START
+              //- CATEGORY PRODUCT - START
               tr  
                 td(colspan=count + 1)
-                  h5.card-title Quản lý danh mục
+                  h5.card-title Quản lý danh mục sản phẩm
               tr(data-name='products-categopy_create')
                 td.align-middle Thêm 
                 each item in roles 
@@ -91,7 +90,68 @@ block main
                   td.text-center.align-middle
                     .form-check.form-switch.d-inline-block 
                       input.form-check-input(type='checkbox' role='switch')
-              //- PRODUCT - END
+              //- CATEGORY PRODUCT - END
+
+
+              //- BLOG - START
+              tr  
+                td(colspan=count + 1)
+                  h5.card-title Quản lý bài viết
+              tr(data-name='blog_create')
+                td.align-middle Thêm 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='blog_view')
+                td.align-middle Xem
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='blog_edit')
+                td.align-middle Sửa
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='blog_delete')
+                td.align-middle Xoá 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              //- BLOG - END
+
+              //- CATEGORY BLOG - START
+              tr  
+                td(colspan=count + 1)
+                  h5.card-title Quản lý danh mục bài viết
+              tr(data-name='blog-category_create')
+                td.align-middle Thêm 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='blog-category_view')
+                td.align-middle Xem
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='blog-category_edit')
+                td.align-middle Sửa
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              tr(data-name='blog-category_delete')
+                td.align-middle Xoá 
+                each item in roles 
+                  td.text-center.align-middle
+                    .form-check.form-switch.d-inline-block 
+                      input.form-check-input(type='checkbox' role='switch')
+              //- CATEGORY BLOG - END
 
               //- Quản lý đơn hàng - START
               tr  

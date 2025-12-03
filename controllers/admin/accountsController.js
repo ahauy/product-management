@@ -93,30 +93,36 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/acccounts/create
 module.exports.createPost = async (req, res) => {
-
-  const find = {
-    deleted: false,
-    email: req.body.email
-  }
-  const isCheckEmail = await Accounts.findOne(find)
-
-  if(!isCheckEmail) {
-    // upload Image
-    if(req.file) {
-      req.body.avatar = await uploadImage(req.file)
+  try {
+    const find = {
+      deleted: false,
+      email: req.body.email
     }
+    const isCheckEmail = await Accounts.findOne(find)
 
-    req.body.fullName = `${req.body.lastName} ${req.body.firstName}`
+    if (!isCheckEmail) {
+      
+      // Upload Image
+      if (req.file) {
+        req.body.avatar = await uploadImage(req.file)
+      }
 
-    req.body.password = md5(req.body.password)
+      req.body.fullName = `${req.body.lastName} ${req.body.firstName}`
+      
+      req.body.password = md5(req.body.password)
 
-    const account = new Accounts(req.body)  
-    await account.save()
+      const account = new Accounts(req.body)
+      await account.save()
 
-    req.flash("successCreate", "Success Create Account !!")
-    res.redirect(`${systemAdmin.prefixAdmin}/accounts`)
-  } {
-    req.flash("errorCreate", "Email already exists !!")
+      req.flash("successCreate", "Tạo tài khoản thành công !!")
+      res.redirect(`${systemAdmin.prefixAdmin}/accounts`)
+    } else { 
+      req.flash("errorCreate", "Email đã tồn tại !!")
+      res.redirect(`${systemAdmin.prefixAdmin}/accounts/create`)
+    }
+  } catch (error) {
+    console.log(error);
+    req.flash("errorCreate", "Có lỗi xảy ra trong quá trình tạo!")
     res.redirect(`${systemAdmin.prefixAdmin}/accounts/create`)
   }
 }
@@ -241,6 +247,8 @@ module.exports.read = async (req, res) => {
 
   const account = await Accounts.findOne(find)
   const roles = await Role.find(findRole)
+
+  // account.password = md5(account.password)
 
   res.render("admin/pages/accounts/readAccount.pug", {
     title: "Edit Account",
