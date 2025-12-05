@@ -44,8 +44,8 @@ module.exports.index = async (req, res) => {
   const objPagination = paginationHelpers(
     req.query,
     {
-      limitItem: limit == undefined ? 6 : limit,
-      currentPage: 1,
+      limitItem: limit ? limit : 6,
+
     },
     countPage
   );
@@ -83,11 +83,11 @@ module.exports.create = async (req, res) => {
     deleted: false,
   }
 
-  const role = await Role.find(find);
+  const record = await Role.find(find);
 
   res.render("admin/pages/accounts/createAccount.pug", {
     title: "Accounts",
-    role: role
+    record: record
   })
 }
 

@@ -64,7 +64,7 @@ block main
                   h6.lh-1 Feature
                   select.form-select.mt-3(name='roleId')
                     option(value='' disable) -- Chọn chức vụ --
-                    each item in role 
+                    each item in record 
                       option(value=item.id) #{item.title}
 
           .card.shadow-css.p-3.mb-5 
