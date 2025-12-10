@@ -1,0 +1,99 @@
+extend ../../layout/default.pug
+
+block main 
+
+  - if (message.successEdit.length > 0)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=message.successEdit[0]
+    )
+
+  form(
+    action=`${prefixAdmin}/dashboard`
+    method="GET"
+  ) 
+    .row 
+      .col-10 
+        h1.title #{title} 
+      .col-2.text-end
+        button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px")
+          <i class="fa-solid fa-rotate-right"></i> Back
+    .container-fluid.pt-2
+      .row
+
+        .col-4.pl-3
+          .row.p-4
+            .col-4
+              if (user)
+                label.label-image(for='form-image-0' style="border-radius: 100%; overflow: hidden")
+                  div.avatar.d-none #{user.avatar}
+                  input#form-image-0.form-image(type='file' accept='image/*' hidden='' name="avatar")
+                  .show-image
+                    div
+                      i.fa-solid.fa-plus(style='color: #ffffff;')
+          .row.pl-4 
+            if (user)
+              p.fs-2 #{user.email}
+          .row.pl-4 
+            a(href=`${prefixAdmin}/my-account/edit`)
+              div.d-flex.align-items-center
+                span <i class="fa-solid fa-user"></i>
+                span.pl-2 Edit Information
+
+        .col-8
+          // Card general information - start
+          .card.shadow-css.p-3.mb-5
+            .card-body
+              h3.card-title.pb-3 Personal Information
+              .row
+                .row 
+                  .col-6 
+                    label.form-label(for='') First Name
+                    input.mb-4.form-control(type='' id='' placeholder='First Name...' name="firstName" value=user.firstName)
+                  .col-6
+                    label.form-label(for='') Last Name
+                    input.mb-4.form-control(type='' id='' placeholder='Last Name...' name="lastName" value=user.lastName)
+                .row
+                  .col-12 
+                    label.form-label(for='') Email Address
+                    input.mb-4.form-control(type='' id='' placeholder='comerow@gmail.com' name="email" value=user.email)
+                .row
+                  .col-12 
+                    label.form-label(for='') Phone Number
+                    input.mb-4.form-control(type='' id='' placeholder='0375568408' name="phone" value=user.phone)
+              .row.mt-4.pr-4.pl-2
+                .col-6 
+                  h6.lh-1 Status
+                  small.opacity-50 Pick Available Status
+
+                  div(class="form-check ml-2")
+                    input#statusActive.form-check-input(type='radio' name='status' value='active' checked=(user.status === 'active'))
+                    label.form-check-label.mr-5(for='statusActive') Active
+
+                    input#statusInactive.form-check-input(type='radio' name='status' value='inactive' checked=(user.status === 'inactive'))
+                    label.form-check-label(for='statusInactive') Inactive
+                .col-6 
+                  h6.lh-1 Feature
+                  select.form-select.mt-3(name='roleId')
+                    option(value='' disable)=role.title
+
+          //- .card.shadow-css.p-3.mb-5 
+          //-   .card-body 
+          //-     h3.card-title.pb-3 Password 
+          //-     .row
+          //-       .row 
+          //-         .col-12
+          //-           label.form-label(for='') Password
+          //-           input.mb-4.form-control(type='' id='' placeholder='Password...' value=account.password)
+          //-       .row 
+          //-         .col-12
+          //-           label.form-label(for='') Confirm Password
+          //-           input.mb-4.form-control(type='' id='' placeholder='Confirm Password' name="password" value=account.password)
+          // Card general information - end
+      
+
+  script(src="/js/admin/fontend/labelImage.js")
+  script(src="/js/admin/fontend/editAccount.js")
+  script(src="/js/admin/fontend/readProduct.js")
+  

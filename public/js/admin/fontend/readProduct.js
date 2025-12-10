@@ -14,3 +14,8 @@ const label = document.querySelectorAll('label')
 label.forEach(item => {
   item.style.pointerEvents = "none";
 })
+
+const select = document.querySelectorAll('select')
+select.forEach(item => {
+  item.style.pointerEvents = "none";
+})

@@ -24,10 +24,9 @@ head
   link(rel="stylesheet", href="/css/admin/notifications.css")
   link(rel="stylesheet", href="/css/admin/products/editProduct.css")
 
-body 
+body
 
-
-  if (role.permissions)
+  if (role.permissions.length > 0)
     .container1
     //- include ../partials/header.pug
     include ../partials/sider.pug
