@@ -1,23 +1,27 @@
 extends ../../layout/default.pug
-include ../../mixins/box-header.pug
+include ../../mixins/products-layout.pug
 
 block main 
-  .container-fluid
-    .row  
-      .col-12 
-        +box-header("Products page")
-    
-    .row 
-      each item in newProducts
-        .col-4
-          .card
-            img(src=item.thumbnail, alt="" class="card-img-top")
-            .card-body 
-              a(
-                style="color: black"
-                href=`/products/${item.slug}`
-                )
-                h3.card-title #{item.title} 
-              .card-price-new.text-success #{item.newPrice}$
-              .card-price-old.text-danger #{item.price}$
-              span.card-discount.text-white.bg-danger #{item.discountPercentage}%
+  section#page-header
+    h2=category.title
+    p Sava more with coupons &amp; up to 70% off
+
+  section#product1.section-p1  
+    +product-grid(products)
+
+  section#pagination.section-p1
+    a.normal(href='#') 1
+    a.normal(href='#') 2
+    a.normal(href='#')
+      i.fa-solid.fa-arrow-right
+
+  section#newsletter.section-p1.section-m1
+    .newstext
+      h4 Sign Up For Newsletters
+      p
+        | Get E-mail updates about our latest shop and 
+        span special offers
+    .form
+      form(action='')
+        input(type='text' placeholder='Your email address')
+        button.normal Sign up
