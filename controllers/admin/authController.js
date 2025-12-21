@@ -22,6 +22,9 @@ module.exports.loginPost = async (req, res) => {
     deleted: false
   })
 
+  console.log(user.password)
+  console.log(md5(password))
+
   if(!user) {
     req.flash('error', 'Email does not exit !')
     res.redirect(`${systemAdmin.prefixAdmin}/auth/login`)

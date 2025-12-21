@@ -127,7 +127,7 @@ block main
                   td(scope="col") Category
                   td(scope='col') Price (VND)
                   td(scope='col') Position
-                  td(scope='col') Sale Count
+                  td(scope='col') Featured
                   td(scope='col') Status
                   td(scope='col') Action
               tbody
@@ -166,7 +166,10 @@ block main
                           ) 
                     else 
                       td.text-center=item.position
-                    td=item.rating.salesCount
+                    if item.featured == true
+                      td.text-success True
+                    else 
+                      td.text-danger False
                     if (role.permissions.includes('product_edit'))
                       td 
                         if(item.status == "active")

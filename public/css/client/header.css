@@ -1,0 +1,131 @@
+/* HEADER START */
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 80px;
+  background: #e3e6f3;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+  z-index: 999;
+  position: sticky;
+  top:0;
+  width: 100%;
+}
+
+#navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#navbar li {
+  list-style: none;
+  padding: 0px 20px;
+  position: relative;
+}
+
+#navbar li a {
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease-in;
+}
+
+#navbar li a:hover,
+#navbar li a.active {
+  color: #088178;
+}
+
+#navbar li a.active:after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 20px;
+  width: 30%;
+  height: 2px;
+  border-radius: 3px;
+  background: #088178;
+}
+
+#navbar li::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 20px;
+  width: 0;
+  height: 2px;
+  border-radius: 3px;
+  background: #088178;
+  transition: all 0.3s ease-in;
+}
+
+#navbar li:hover::after {
+  width: 30%;
+}
+
+
+/* --- CSS CHO DROPDOWN MENU --- */
+
+/* Class đánh dấu mục có menu con */
+#navbar li.menu-item-has-children {
+  position: relative;
+}
+
+/* Style cho menu con (Level 2) */
+#navbar li .sub-menu {
+  position: absolute;
+  top: 100%; /* Hiển thị ngay dưới menu cha */
+  left: 0;
+  width: 200px; /* Độ rộng của menu con */
+  background-color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  border-radius: 4px;
+  
+  /* Ẩn menu đi mặc định */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px); /* Hiệu ứng trượt nhẹ */
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+/* Khi hover vào LI cha thì hiện menu con */
+#navbar li:hover .sub-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Reset style cho thẻ li bên trong menu con để không bị ảnh hưởng bởi style của navbar chính */
+#navbar li .sub-menu li {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+#navbar li .sub-menu li a {
+  display: block;
+  font-size: 14px;
+  padding: 10px 20px;
+  color: #333;
+  text-transform: none; /* Không viết hoa hết như menu chính nếu không muốn */
+  border-bottom: 1px solid #f5f5f5;
+}
+
+#navbar li .sub-menu li a:hover {
+  color: #088178; /* Màu xanh chủ đạo của bạn */
+  padding-left: 25px; /* Hiệu ứng đẩy chữ sang phải khi hover */
+  background-color: #fafafa;
+}
+
+/* Ẩn thanh gạch chân (underline) mặc định của navbar chính đối với các item con */
+#navbar li .sub-menu li a::after {
+  display: none;
+}
+
+#navbar li .sub-menu li:last-child a {
+  border-bottom: none;
+}
+/* HEADER END */

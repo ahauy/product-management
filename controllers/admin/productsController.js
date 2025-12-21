@@ -169,7 +169,6 @@ module.exports.create = async (req, res) => {
 
   const records = await ProductsCategory.find(find);
   const newRecords = treeToFlatArray(records);
-  console.log(newRecords)
 
   res.render("admin/pages/products/createProduct2.pug", {
     title: "Add New Product",
@@ -201,6 +200,7 @@ module.exports.createPost = async (req, res) => {
       variants: JSON.parse(req.body.variants),
       media: urls.map((url) => ({ url, alt: req.body.title })),
       status: req.body.status,
+      featured: req.body.featured === "yes" ? true : false,
       position: count + 1,
       deleted: false,
     };
@@ -263,6 +263,7 @@ module.exports.editPatch = async (req, res) => {
     variants: JSON.parse(req.body.variants),
     // media: urls.map((url) => ({ url, alt: req.body.title })),
     status: req.body.status,
+    featured: req.body.featured === "yes" ? true : false,
   };
 
   if (req.file) {

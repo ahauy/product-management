@@ -1,4 +1,72 @@
 extends ../../layout/default.pug
+include ../../mixins/products-layout.pug
 
 block main  
-  h1 Home Page
+  
+  section#hero
+    h4 Trade-in-offer
+    h2 Super value deals
+    h1 On all produts
+    p Sava more with coupons &amp; up to 70% off
+    button Shop now
+  section#feature.section-p1
+    .fe-box
+      img(src='/images/features/f1.png' alt='')
+      h6 Free ship
+    .fe-box
+      img(src='/images/features/f2.png' alt='')
+      h6 Online Order
+    .fe-box
+      img(src='/images/features/f3.png' alt='')
+      h6 Save Money
+    .fe-box
+      img(src='/images/features/f4.png' alt='')
+      h6 Promotions
+    .fe-box
+      img(src='/images/features/f5.png' alt='')
+      h6 Happy Sell
+    .fe-box
+      img(src='/images/features/f6.png' alt='')
+      h6 F24/7 Support
+
+  section#product1.section-p1
+    h2 Featured Products
+    p Summer Collection New Morden Design
+    +product-grid(productsFeatured)
+
+  section#banner.section-m1
+    h4 Repair Services
+    h2
+      | Up to 
+      span &amp;0% Off
+      | - All t-Shirts &amp; Accessories
+    button.normal Explore More
+
+  section#product1.section-p1
+    h2 New Arrivals
+    p Summer Collection New Morden Design
+    +product-grid(productsNew)
+
+  section#sm-banner.section-p1
+    .banner-box
+      h4 crazy deals
+      h2 buy 1 get 1 free
+      span The best classic dress is on sale at cara
+      button.white Learn More
+    .banner-box.banner-box2
+      h4 spring/summer
+      h2 upcomming season
+      span The best classic dress is on sale at cara
+      button.white Collection
+
+  section#newsletter.section-p1.section-m1
+    .newstext
+      h4 Sign Up For Newsletters
+      p
+        | Get E-mail updates about our latest shop and 
+        span special offers
+    .form
+      form(action='')
+        input(type='text' placeholder='Your email address')
+        button.normal Sign up
+  

@@ -1,0 +1,29 @@
+mixin product-grid(products)
+  .pro-container
+      each item in products
+        .pro
+          img(src=item.media[0].url alt=item.title)
+          .des
+            span coolmate
+            h5=item.title
+            .starts
+              i.fa-solid.fa-star(style='color: #ffd43b')
+              i.fa-solid.fa-star(style='color: #ffd43b')
+              i.fa-solid.fa-star(style='color: #ffd43b')
+              i.fa-solid.fa-star(style='color: #ffd43b')
+              i.fa-solid.fa-star(style='color: #ffd43b')
+            .price-box
+              if(item.discountPercentage > 0)
+                  //- 1. Giá mới (Giá bán)
+                  h4.new-price #{formatMoney(item.salePrice)}
+                  
+                  //- 2. Giá cũ (Gạch ngang)
+                  span.old-price #{formatMoney(item.price)}
+                  
+                  //- 3. Phần trăm giảm (Cùng dòng)
+                  span.discount-tag -#{item.discountPercentage}%
+              else
+                  //- Nếu không giảm thì chỉ hiện giá gốc
+                  h4.new-price #{formatMoney(item.price)}
+          a(href='#')
+            i.fa-regular.fa-cart-shopping.cart

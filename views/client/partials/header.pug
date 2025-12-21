@@ -1,17 +1,36 @@
-header.header 
-  .container-fluid
-    .row
-      .col-1 
-        .inner-logo 
-          a(href="/")
-            img(src="/images/logo.png", alt="Picture logo") 
+section#header
+  a(href='/')
+    //- Lưu ý: Đường dẫn ảnh nên để tuyệt đối hoặc tương đối chính xác với dự án của bạn
+    img.logo(src='/images/logo.png' alt='Logo') 
+  div
+    ul#navbar
+      li
+        a(href='/') Home
 
-      .col-11 
-        <ul class="nav justify-content-end">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/products">Products</a>
-          </li>
-        </ul>
+      //- --- BẮT ĐẦU PHẦN SỬA ĐỔI ---
+      //- Kiểm tra nếu có danh mục được truyền vào
+      if(layoutProductsCategory)
+        each item in layoutProductsCategory
+          li.menu-item-has-children
+            //- Link danh mục cha (Level 1)
+            a(href=`/products/${item.slug}`) #{item.title}
+              //- (Tùy chọn) Thêm icon mũi tên nhỏ nếu muốn
+              //- i.fa-solid.fa-chevron-down 
+
+            //- Kiểm tra và hiển thị danh mục con (Level 2)
+            if(item.children && item.children.length > 0)
+              ul.sub-menu
+                each child in item.children
+                  li
+                    a(href=`/products/${child.slug}`) #{child.title}
+      //- --- KẾT THÚC PHẦN SỬA ĐỔI ---
+
+      li
+        a(href='blog.html') Blog
+      li
+        a(href='about.html') About
+      li
+        a(href='contact.html') Contact
+      li#lg-bag
+        a(href='cart.html')
+          i.fa-regular.fa-bag-shopping

@@ -63,6 +63,13 @@ const productSchema = new mongoose.Schema(
       enum: ["active", "inactive", "draft"],
       default: "active",
     },
+
+    // --- MỚI THÊM: Sản phẩm nổi bật ---
+    featured: {
+      type: Boolean,
+      default: false, // Mặc định là false (không nổi bật)
+    },
+    
     position: { type: Number, default: 0 },
 
     // Xóa mềm
@@ -72,15 +79,27 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Middleware: tự tính salePrice
+// Middleware: tự tính salePrice và xử lý logic giảm giá
 productSchema.pre("save", function (next) {
-  if (this.discountPercentage && this.price) {
-    this.salePrice = this.price - (this.price * this.discountPercentage) / 100;
+  if (this.discountPercentage && this.discountPercentage > 0) {
+    // Tính toán giá giảm
+    const rawSalePrice = this.price * (1 - this.discountPercentage / 100);
+    
+    // Math.round: Làm tròn đến số nguyên gần nhất
+    this.salePrice = Math.round(rawSalePrice); 
+    
+    // Đánh dấu là đang giảm giá
+    this.isOnSale = true;
   } else {
+    // Nếu không giảm, giá bán = giá gốc
     this.salePrice = this.price;
+    this.discountPercentage = 0;
+    this.isOnSale = false;
   }
+  
   next();
 });
 
 const Product = mongoose.model("Product", productSchema, "products");
 module.exports = Product;
+

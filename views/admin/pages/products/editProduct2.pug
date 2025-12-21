@@ -45,6 +45,8 @@ block main
                       label.btn.btn-outline-success.me-2(for='size-s') S
                       input#size-m.btn-check(type='checkbox' autocomplete='off' value="M")
                       label.btn.btn-outline-success.me-2(for='size-m') M
+                      input#size-l.btn-check(type='checkbox' autocomplete='off' value="L")
+                      label.btn.btn-outline-success.me-2(for='size-l') L
                       input#size-xl.btn-check(type='checkbox' autocomplete='off' value="XL")
                       label.btn.btn-outline-success.me-2(for='size-xl') XL
                       input#size-xxl.btn-check(type='checkbox' autocomplete='off' value="XXL")
@@ -66,15 +68,27 @@ block main
                         label.form-check-label(for='gender-unisex')
                           | Unisex
                 .row.mt-3
-                  h6.lh-1 Status
-                  small.opacity-50 Pick Available Status
+                  .col-6 
+                    h6.lh-1 Status
+                    small.opacity-50 Pick Available Status
 
-                  div(class="form-check ml-2")
-                    input#statusActive.form-check-input(type='radio' name='status' value='active' checked=(product.status === 'active'))
-                    label.form-check-label.mr-5(for='statusActive') Active
+                    div(class="form-check ml-2")
+                      input#statusActive.form-check-input(type='radio' name='status' value='active' checked)
+                      label.form-check-label.mr-5(for='statusActive') Active
 
-                    input#statusInactive.form-check-input(type='radio' name='status' value='inactive' checked=(product.status === 'inactive'))
-                    label.form-check-label(for='statusInactive') Inactive
+                      input#statusInactive.form-check-input(type='radio' name='status' value='inactive')
+                      label.form-check-label(for='statusInactive') Inactive
+                  .col-6 
+                    h6.lh-1 Featured
+                    small.opacity-50 Pick Available Featured
+
+                    div(class="form-check ml-2")
+                      input#statusActive.form-check-input(type='radio' name='featured' value='yes')
+                      label.form-check-label.mr-5(for='statusActive') Yes
+
+                      input#statusInactive.form-check-input(type='radio' name='featured' value='no' checked)
+                      label.form-check-label(for='statusInactive') No
+
 
 
             // Card general information - end

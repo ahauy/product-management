@@ -1,0 +1,530 @@
+/* Style cơ bản cho Header */
+.header {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  z-index: 1000;
+}
+
+.nav-link {
+  color: #333;
+  font-weight: 600;
+  padding: 15px 20px !important;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.nav-link:hover {
+  color: #2f5acf; /* Màu xanh giống Coolmate */
+}
+
+/* --- XỬ LÝ MEGA MENU --- */
+.has-mega-menu {
+  position: static; /* Quan trọng để Mega menu full width */
+}
+
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 30px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  
+  /* Mặc định ẩn, dùng visibility để tránh lỗi layout */
+  visibility: hidden; 
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+/* Khi hover vào li cha thì hiện mega menu */
+.has-mega-menu:hover .mega-menu {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+}
+
+/* Style cho các mục con */
+.menu-title {
+  display: block;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 10px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.menu-title:hover {
+  color: #2f5acf;
+  text-decoration: none;
+}
+
+.sub-menu-list li a {
+  display: block;
+  color: #666;
+  font-size: 13px;
+  padding: 5px 0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.sub-menu-list li a:hover {
+  color: #2f5acf;
+  padding-left: 5px; /* Hiệu ứng đẩy nhẹ sang phải */
+}
+
+/* Ảnh quảng cáo bên phải */
+.promo-box {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.promo-box img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.promo-box:hover img {
+  transform: scale(1.05);
+}
+
+.promo-text {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+
+/* HERO START */
+#hero {
+  background: url("/images/hero4.png");
+  height: 90vh;
+  width: 100%;
+  background-position: top 25% right 0;
+  background-size: cover;
+  padding: 0 80px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#hero h4{
+  padding-bottom: 15px;
+}
+
+#hero h1 {
+  color: #088178;
+}
+
+#hero button {
+  background-image: url("/images/button.png");
+  border: none;
+  background-color: transparent;
+  padding: 14px 80px 14px 65px;
+  background-repeat: no-repeat;
+  font-weight: 700;
+  font-size: 16px;
+  color: #088178;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#hero button:hover {
+  color: #032c2a;
+}
+/* HERO END */
+
+
+/* FEATURE START */
+#feature .fe-box{
+  width: 180px;
+  text-align: center;
+  padding: 25px 15px;
+  box-shadow: 20px 20px 34px rgba(0, 0, 0, 0.03);
+  border: 1px solid #cce7d0;
+  border-radius: 5px;
+  margin: 15px 0px;
+}
+
+#feature .fe-box:hover {
+  box-shadow: 10px 10px 54px rgba(70, 62, 221, 0.1);
+}
+
+#feature .fe-box img {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#feature .fe-box h6 {
+  padding: 9px 15px 6px 15px;
+  color: #088178;
+  border-radius: 5px;
+  line-height: 1;
+  background-color: #fddde4; 
+  display: inline-block;
+}
+
+#feature .fe-box:nth-child(2) h6 {
+  background-color: #cdebbc;
+}
+
+#feature .fe-box:nth-child(3) h6 {
+  background-color: #d1e8f2;
+}
+
+#feature .fe-box:nth-child(4) h6 {
+  background-color: #cdd4f8;
+}
+
+#feature .fe-box:nth-child(5) h6 {
+  background-color: #f6dbf6;
+}
+
+#feature .fe-box:nth-child(6) h6 {
+  background-color: #fff2e5;
+}
+
+#feature {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+/* FEATURE END */
+
+
+/* PRODUCTS START */
+#product1 {
+  text-align: center;
+}
+
+#product1 .pro-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 20px;
+}
+
+#product1 .pro {
+  width: 23%;
+  min-width: 250px;
+  padding: 10px 12px;
+  border: 1px solid #cce7d0;
+  box-shadow: 20px 20px 34px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 25px;
+  margin: 15px 0px;
+  position: relative;
+}
+
+#product1 .pro:hover {
+  box-shadow: 20px 20px 34px rgba(0, 0, 0, 0.06);
+}
+
+#product1 .pro img {
+  width: 100%;
+  border-radius: 20px;
+  height: 450px;
+  object-fit: cover;
+}
+
+#product1 .pro .des {
+  text-align: start;
+  padding: 10px 0px;
+}
+
+#product1 .pro .des span {
+  color: #606063;
+  font-size: 12px;
+}
+
+#product1 .pro .des h5 {
+  padding-top: 7px;
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 1.4em;       /* Chiều cao dòng */
+  height: 2.8em;            /* Chiều cao cố định: 1.4em * 2 dòng = 2.8em */
+  overflow: hidden;         /* Ẩn phần chữ thừa */
+  display: -webkit-box;     /* Cần thiết cho line-clamp */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;    /* Giới hạn đúng 2 dòng rồi hiện dấu ... */
+}
+
+#product1 .pro .des i {
+  font-size: 12px;
+  padding: 10px 0px;
+}
+
+#product1 .pro .des h4 {
+  color: #088178;
+  padding-top: 7px;
+  font-weight: 700;
+}
+
+#product1 .pro .cart {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background-color: #e8e8e8;
+  font-weight: 500;
+  color: #088178;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  transition: all 0.3s ease;
+}
+
+#product1 .pro .cart:hover {
+  transform: scale(1.2);
+}
+/* --- 1. XỬ LÝ KHUNG ẢNH ĐỂ CHỨA BADGE --- */
+#product1 .pro {
+  position: relative; /* Quan trọng: để định vị sale badge tuyệt đối theo khung này */
+  overflow: hidden;   /* Bo tròn góc nếu ảnh tràn */
+}
+
+.pro-img-box {
+  position: relative;
+  width: 100%;
+}
+
+/* --- 2. NHÃN GIẢM GIÁ (SALE BADGE) --- */
+.sale-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff4d4d; /* Màu đỏ cam nổi bật */
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* --- 3. KHUNG GIÁ TIỀN --- */
+.price-box {
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  gap: 10px;           /* Khoảng cách giữa giá cũ và mới */
+  padding-top: 7px;
+  flex-wrap: wrap;     /* Xuống dòng nếu giá quá dài */
+}
+
+/* Giá hiện tại (Giá bán cuối cùng) */
+.new-price {
+  color: #088178;      /* Màu xanh thương hiệu */
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Giá gốc (Giá bị gạch ngang) */
+.old-price {
+  color: #a1a1a1;      /* Màu xám nhạt */
+  font-size: 13px;
+  text-decoration: line-through; /* Gạch ngang chữ */
+  font-weight: 400;
+}
+
+
+/* --- KHUNG GIÁ TIỀN --- */
+.price-box {
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  gap: 8px;            /* Khoảng cách giữa các số */
+  padding-top: 7px;
+  flex-wrap: wrap;     /* Tự xuống dòng nếu khung quá hẹp */
+}
+
+/* 1. Giá hiện tại (Màu xanh chủ đạo) */
+.new-price {
+  color: #088178; 
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* 2. Giá cũ (Màu xám, gạch ngang) */
+.old-price {
+  color: #a1a1a1;
+  font-size: 13px;
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+/* 3. Thẻ giảm giá (Mới thêm) */
+.discount-tag {
+  color: #ff0000;          /* Chữ màu đỏ */
+  background-color: #ffe6e6; /* Nền màu hồng nhạt */
+  border: 1px solid #ff0000; /* Viền đỏ mảnh (tùy chọn) */
+  
+  padding: 1px 4px;        /* Khoảng cách lề trong */
+  border-radius: 3px;      /* Bo góc nhẹ */
+  font-size: 11px;         /* Chữ nhỏ hơn giá một chút */
+  font-weight: 600;
+  line-height: 1;          /* Giúp căn giữa tốt hơn */
+}
+/* PRODUCTS END */
+
+
+
+/* BANNER START */
+#banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  background-image: url('/images/banner/b2.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 50px 0px;
+  height: 40vh;
+  background-position: center;
+}
+
+#banner h4 {
+  color: white;
+  font-size: 16px;
+}
+
+#banner h2 {
+  color: white;
+  font-size: 30px;
+  padding: 10px 0px;
+}
+
+#banner h2 span {
+  color: #ef3636;
+}
+
+#banner button:hover {
+  color: #fff;
+  background-color: #088178;
+}
+/* BANNER END */
+
+
+
+/* BANNER SMALL START */
+#sm-banner .banner-box {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  text-align: center;
+  background-image: url('/images/banner/b17.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 40vh;
+  background-position: center;
+  min-width: 580px;
+  padding: 30px;
+  width: 49%;
+}
+#sm-banner .banner-box2 {
+  background-image: url('/images/banner/b10.jpg');
+}
+
+#sm-banner {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#sm-banner h4 {
+  color: white;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+
+#sm-banner h2 {
+  color: white;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+#sm-banner span {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  padding-bottom: 15px;
+}
+
+#sm-banner .banner-box:hover button {
+  background: #088178;
+  border: 1px solid #088178;
+}
+/* BANNER SMALL END */
+
+
+/* NEWSLETTER - START */
+#newsletter {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  background-image: url('img/banner/b14.jpg');
+  background-repeat: no-repeat;
+  background-position: 20% 30%;
+  background-color: #041e42;
+}
+
+#newsletter h4 {
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+}
+
+#newsletter p {
+  font-size: 14px;
+  font-weight: 600;
+  color: #818ea0;
+}
+
+#newsletter p span {
+  color: #ffbd27;
+}
+
+#newsletter .form {
+  /* align-items: center; */
+  width: 40%;
+}
+
+#newsletter form {
+  display: flex;
+}
+
+
+#newsletter input {
+  height: 3.125rem;
+  padding: 0 1.25em;
+  font-size: 14px;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  outline: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#newsletter button {
+  background-color: #088178;
+  color: white;
+  white-space: nowrap;
+}
+/* NEWSLETTER - END */
