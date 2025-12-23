@@ -3,6 +3,7 @@ const ProductsCategory = require('../../models/productsCategory.model');
 const formatMoney = require('../../helpers/client/formatMoney');
 const createTreeHelper = require("../../helpers/client/createTree");
 
+// [GET] products/:slugCategory
 module.exports.productsCategory = async (req, res) => {
   try {
     // --- PHẦN 1: LẤY MENU BÊN NGOÀI (GIỮ NGUYÊN) ---
@@ -74,4 +75,51 @@ module.exports.productsCategory = async (req, res) => {
     console.error("Lỗi lấy sản phẩm theo danh mục:", error);
     res.redirect("back");
   }
+}
+
+// [GET] products/:slugProduct
+module.exports.productDetail = async (req, res) => {
+
+  // --- PHẦN 1: LẤY MENU BÊN NGOÀI (GIỮ NGUYÊN) ---
+  const find = {
+    deleted: false,
+    status: "active",
+  };
+  const records = await ProductsCategory.find(find);
+  const newRecords = createTreeHelper(records);
+
+  // tìm các sản phẩm nổi bật
+  const findFeatured = {
+    deleted: false,
+    featured: true,
+    status: 'active',
+  }
+
+  // tìm sản phẩm 
+  const findProduct = {
+    deleted: false,
+    status: "active",
+    slug: req.params.slugProduct,
+  }
+
+  const product = await Products.findOne(findProduct)
+  
+  const sizes = []; // danh sách các size
+  let stock = 0; // tổng số lượng sản phẩm
+  product.variants.forEach(variant => {
+    stock += variant.stock;
+    sizes.push(variant.size)
+  })
+
+
+  const productsFeatured = await Products.find(findFeatured).limit(4);
+
+  res.render('client/pages/products/detail.products.pug', {
+    productsFeatured: productsFeatured,
+    formatMoney: formatMoney,
+    layoutProductsCategory: newRecords,
+    product: product,
+    stock: stock,
+    sizes: sizes,
+  })
 }

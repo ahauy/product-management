@@ -1,0 +1,298 @@
+
+/* single producl */
+#prodetails {
+  display: flex;
+  margin-top: 50px;
+  padding: 0px 100px;
+  /* position: relative; */
+}
+#prodetails .single-pro-image {
+  width: 100%;
+  margin-right: 50px;
+}
+
+/* .small-img-group {
+  display: flex;
+  justify-content: space-between;
+}
+.small-img-col {
+  flex-basis: 24%;
+}
+
+.small-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+}
+
+#MainImg {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+} */
+
+/* Bọc ảnh nhỏ + ảnh lớn */
+.image-wrapper {
+  display: flex;
+  gap: 15px;
+}
+
+/* Cột ảnh nhỏ bên trái */
+.small-img-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80px;
+}
+
+.small-img-col {
+  width: 100%;
+  cursor: pointer;
+}
+
+.small-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  opacity: 0.4;
+  transition: 0.4s;
+}
+
+.small-img:hover {
+  opacity: 1;
+}
+
+.click-img {
+  opacity: 1;
+}
+
+/* Ảnh lớn bên phải */
+.main-img {
+  flex: 1;
+}
+
+#MainImg {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* 
+#prodetails .single-pro-details {
+  width: 50%;
+  padding-top: 30px;
+}
+#prodetails .single-pro-details h4 {
+  padding: 40px 0 20px 0;
+}
+#prodetails .single-pro-details h2 {
+  font-size: 26px;
+}
+#prodetails .single-pro-details select {
+  display: block;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+#prodetails .single-pro-details input {
+  width: 50px;
+  height: 47px;
+  padding-left: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+#prodetails .single-pro-details input:focus {
+  outline: none;
+}
+#prodetails .single-pro-details button {
+  background: #088178;
+  color: #fff;
+}
+#prodetails .single-pro-details span {
+  line-height: 25px;
+} */
+
+.product-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.stock-status {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Price Style */
+.price-section {
+  border-top: 1px dashed #ddd;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.new-price {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #999;
+}
+
+/* Size Selection */
+/* Ẩn select gốc */
+#sizeSelect {
+  display: none;
+}
+
+/* Container */
+.size-options {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 15px;
+}
+
+/* Ô size */
+.size-item {
+  border: 1px solid #ccc;
+  padding: 10px 16px;
+  min-width: 45px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+/* Hover */
+.size-item:hover {
+  border-color: #000;
+}
+
+/* Size được chọn */
+.size-item.active {
+  border: 2px solid #000;
+}
+
+/* Hướng dẫn chọn size */
+.size-guide {
+  display: block;
+  margin-top: 30px;
+}
+
+/* Action Buttons */
+.cart-action {
+  margin-top: 30px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  width: fit-content;
+  margin-bottom: 20px;
+  /* padding: 10px; */
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.quantity-control input {
+  width: 40px;
+  border: none;
+  text-align: center;
+  padding: 5px;
+  font-size: 16px;
+  outline: none;
+}
+
+.quantity-control button {
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.quantity-control button:first-child {
+  border-right: 1px solid #ccc;
+}
+.quantity-control button:last-child {
+  border-left: 1px solid #ccc;
+}
+
+/* Add to card */
+.buttons-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-add-cart, .btn-buy-now {
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #000;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.btn-add-cart {
+  background: #fff;
+  color: #555;
+}
+
+.btn-add-cart:hover {
+  background: #555;
+  color: #fff;
+}
+
+.btn-buy-now {
+  background: #555;
+  color: #fff;
+}
+
+.btn-buy-now:hover {
+  background: #fff;
+  color: #555;
+}
+
+/* Policy Box */
+.policy-box {
+  margin-top: 40px;
+  background: #f9f9f9;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.policy-item {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  align-items: center;
+  justify-content: start; 
+  height: 80px;
+}
+
+.policy-item i {
+  font-size: 1rem;
+}
+
+.policy-item span {
+  border: 1px solid #555;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.end {
+  color: rgb(143, 6, 6);
+}
+
+#descriptionProduct div {
+  padding: 50px 100px;
+  margin: 50px 0 40px 0;
+  background: #f5f5f5;
+}

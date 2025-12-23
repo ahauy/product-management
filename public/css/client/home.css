@@ -240,6 +240,11 @@
   object-fit: cover;
 }
 
+#product1 .pro a {
+  display: block;
+  width: 100%;
+}
+
 #product1 .pro .des {
   text-align: start;
   padding: 10px 0px;

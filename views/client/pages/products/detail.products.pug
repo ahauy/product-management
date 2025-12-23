@@ -1,20 +1,93 @@
 extends ../../layout/default.pug
-
+include ../../mixins/products-layout.pug
 
 block main 
-  h1= product.title
+  section#prodetails
+    .single-pro-image
+      .image-wrapper
+        .small-img-group
+          each item, index in product.media
+            if index > 0
+              .small-img-col
+                img.small-img(
+                  src=item.url
+                  alt=item.alt
+                )
 
-  if(product.price) 
-    p Price: #{product.price}$
+        .main-img
+          img#MainImg(
+            src=product.media[0].url
+            alt=product.media[0].alt
+          )
 
-  if(product.discountPercentage)
-    p Discount: #{product.discountPercentage}%
-  
-  if(product.stock)
-    p Stock: #{product.stock}
 
-  if(product.thumbnail) 
-    img(src=product.thumbnail, alt=product.titlem style="width: 150px")
+    //- Khối thông tin bên phải
+    .single-pro-details
+      h1.product-title= product.title
+      if stock > 0
+        p.stock-status Còn hàng
+      else 
+        p.stock-status.end Hết hàng
+      
+      .price-section
+        if product.discountPercentage > 0
+          span.new-price #{formatMoney(product.salePrice)}
+          span.old-price #{formatMoney(product.price)}
+          span.discount-badge -#{product.discountPercentage}%
+        else 
+          span.new-price #{formatMoney(product.price)}
 
-  if(product.description)
-    p Description: #{product.description}
+      .size-selection
+        p.label Kích cỡ: 
+          span#selectedSize M
+
+        // select thật (ẩn)
+        select#sizeSelect(name="size")
+          each size in sizes
+            option(value=size)= size
+
+        // UI giả giống hình
+        .size-options
+          each size in sizes
+            .size-item(data-size=size)= size
+        a.size-guide(href="#") Hướng dẫn chọn size
+
+      .cart-action
+        .quantity-control
+          button.minus
+            <i class="fa-solid fa-minus"></i>
+          input(type='text')
+          button.plus 
+            <i class="fa-solid fa-plus"></i>
+        .buttons-group
+          button.btn-add-cart Thêm vào giỏ hàng
+          button.btn-buy-now Mua ngay
+
+      .policy-box
+        .row
+          .policy-item
+            span 
+              i.fa-solid.fa-truck
+            p Giao hàng nội thành Hà Nội chỉ từ 25.000đ trong 24 giờ
+          .policy-item
+            span 
+              i.fa-solid.fa-box-open
+            p Tích kiệm đến 12% giá trị đơn hàng cho mỗi lần mua
+        .row
+          .policy-item
+            span 
+              i.fa-solid.fa-truck
+            p Giảm đến 20% tổng hoá đơn khi mua hàng tại cửa hàng vào tháng sinh nhật
+          .policy-item
+            span
+              i.fa-solid.fa-box-open
+            p Đổi hàng trong vòng 30 ngày.
+      
+
+  section#descriptionProduct
+    div=product.description
+
+  section#product1.section-p1
+    h2 Featured Products
+    p Summer Collection New Morden Design
+    +product-grid(productsFeatured)

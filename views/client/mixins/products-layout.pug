@@ -2,7 +2,8 @@ mixin product-grid(products)
   .pro-container
       each item in products
         .pro
-          img(src=item.media[0].url alt=item.title)
+          a(href=`/products/detail/${item.slug}`) 
+            img(src=item.media[0].url alt=item.title)
           .des
             span coolmate
             h5=item.title
