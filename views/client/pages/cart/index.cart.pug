@@ -1,0 +1,93 @@
+extends ../../layout/default.pug
+
+block main 
+  .container.section-p1  
+    .checkout-layout
+      // --- CỘT TRÁI: THÔNG TIN GIAO HÀNG ---
+      .shipping-info
+        h2 Thông tin Giao hàng
+        form.shipping-form
+          input(type="text" placeholder="Họ và tên")
+          .input-group
+            input(type="email" placeholder="Email")
+            input(type="text" placeholder="Số điện thoại")
+          input(type="text" placeholder="Địa chỉ nhà")
+          .input-row-3
+            select#province.form-control(name="province")
+              option(value="") Chọn Tỉnh/Thành phố
+            select#district.form-control(name="district")
+              option(value="") Chọn Quận/Huyện
+            select#ward.form-control(name="ward")
+              option(value="") Chọn Phường/Xã
+          textarea(placeholder="Ghi chú thêm (cơ quan làm việc, giao trong giờ hành chính)")
+          
+          //- .checkbox-group
+          //-   input(type="checkbox" id="other-receiver")
+          //-   label(for="other-receiver") Gọi người khác nhận hàng nếu có
+
+        h2 Phương thức thanh toán 
+        label(for="cod") 
+          .payment-method
+            input(type="radio" id="cod" name="payment-method")
+            img(src="/images/pay/cod.avif", alt="")
+            span Thanh toán khi nhận hàng (COD)
+        label(for="momo")   
+          .payment-method
+            input(type="radio" id="momo" name="payment-method")
+            img(src="/images/pay/momo.avif", alt="")
+            span Ví Momo
+
+      // --- CỘT PHẢI: GIỎ HÀNG ---
+      .cart-summary
+        .section-title
+          i.fa-solid.fa-cart-shopping
+          h2 Giỏ Hàng
+        
+        each product in cart.products
+          .product-item
+            img(src=product.image alt=product.name)
+            .product-details
+              h3=product.name
+              p Size / #{product.size}
+              .quantity-controls
+                .counter
+                  button.minus
+                    <i class="fa-solid fa-minus"></i>
+                  input(type="text" value=product.quantity)
+                  button.plus
+                    <i class="fa-solid fa-plus"></i>
+                button.btn-delete
+                  i.fa-regular.fa-trash-can
+                  | Xóa
+            .product-price #{formatMoney(product.subtotal)}
+
+        .promo-code
+          div
+            i.fa-solid.fa-ticket
+            span Mã Giảm Giá:
+          div
+            input(type="text" placeholder="Nhập mã giảm giá")
+            button Áp dụng
+
+        .section-title
+          i.fa-solid.fa-box-open
+          h2 Chi Tiết Đơn Hàng
+
+        .price-lines
+          .line
+            span Tạm tính
+            span #{formatMoney(cart.totalPrice)}
+          .line
+            span Phí giao hàng
+            span Miễn phí
+          .line
+            span Voucer giảm giá
+            span 0đ
+        
+        .total-section
+          span Tổng
+          .total-amount
+            p.main-price #{formatMoney(cart.totalPrice)}
+            p.discount-note (Đã giảm trên giá gốc: 0đ)
+
+        button.btn-submit Đặt hàng

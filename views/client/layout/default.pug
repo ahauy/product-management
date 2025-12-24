@@ -10,9 +10,12 @@ head
   link(rel="stylesheet", href="/css/client/shop.css")
   link(rel="stylesheet", href="/css/client/footer.css")
   link(rel="stylesheet", href="/css/client/productDetail.css")
+  link(rel="stylesheet", href="/css/client/cart.css")
 
   //- link fontawesome
   link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css")
+
+  link(href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet")
   
 body 
   include ../partials/header.pug
@@ -22,4 +25,9 @@ body
   include ../partials/footer.pug
 
   script(src="/js/client/productDetail.js")
+
+  script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+script(src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js")
+//- File JS xử lý logic gọi API
+script(src="/js/client/address.js")
 

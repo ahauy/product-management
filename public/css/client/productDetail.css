@@ -300,3 +300,79 @@
 .d-none {
   display: none;
 }
+
+
+/* 1. Cấu hình khung bao ngoài */
+#descriptionProduct {
+  background-color: #f9f9f9; /* Giữ màu nền xám nhẹ hiện tại của bạn */
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Căn giữa nội dung */
+}
+
+/* 2. Cấu hình khung chứa nội dung (Cái div bạn đang chọn) */
+#descriptionProduct > div {
+  /* Giới hạn chiều rộng để dễ đọc (khoảng 800-1000px là đẹp nhất cho mắt) */
+  max-width: 1200px;
+  width: 100%;
+  margin: 50px 20px; /* Cách trên dưới 50px, trái phải 20px (để không sát mép trên mobile) */
+  padding: 0; /* Bỏ padding cứng 100px cũ đi */
+  
+  /* Font chữ */
+  font-family: 'League Spartan', sans-serif;
+  color: #333; /* Màu chữ đen xám nhẹ cho đỡ gắt */
+  line-height: 1.6; /* Tăng khoảng cách dòng cho thoáng */
+}
+
+/* 3. Làm đẹp cho các thẻ con bên trong (do TinyMCE sinh ra) */
+
+/* Tiêu đề H2 */
+#descriptionProduct h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  margin-top: 35px; /* Tách xa đoạn trên */
+  margin-bottom: 15px; /* Cách đoạn dưới */
+  position: relative;
+  padding-bottom: 10px;
+}
+
+/* Tạo một đường gạch dưới nhỏ cho tiêu đề thêm điểm nhấn (tuỳ chọn) */
+#descriptionProduct h2::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: #000; /* Hoặc màu chủ đạo của shop */
+  margin-top: 8px;
+}
+
+/* Đoạn văn bản */
+#descriptionProduct p {
+  font-size: 16px;
+  margin-bottom: 20px; /* Tạo khoảng thở giữa các đoạn */
+  text-align: justify; /* Căn đều 2 bên nhìn cho vuông vắn (hoặc để left tuỳ thích) */
+}
+
+/* Danh sách (ul/li) */
+#descriptionProduct ul {
+  margin-bottom: 25px;
+  padding-left: 20px;
+  background: #fff; /* Nền trắng cho danh sách nổi bật */
+  padding: 20px 30px;
+  border-radius: 8px; /* Bo góc */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Đổ bóng nhẹ */
+}
+
+#descriptionProduct li {
+  list-style-type: disc;
+  margin-bottom: 10px;
+  padding-left: 5px;
+}
+
+/* In đậm (strong/bold) */
+#descriptionProduct strong, 
+#descriptionProduct b {
+  color: #000;
+  font-weight: 600;
+}

@@ -32,5 +32,10 @@ section#header
       li
         a(href='contact.html') Contact
       li#lg-bag
-        a(href='cart.html')
-          i.fa-regular.fa-bag-shopping
+        a(href='/cart')
+          .cart
+            i.fa-regular.fa-bag-shopping
+            if (miniCart.totalQuantity > 0) 
+              div
+                span.quantity=miniCart.totalQuantity
+          .cart-notification

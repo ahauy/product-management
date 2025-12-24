@@ -1,6 +1,34 @@
 const { cardId } = require("../../middleware/client/cart.middleware");
 const Cart = require("../../models/cart.model");
+const ProductsCategory = require("../../models/productsCategory.model");
+const createTreeHelper = require("../../helpers/client/createTree"); // Nhớ đường dẫn file helper
+const formatMoney = require('../../helpers/client/formatMoney')
 
+// [GET] cart/
+module.exports.getCart = async (req, res) => {
+  // 1. Lấy danh mục "active" và chưa bị xóa
+  const find = {
+    deleted: false,
+    status: "active",
+  };
+  const records = await ProductsCategory.find(find);
+
+  // 2. Tạo cây danh mục (Level 1 -> Level 2 -> Level 3)
+  const newRecords = createTreeHelper(records);
+
+  const cartId = req.cookies.cartId
+  
+  const cart = await Cart.findOne({_id: cartId})
+
+  res.render("client/pages/cart/index.cart.pug", {
+    cart: cart,
+    layoutProductsCategory: newRecords, // Truyền biến này sang view
+    formatMoney: formatMoney,
+  })
+}
+
+
+// [POST] cart/add/:productID
 module.exports.addPost = async (req, res) => {
   const cartId = req.cookies.cartId;
 

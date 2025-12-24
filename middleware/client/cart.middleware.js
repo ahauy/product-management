@@ -12,7 +12,9 @@ module.exports.cardId = async (req, res, next) => {
       expires: new Date(Date.now() + expiresTime)
     })
   } else {
-    // khi đã có giỏ hàng
+    const cart = await Cart.findOne({_id: req.cookies.cartId})
+    // console.log(cart)
+    res.locals.miniCart = cart;
   }
 
   next();

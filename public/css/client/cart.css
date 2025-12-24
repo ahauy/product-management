@@ -1,0 +1,331 @@
+/* Reset cơ bản */
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr; /* Chia tỉ lệ 60/40 */
+  gap: 50px;
+}
+
+/* Cột trái */
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  margin-top: 20px;
+}
+
+.shipping-form input, 
+.shipping-form select, 
+.shipping-form textarea {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.input-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* .input-group-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+} */
+
+/* Ghi đè giao diện Select2 để cao 45px giống input tên/email */
+.select2-container--default .select2-selection--single {
+  height: 45px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  display: flex;
+  align-items: center;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 45px !important;
+  padding-left: 12px !important;
+  color: #333 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 45px !important;
+}
+
+/* 1. Tùy chỉnh khung chứa dropdown (cái hộp thả xuống) */
+.select2-dropdown {
+  border: 1px solid #eee !important; /* Viền nhạt hơn */
+  border-radius: 8px !important;     /* Bo góc mềm mại */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Đổ bóng tạo chiều sâu */
+  padding: 10px 0; /* Khoảng cách trên dưới */
+  overflow: hidden;
+}
+
+/* 2. Tùy chỉnh ô input tìm kiếm */
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  border: 1px solid #e0e0e0 !important; /* Viền xám nhẹ */
+  border-radius: 6px !important;        /* Bo góc ô tìm kiếm */
+  padding: 8px 12px !important;         /* Tăng khoảng cách chữ với viền */
+  margin: 0 10px 10px 10px;             /* Căn lề cách các cạnh */
+  width: calc(100% - 20px) !important;  /* Đảm bảo không bị tràn */
+  outline: none !important;             /* Bỏ viền xanh mặc định của trình duyệt */
+  font-family: inherit;                 /* Dùng font chữ của web bạn */
+  font-size: 1rem;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23999' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 10px center; /* Đặt icon bên trái */
+    padding-left: 35px !important;
+}
+
+/* 3. Hiệu ứng khi click vào ô tìm kiếm (Focus) */
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+  border-color: #333 !important;        /* Đổi màu viền khi gõ chữ (màu tối cho sang) */
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.05); /* Hiệu ứng tỏa sáng nhẹ */
+}
+
+/* 4. Tùy chỉnh các dòng kết quả (Option) */
+.select2-results__option {
+  padding: 8px 15px !important; /* Tăng khoảng cách cho dễ nhìn */
+  font-size: 14px;
+}
+
+/* 5. Hiệu ứng khi di chuột vào từng dòng (Hover) */
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+  background-color: #f5f5f5 !important; /* Màu nền xám nhạt thay vì xanh mặc định */
+  color: #333 !important;               /* Màu chữ đen */
+  font-weight: 500;
+}
+
+/* 6. Dòng đang được chọn (Selected) */
+.select2-container--default .select2-results__option--selected {
+  background-color: #e8e8e8 !important;
+  color: #000 !important;
+}
+
+/* Sửa khoảng cách giữa 3 ô */
+.input-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* .checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+} */
+
+.payment-method {
+  background: white;
+  height: 60px;
+  padding-left: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 10px;
+}
+
+.payment-method img {
+  width: 40px;
+}
+
+.payment-method:has(input:checked) {
+  background-color: #f0f0f0; /* Hoặc màu bạn muốn, ví dụ #555 */
+}
+
+/* Cột phải */
+.cart-summary {
+  background: white;
+  /* margin-left: 20px; */
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* margin-bottom: 15px; */
+}
+
+.product-item {
+  display: flex;
+  gap: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+}
+
+.product-item img {
+  width: 150px;
+  /* height: 110px; */
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.product-details h3 {
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+}
+
+.product-details p {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.counter {
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.counter button {
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: .8rem;
+}
+
+.counter input {
+  width: 30px;
+  font-size: .8rem;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.product-price {
+  margin-left: auto;
+  font-weight: bold;
+  min-width: max-content;
+}
+
+.promo-code div:first-child {
+  display: flex;
+  align-items: center;
+  /* flex-direction: column; */
+  gap: 8px;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+.promo-code div:last-child {
+  display: flex;
+  align-items: center;
+  /* flex-direction: column; */
+  gap: 8px;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+
+.promo-code input {
+  width: 75%;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.promo-code button {
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #1e1e1e;
+  background: white;
+  border-radius: 4px;
+  outline: none;
+  font-size: 1rem;
+  color: #1e1e1e;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.promo-code button:hover {
+  background: #1e1e1e;
+  color: white;
+}
+
+.price-lines .line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.total-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.total-section span {
+  font-size: 1.3rem;
+}
+
+.total-amount {
+  text-align: right;
+}
+
+.main-price {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.discount-note {
+  font-size: 0.75rem;
+  color: orange;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #1e1e1e;
+  background: white;
+  border-radius: 4px;
+  outline: none;
+  font-size: 1rem;
+  color: #1e1e1e;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.btn-submit:hover {
+  background: #1e1e1e;
+  color: white;
+}
