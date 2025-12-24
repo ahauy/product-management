@@ -47,16 +47,17 @@ block main
           .product-item
             img(src=product.image alt=product.name)
             .product-details
-              h3=product.name
+              a(href=`/products/detail/${product.slug}`) 
+                h3=product.name
               p Size / #{product.size}
               .quantity-controls
                 .counter
-                  button.minus
+                  button.btMinus
                     <i class="fa-solid fa-minus"></i>
-                  input(type="text" value=product.quantity)
-                  button.plus
+                  input(type="text" value=product.quantity name='quantity' product-id=product.productId)
+                  button.btnPlus
                     <i class="fa-solid fa-plus"></i>
-                button.btn-delete
+                a.btn-delete(href=`/cart/delete/${product.productId}/${product.size}`) 
                   i.fa-regular.fa-trash-can
                   | Xóa
             .product-price #{formatMoney(product.subtotal)}

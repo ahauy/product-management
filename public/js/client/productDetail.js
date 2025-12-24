@@ -59,15 +59,15 @@ let quantity = inputQuantity.value == "" ? 0 : parseInt(inputQuantity.value);
 btnPlus.addEventListener("click", () => {
   quantity += 1;
   inputQuantity.value = quantity;
-  console.log(inputQuantity.value)
+  console.log(inputQuantity.value);
 });
 
 btnMinus.addEventListener("click", () => {
-  if(quantity > 0) {
+  if (quantity > 0) {
     quantity -= 1;
     inputQuantity.value = quantity;
   }
-  if(inputQuantity.value == 0) {
+  if (inputQuantity.value == 0) {
     inputQuantity.value = "";
   }
 });

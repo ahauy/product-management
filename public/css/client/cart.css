@@ -4,6 +4,10 @@
   margin: 0 auto;
 }
 
+a {
+  text-decoration: none;
+}
+
 .checkout-layout {
   display: grid;
   grid-template-columns: 1.5fr 1fr; /* Chia tỉ lệ 60/40 */
@@ -178,6 +182,7 @@ h2 {
 .product-details h3 {
   font-size: 0.95rem;
   margin-bottom: 5px;
+  line-height: 1.4;
 }
 
 .product-details p {
