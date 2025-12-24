@@ -20,48 +20,56 @@ block main
             alt=product.media[0].alt
           )
 
-
-    //- Khối thông tin bên phải
-    .single-pro-details
-      h1.product-title= product.title
-      if stock > 0
-        p.stock-status Còn hàng
-      else 
-        p.stock-status.end Hết hàng
-      
-      .price-section
-        if product.discountPercentage > 0
-          span.new-price #{formatMoney(product.salePrice)}
-          span.old-price #{formatMoney(product.price)}
-          span.discount-badge -#{product.discountPercentage}%
+    form(
+      action=`/cart/add/${product.id}?`
+      method="POST"
+    ) 
+      input.d-none(type="text" name="slug" value=product.slug)
+      input.d-none(type="text" name="productId" value=product.id)
+      input.d-none(type="text" name="name" value=product.title)
+      input.d-none(type="text" name="image" value=product.media[0].url)
+      input.d-none(type="text" name="price" value=product.salePrice)
+      //- Khối thông tin bên phải
+      .single-pro-details
+        h1.product-title= product.title
+        if stock > 0
+          p.stock-status Còn hàng
         else 
-          span.new-price #{formatMoney(product.price)}
+          p.stock-status.end Hết hàng
+        
+        .price-section
+          if product.discountPercentage > 0
+            span.new-price #{formatMoney(product.salePrice)}
+            span.old-price #{formatMoney(product.price)}
+            span.discount-badge -#{product.discountPercentage}%
+          else 
+            span.new-price #{formatMoney(product.price)}
 
-      .size-selection
-        p.label Kích cỡ: 
-          span#selectedSize M
+        .size-selection
+          p.label Kích cỡ: 
+            span#selectedSize M
 
-        // select thật (ẩn)
-        select#sizeSelect(name="size")
-          each size in sizes
-            option(value=size)= size
+          // select thật (ẩn)
+          select#sizeSelect(name="size")
+            each size in sizes
+              option(value=size)= size
 
-        // UI giả giống hình
-        .size-options
-          each size in sizes
-            .size-item(data-size=size)= size
-        a.size-guide(href="#") Hướng dẫn chọn size
+          // UI giả giống hình
+          .size-options
+            each size in sizes
+              .size-item(data-size=size)= size
+          a.size-guide(href="#") Hướng dẫn chọn size
 
-      .cart-action
-        .quantity-control
-          button.minus
-            <i class="fa-solid fa-minus"></i>
-          input(type='text')
-          button.plus 
-            <i class="fa-solid fa-plus"></i>
-        .buttons-group
-          button.btn-add-cart Thêm vào giỏ hàng
-          button.btn-buy-now Mua ngay
+        .cart-action
+          .quantity-control
+            div.minus
+              <i class="fa-solid fa-minus"></i>
+            input(type='text' name="quantity")
+            div.plus 
+              <i class="fa-solid fa-plus"></i>
+          .buttons-group
+            button(type="submit").btn-add-cart Thêm vào giỏ hàng
+            button.btn-buy-now Mua ngay
 
       .policy-box
         .row

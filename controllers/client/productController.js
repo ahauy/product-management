@@ -103,7 +103,6 @@ module.exports.productDetail = async (req, res) => {
   }
 
   const product = await Products.findOne(findProduct)
-  
   const sizes = []; // danh sách các size
   let stock = 0; // tổng số lượng sản phẩm
   product.variants.forEach(variant => {
