@@ -1,0 +1,52 @@
+extends ../../layout/default.pug
+
+block main 
+  .auth-container
+    //- ... (Phần Tabs giữ nguyên) ...
+    .auth-tabs
+      button#tab-login.tab-btn.active(onclick="switchTab('login')") Đăng nhập
+      button#tab-register.tab-btn.inactive(onclick="switchTab('register')") Đăng ký
+
+    .form-content
+      
+      //- FORM ĐĂNG NHẬP
+      #form-login.form-wrapper.active
+        form(action="/user/login", method="POST")
+          .input-group
+            input(type="email", name="email", placeholder="Nhập email *", required)
+          .input-group
+            input(type="password", name="password", placeholder="Mật khẩu *", required)
+          
+          //- Nút này sẽ bị mờ do CSS, JS sẽ làm nó đậm lên
+          button.submit-btn(type="submit") ĐĂNG NHẬP
+          a.forgot-password(href="#") Quên mật khẩu?
+
+      //- FORM ĐĂNG KÝ (Cập nhật phần này)
+      #form-register.form-wrapper
+        form(action="/auth/register", method="POST")
+          
+          .input-group
+            input(type="text", name="fullName", placeholder="Họ và tên *")
+            span.error-message 
+
+          .input-group
+            input(type="text", name="phone", placeholder="Số điện thoại*")
+            span.error-message 
+
+          .input-group
+            input(type="email", name="email", placeholder="Nhập email *")
+            span.error-message 
+
+          .input-group
+            input(type="password", name="password", placeholder="Nhập mật khẩu (tối thiểu 6 ký tự) *")
+            span.error-message 
+
+          .input-group
+            input(type="password", name="confirmPassword", placeholder="Nhập lại mật khẩu")
+            span.error-message 
+
+          .register-note
+            | Một liên kết để đặt mật khẩu mới sẽ được gửi đến địa chỉ email của bạn.
+
+          button.submit-btn(type="submit") ĐĂNG KÝ
+

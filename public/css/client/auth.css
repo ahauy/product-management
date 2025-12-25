@@ -1,0 +1,170 @@
+
+.auth-container {
+  width: 500px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  margin: 50px auto;
+}
+
+.auth-tabs {
+  display: flex;
+  width: 100%;
+}
+
+.tab-btn {
+  width: 50%;
+  padding: 15px 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+
+.tab-btn.active {
+  background-color: #000;
+  color: #fff;
+}
+
+.tab-btn.inactive {
+  background-color: #fff;
+  color: #000;
+}
+
+.form-content {
+  padding: 40px 50px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 200%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  color: #333;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #999;
+}
+
+::placeholder {
+  color: #999;
+}
+
+/* ... Các code cũ giữ nguyên ... */
+
+.submit-btn {
+  width: 100%;
+  padding: 12px 0;
+  /* Mặc định màu nhạt hơn và không cho click */
+  background-color: #d1d1d1; 
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  text-transform: uppercase;
+  
+  /* Vô hiệu hóa nút bấm */
+  cursor: not-allowed; 
+  pointer-events: none; 
+  
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+/* Khi dữ liệu hợp lệ, JS sẽ thêm class này vào */
+.submit-btn.valid {
+  background-color: #555; /* Màu đậm lên (như màu xám đen) */
+  cursor: pointer;
+  pointer-events: auto; /* Cho phép click */
+}
+
+.submit-btn.valid:hover {
+  background-color: #333; /* Đậm hơn nữa khi hover */
+}
+
+.submit-btn:hover {
+  background-color: #a1a1a4;
+}
+
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.register-note {
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.form-wrapper {
+  display: none;
+}
+
+.form-wrapper.active {
+  display: block;
+}
+
+.input-group {
+  /* Giảm margin xuống mức cố định vừa đủ để chứa dòng lỗi */
+  /* Khoảng cách này sẽ luôn cố định, không bị giãn ra */
+  margin-bottom: 30px; 
+  
+  position: relative; /* Bắt buộc phải có để làm mốc cho absolute */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  box-sizing: border-box; 
+  transition: all 0.3s ease;
+}
+
+/* --- PHẦN STYLE LỖI (SỬA LẠI) --- */
+
+.input-group.error input {
+  border-color: #ff4d4f;
+  background-color: #fff1f0;
+}
+
+.error-message {
+  /* Thay đổi quan trọng nhất ở đây */
+  position: absolute; /* Đưa ra khỏi luồng hiển thị bình thường */
+  top: 100%; /* Đẩy xuống ngay sát mép dưới của ô input */
+  left: 0;   /* Căn trái */
+  
+  width: 100%; /* Chiếm hết chiều rộng nếu cần */
+  margin-top: 5px; /* Cách ô input 5px cho thoáng */
+  
+  /* Style chữ giữ nguyên */
+  display: none; 
+  text-align: left;
+  color: #ff4d4f;
+  font-size: 12px; /* Nên để chữ nhỏ gọn */
+  font-weight: 500;
+  font-style: italic;
+  
+  /* Ngăn dòng chữ bị xuống dòng làm vỡ layout nếu quá dài (tuỳ chọn) */
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.input-group.error .error-message {
+  display: block;
+}

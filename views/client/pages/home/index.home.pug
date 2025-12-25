@@ -2,6 +2,13 @@ extends ../../layout/default.pug
 include ../../mixins/products-layout.pug
 
 block main  
+
+  - if (messages.successLogin)
+      div(
+        class="notifications" 
+        data-status="success" 
+        data-mess= messages.successLogin[0]
+      )
   
   section#hero
     h4 Trade-in-offer

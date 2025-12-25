@@ -3,10 +3,7 @@ const generateRandomString = require("../helpers/admin/generate.js");
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    fullName: { type: String },
-    
+    fullName: { type: String, required: true  },
     email: { 
         type: String, 
         required: true, 
@@ -37,8 +34,6 @@ const userSchema = new mongoose.Schema(
       default: () => generateRandomString.generateRandomString(20),
     },
     
-    avatar: String,
-
     status: {
       type: String,
       enum: ["active", "inactive"],
