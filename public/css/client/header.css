@@ -154,3 +154,31 @@
   color: white;
   font-family: Arial,Sans-serif!important;
 }
+
+/* --- BỔ SUNG CSS CHO USER DROPDOWN --- */
+
+/* 1. Căn lề phải cho menu user để không bị tràn màn hình */
+#navbar li.user-dropdown-wrapper .sub-menu {
+  left: auto;  /* Hủy bỏ left: 0 mặc định */
+  right: 0;    /* Căn menu sát lề phải của icon */
+  width: 200px; /* Đặt chiều rộng phù hợp với nội dung */
+}
+
+/* 2. (Tùy chọn) Style đặc biệt cho nút Đăng xuất (ví dụ màu đỏ) */
+#navbar li.user-dropdown-wrapper .sub-menu li:last-child a {
+  color: #ff4d4f;
+  font-weight: 600;
+  border-top: 1px solid #f0f0f0; /* Thêm gạch ngang ngăn cách */
+}
+
+#navbar li.user-dropdown-wrapper .sub-menu li:last-child a:hover {
+  background-color: #fff1f0; /* Nền đỏ nhạt khi hover */
+  color: #d9363e;
+}
+
+/* 3. Tinh chỉnh lại vị trí mũi tên gạch chân (nếu đang bị lệch ở icon User) */
+/* Ẩn gạch chân màu xanh khi hover vào icon user nếu thấy không cần thiết */
+#navbar li.user-dropdown-wrapper a.active:after,
+#navbar li.user-dropdown-wrapper:hover::after {
+    display: none; 
+}

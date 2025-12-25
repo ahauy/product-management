@@ -1,0 +1,53 @@
+extends ../../layout/default.pug
+
+block main
+  //- Khai báo tiêu đề trang để sidebar biết active mục nào
+  - var pageTitle = 'info'
+  
+  //- Link CSS riêng
+  link(rel="stylesheet", href="/css/client/user/layout.default.css")
+
+  .user-dashboard-container
+    //- INCLUDE SIDEBAR VÀO ĐÂY
+    include ../../partials/user-sidebar.pug
+
+    .user-content
+      .user-header
+        h3 Thông tin tài khoản
+
+      //- Phần thông tin cá nhân
+      .info-group
+        .info-row
+          .info-label Họ và tên
+          .info-value Vũ Tuấn Hậu
+        .info-row
+          .info-label Số điện thoại
+          .info-value 0375568408
+        .info-row
+          .info-label Giới tính
+          .info-value Nam
+        .info-row
+          .info-label Ngày sinh
+          .info-value 23/01/2005
+        .info-row
+          .info-label Chiều cao
+          .info-value 178 cm
+        .info-row
+          .info-label Cân nặng
+          .info-value 70 kg
+        
+        button.btn-update CẬP NHẬT
+
+      //- Phần thông tin đăng nhập
+      .user-header
+        h3 Thông tin đăng nhập
+        
+      .info-group
+        .info-row
+          .info-label Email
+          .info-value vutuanhau.haui@gmail.com
+        .info-row
+          .info-label Mật khẩu
+          .info-value ***************
+        
+        button.btn-update CẬP NHẬT

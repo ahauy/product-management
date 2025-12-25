@@ -1,0 +1,41 @@
+extends ../../layout/default.pug
+
+block main
+  - var pageTitle = 'address'
+  link(rel="stylesheet", href="/css/client/user/layout.default.css")
+
+  .user-dashboard-container
+    include ../../partials/user-sidebar.pug
+
+    .user-content
+      .address-header
+        h3 Địa chỉ của tôi
+        a.btn-add-new(href="#") + THÊM ĐỊA CHỈ MỚI
+
+      .address-list
+        //- Item 1
+        .address-item
+          .address-info
+            h4 Vũ Tuấn Hậu 
+              span(style="color:#28a745; font-size: 12px; margin-left: 5px") 
+                i.fa-solid.fa-circle-check 
+                |  Địa chỉ mặc định
+            span.phone 0375568408
+            span.detail Nhà trọ anh Khánh, Phường Minh Khai, Quận Bắc Từ Liêm, Hà Nội
+            
+            a.btn-default-address(href="#") Đặt làm mặc định
+
+          .address-actions
+            a.link-blue(href="#") Cập nhật
+            a.link-red(href="#") Xóa
+
+        //- Item 2 (Ví dụ)
+        .address-item
+          .address-info
+            h4 Vũ Tuấn Hậu
+            span.phone 0375568408
+            span.detail Số 123 Đường ABC, Nam Định
+            a.btn-default-address(href="#") Đặt làm mặc định
+          .address-actions
+            a.link-blue(href="#") Cập nhật
+            a.link-red(href="#") Xóa

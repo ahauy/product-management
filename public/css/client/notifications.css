@@ -23,7 +23,7 @@
 
 .notification {
   padding: 1rem;
-  color: white;
+  color: #555;
   border-radius: 5px;
   /* border-left: 5px solid var(--btnSuccess); */
   animation: show 2s ease-in-out;
@@ -112,12 +112,15 @@
 
 .notification.success {
   border: 1px solid var(--notification_success);
+  background: white;
 }
 
 .notification.warning {
   border: 1px solid var(--notification_warning);
+  background: white;
 }
 
 .notification.error {
   border: 1px solid var(--notification_error);
+  background: white;
 }

@@ -72,10 +72,13 @@
   
   /* Vô hiệu hóa nút bấm */
   cursor: not-allowed; 
-  pointer-events: none; 
   
   margin-top: 10px;
   transition: all 0.3s ease;
+}
+
+#form-register .submit-btn {
+  pointer-events: none; 
 }
 
 /* Khi dữ liệu hợp lệ, JS sẽ thêm class này vào */
@@ -93,9 +96,9 @@
   background-color: #a1a1a4;
 }
 
-
 .forgot-password:hover {
   text-decoration: underline;
+  color: blue;
 }
 
 .register-note {
@@ -167,4 +170,22 @@
 
 .input-group.error .error-message {
   display: block;
+}
+
+#form-login .input-group {
+  margin-bottom: 20px;
+}
+
+#form-login .submit-btn {
+  margin-bottom: 15px;
+}
+
+#form-login .submit-btn {
+  cursor: pointer;
+  pointer-events: auto; /* Cho phép click */
+  background: #555;
+}
+
+#form-login .submit-btn:hover {
+  background: #333;
 }

@@ -3,11 +3,11 @@ include ../../mixins/products-layout.pug
 
 block main  
 
-  - if (messages.successLogin)
+  - if (messages.success)
       div(
         class="notifications" 
         data-status="success" 
-        data-mess= messages.successLogin[0]
+        data-mess= messages.success[0]
       )
   
   section#hero

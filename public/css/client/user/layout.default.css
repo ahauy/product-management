@@ -1,0 +1,264 @@
+body {
+  background-color: rgb(242, 242, 242);
+}
+/* Layout chung cho trang User */
+
+.user-dashboard-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 40px auto;
+  gap: 30px;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* --- SIDEBAR MENU --- */
+.user-sidebar {
+  /* margin-top: 20px; */
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.user-menu {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  /* box-shadow: 0 2px 10px rgba(0,0,0,0.05); */
+}
+
+.user-menu a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.user-menu a:last-child {
+  border-bottom: none;
+}
+
+.user-menu a i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+/* Trạng thái đang chọn (Active) - Màu đen như ảnh */
+.user-menu a.active {
+  background-color: #000;
+  color: #fff;
+}
+
+.user-menu a:hover:not(.active) {
+  background-color: #e6e6e6;
+}
+
+/* --- MAIN CONTENT --- */
+.user-content {
+  flex: 1;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  /* box-shadow: 0 2px 10px rgba(0,0,0,0.05); */
+}
+
+.user-header {
+  margin-bottom: 30px;
+}
+
+.user-header h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* --- TRANG 1: THÔNG TIN TÀI KHOẢN --- */
+.info-group {
+  margin-bottom: 30px;
+}
+
+.info-row {
+  display: flex;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.info-label {
+  width: 150px;
+  color: #777;
+}
+
+.info-value {
+  flex: 1;
+  color: #333;
+  font-weight: 500;
+}
+
+.btn-update {
+  margin-top: 15px;
+  padding: 10px 30px;
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-update:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* --- TRANG 2: ĐỊA CHỈ --- */
+.address-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-add-new {
+  background: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.address-item {
+  border-bottom: 1px solid #eee;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.address-info h4 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.address-info .phone, .address-info .detail {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.address-actions a {
+  font-size: 13px;
+  margin-left: 10px;
+  text-decoration: none;
+}
+
+.link-blue { color: #0056d6; }
+.link-red { color: #d9363e; }
+
+.btn-default-address {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #333;
+  text-decoration: none;
+}
+
+/* --- TRANG 3: LỊCH SỬ ĐƠN HÀNG --- */
+.order-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.order-header {
+  background: #2b3595; /* Màu xanh đậm header đơn hàng */
+  color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.status-badge {
+  background: #fff;
+  color: #2b3595;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.order-body {
+  padding: 20px;
+}
+
+.order-product {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.order-product img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.product-info h5 {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.product-variant {
+  font-size: 13px;
+  color: #777;
+}
+
+.product-price {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.order-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+}
+
+.total-money {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.btn-action {
+  padding: 8px 20px;
+  border: 1px solid #333;
+  background: #fff;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}

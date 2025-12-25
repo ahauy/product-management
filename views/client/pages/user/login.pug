@@ -1,6 +1,14 @@
 extends ../../layout/default.pug
 
 block main 
+
+  - if (messages.error)
+      div(
+        class="notifications" 
+        data-status="error" 
+        data-mess= messages.error[0]
+      )
+
   .auth-container
     //- ... (Phần Tabs giữ nguyên) ...
     .auth-tabs
@@ -23,7 +31,7 @@ block main
 
       //- FORM ĐĂNG KÝ (Cập nhật phần này)
       #form-register.form-wrapper
-        form(action="/auth/register", method="POST")
+        form(action="/user/register", method="POST")
           
           .input-group
             input(type="text", name="fullName", placeholder="Họ và tên *")

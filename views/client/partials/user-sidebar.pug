@@ -1,0 +1,43 @@
+.user-sidebar
+  .user-menu
+    a(href="/user/info", class=(pageTitle === 'info' ? 'active' : ''))
+      span
+        i.fa-solid.fa-user
+        | Thông tin tài khoản
+      i.fa-solid.fa-arrow-right
+
+    //- a(href="#")
+    //-   span
+    //-     i.fa-solid.fa-share-nodes
+    //-     | Giới thiệu bạn bè
+    //-   i.fa-solid.fa-arrow-right
+
+    a(href="/user/orders", class=(pageTitle === 'orders' ? 'active' : ''))
+      span
+        i.fa-solid.fa-box
+        | Lịch sử đơn hàng
+      i.fa-solid.fa-arrow-right
+    
+    //- a(href="#")
+    //-   span
+    //-     i.fa-solid.fa-wallet
+    //-     | Lịch sử CoolCash
+    //-   i.fa-solid.fa-arrow-right
+
+    a(href="/user/address", class=(pageTitle === 'address' ? 'active' : ''))
+      span
+        i.fa-solid.fa-map-location-dot
+        | Sổ địa chỉ
+      i.fa-solid.fa-arrow-right
+
+    //- a(href="#")
+    //-   span
+    //-     i.fa-solid.fa-star
+    //-     | Đánh giá và phản hồi
+    //-   i.fa-solid.fa-arrow-right
+
+    a(href="/user/logout")
+      span
+        i.fa-solid.fa-power-off
+        | Đăng xuất
+      i.fa-solid.fa-arrow-right

@@ -31,10 +31,30 @@ section#header
         a(href='about.html') About
       li
         a(href='contact.html') Contact
-      li
-        a(href='/user') 
-          .cart
-            <i class="fa-regular fa-user"></i>
+      if (!user)
+        li
+          a(href='/user') 
+            .cart
+              <i class="fa-regular fa-user"></i>
+      else 
+        //- THAY ĐỔI TỪ ĐÂY
+        li.menu-item-has-children.user-dropdown-wrapper
+          a(href='/user/info') 
+            .cart
+              //- Icon user màu xanh khi đã login
+              <i class="fa-solid fa-user" style="color: #0056d6;"></i>
+          
+          //- Menu con xổ xuống
+          ul.sub-menu
+            li
+              a(href='/user/info') Thông tin tài khoản
+            li
+              a(href='/user/orders') Lịch sử đơn hàng
+            li
+              a(href='/user/address') Sổ địa chỉ
+            li
+              //- Thêm class logout nếu muốn style màu đỏ cảnh báo (tùy chọn)
+              a(href='/user/logout') Đăng xuất
       li#lg-bag
         a(href='/cart')
           .cart

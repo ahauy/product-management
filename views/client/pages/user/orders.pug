@@ -1,0 +1,45 @@
+extends ../../layout/default.pug
+
+block main
+  - var pageTitle = 'orders'
+  link(rel="stylesheet", href="/css/client/user/layout.default.css")
+
+  .user-dashboard-container
+    include ../../partials/user-sidebar.pug
+
+    .user-content
+      .user-header
+        h3 Lịch sử đơn hàng
+      
+      //- Tabs (nếu cần)
+      //- div.tabs...
+
+      .orders-list
+        //- Đơn hàng 1
+        .order-card
+          .order-header
+            span 71168335965 - 25/08/2025
+            span.status-badge Đã huỷ
+
+          .order-body
+            //- Sản phẩm 1
+            .order-product
+              img(src="https://via.placeholder.com/80" alt="Áo ba lỗ")
+              .product-info
+                h5 Combo 3 Áo ba lỗ 100% Cotton
+                .product-variant Mix màu / L
+                .product-price 209.000đ 
+                  span.old-price 249.000đ
+            
+            //- Sản phẩm 2
+            .order-product
+              img(src="https://via.placeholder.com/80" alt="Quần thể thao")
+              .product-info
+                h5 Quần Thể Thao Nam 7" Ultra Shorts
+                .product-variant Xanh Forest Night / L
+                .product-price 159.000đ 
+                  span.old-price 189.000đ
+
+          .order-footer
+            .total-money Thành tiền: 368.000đ
+            button.btn-action Cần hỗ trợ

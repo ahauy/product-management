@@ -5,10 +5,14 @@ const checkoutRoutes = require('./checkout.router')
 // const cartRoutes = require('./cart.router')
 const userRoutes = require('./user.router')
 const middlewareCartId = require('../../middleware/client/cart.middleware')
+const middlewareInfoUser = require('../../middleware/client/user.middleware')
+
 
 module.exports = (app) => {
 
   app.use(middlewareCartId.cardId)
+
+  app.use(middlewareInfoUser.infoUser)
 
   app.use('/', homeRoutes)
   
