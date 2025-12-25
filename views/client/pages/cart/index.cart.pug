@@ -1,17 +1,21 @@
 extends ../../layout/default.pug
 
 block main 
-  .container.section-p1  
-    .checkout-layout
+  .container.section-p1
+    //- THAY ĐỔI 1: Biến div thành form để bao trùm cả 2 cột
+    form.checkout-layout(action="/checkout/order" method="POST")
+      
       // --- CỘT TRÁI: THÔNG TIN GIAO HÀNG ---
       .shipping-info
         h2 Thông tin Giao hàng
-        form.shipping-form
-          input(type="text" placeholder="Họ và tên")
+        //- THAY ĐỔI 2: Xóa thẻ form.shipping-form cũ, giữ lại div hoặc xóa hẳn tùy CSS
+        //- Ở đây mình giữ cấu trúc input, chỉ bỏ tag form con
+        .shipping-form-content 
+          input(type="text" name="fullName" placeholder="Họ và tên" required)
           .input-group
-            input(type="email" placeholder="Email")
-            input(type="text" placeholder="Số điện thoại")
-          input(type="text" placeholder="Địa chỉ nhà")
+            input(type="email" name="email" placeholder="Email")
+            input(type="text" name="phone" placeholder="Số điện thoại" required)
+          input(type="text" name="address" placeholder="Địa chỉ nhà" required)
           .input-row-3
             select#province.form-control(name="province")
               option(value="") Chọn Tỉnh/Thành phố
@@ -19,22 +23,22 @@ block main
               option(value="") Chọn Quận/Huyện
             select#ward.form-control(name="ward")
               option(value="") Chọn Phường/Xã
-          textarea(placeholder="Ghi chú thêm (cơ quan làm việc, giao trong giờ hành chính)")
-          
-          //- .checkbox-group
-          //-   input(type="checkbox" id="other-receiver")
-          //-   label(for="other-receiver") Gọi người khác nhận hàng nếu có
+          input(type="hidden" name="province" id="provinceName")
+          input(type="hidden" name="district" id="districtName")
+          input(type="hidden" name="ward" id="wardName")
+          textarea(name="note" placeholder="Ghi chú thêm (cơ quan làm việc, giao trong giờ hành chính)")
 
         h2 Phương thức thanh toán 
         label(for="cod") 
           .payment-method
-            input(type="radio" id="cod" name="payment-method")
-            img(src="/images/pay/cod.avif", alt="")
+            //- THAY ĐỔI 3: Thêm name và value cho radio button
+            input(type="radio" id="cod" name="paymentMethod" value="COD" checked)
+            img(src="/images/pay/cod.avif", alt="COD")
             span Thanh toán khi nhận hàng (COD)
         label(for="momo")   
           .payment-method
-            input(type="radio" id="momo" name="payment-method")
-            img(src="/images/pay/momo.avif", alt="")
+            input(type="radio" id="momo" name="paymentMethod" value="MOMO")
+            img(src="/images/pay/momo.avif", alt="Momo")
             span Ví Momo
 
       // --- CỘT PHẢI: GIỎ HÀNG ---
@@ -52,10 +56,11 @@ block main
               p Size / #{product.size}
               .quantity-controls
                 .counter
-                  button.btMinus
+                  //- Nút cộng trừ cần type="button" để không submit form
+                  button.btMinus(type="button")
                     <i class="fa-solid fa-minus"></i>
-                  input(type="text" value=product.quantity name='quantity' product-id=product.productId product-size=product.size)
-                  button.btnPlus
+                  input(type="text" value=product.quantity name='quantity' product-id=product.productId product-size=product.size readonly)
+                  button.btnPlus(type="button")
                     <i class="fa-solid fa-plus"></i>
                 a.btn-delete(href=`/cart/delete/${product.productId}/${product.size}`) 
                   i.fa-regular.fa-trash-can
@@ -67,8 +72,10 @@ block main
             i.fa-solid.fa-ticket
             span Mã Giảm Giá:
           div
-            input(type="text" placeholder="Nhập mã giảm giá")
-            button Áp dụng
+            //- THAY ĐỔI 4: Thêm name cho voucher
+            input(type="text" name="voucherCode" placeholder="Nhập mã giảm giá")
+            //- Quan trọng: Nút áp dụng phải là type="button" để không gửi đơn hàng
+            button(type="button" id="btn-apply-voucher") Áp dụng
 
         .section-title
           i.fa-solid.fa-box-open
@@ -91,4 +98,5 @@ block main
             p.main-price #{formatMoney(cart.totalPrice)}
             p.discount-note (Đã giảm trên giá gốc: 0đ)
 
-        button.btn-submit Đặt hàng
+        //- THAY ĐỔI 5: Nút này sẽ kích hoạt submit toàn bộ form bao quanh
+        button.btn-submit(type="submit") Đặt hàng

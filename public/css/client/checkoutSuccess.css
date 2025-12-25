@@ -1,0 +1,165 @@
+/* Container chung */
+.success-page {
+  padding: 60px 0;
+  max-width: 1000px; /* Giới hạn chiều rộng để giống mẫu */
+  margin: 0 auto;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+}
+
+/* --- PHẦN 1: HEADER --- */
+.success-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.success-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.sub-message {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 30px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-continue {
+  display: inline-block;
+  background-color: #000;
+  color: #fff;
+  padding: 15px 40px;
+  border-radius: 50px; /* Bo tròn kiểu viên thuốc */
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
+
+.btn-continue:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+/* --- PHẦN 2 & 3: TIÊU ĐỀ SECTION --- */
+.section-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  margin-top: 50px;
+}
+
+/* --- PHẦN 2: BẢNG ĐƠN HÀNG --- */
+.table-order {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.table-order th {
+  background-color: #1a1a1a; /* Màu đen header */
+  color: #fff;
+  padding: 15px 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.table-order td {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+/* Cột sản phẩm */
+.product-info-cell {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 600;
+}
+
+.product-info-cell img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+/* Các dòng tổng phụ (Tạm tính, phí ship...) */
+.summary-row td {
+  text-align: left;
+  border-bottom: 1px solid #f5f5f5;
+  padding: 12px 20px;
+}
+
+.summary-row td:first-child {
+  color: #555;
+}
+
+.summary-row td:last-child {
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Dòng Tổng thanh toán (Màu đen) */
+.total-row td {
+  background-color: #000;
+  color: #fff;
+  padding: 15px 20px;
+  border: none;
+}
+
+.total-row td:first-child {
+  text-align: left;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+.total-row td:last-child {
+  text-align: right;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* --- PHẦN 3: BOX THÔNG TIN NGƯỜI NHẬN --- */
+.info-box {
+  background-color: #e6e6e6; /* Màu xám nền */
+  border-radius: 8px;
+  padding: 40px;
+  margin-top: 20px;
+}
+
+.info-item {
+  margin-bottom: 20px;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-item label {
+  display: block;
+  font-weight: 600;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.info-item p {
+  font-size: 1.1rem;
+  color: #000;
+  font-weight: 500;
+  margin: 0;
+}

@@ -1,0 +1,79 @@
+extends ../../layout/default.pug
+
+block main 
+  .container.success-page
+    //- Phần 1: Thông báo thành công
+    .success-header
+      h1 ĐẶT HÀNG THÀNH CÔNG!
+      p.sub-message
+        | Cảm ơn bạn đã lựa chọn mua sắm tại 
+        strong Cara Shop
+        | . <br>
+        | Đơn hàng của bạn CHẮC CHẮN đã được chuyển tới hệ thống xử lý đơn hàng của Cara. 
+        | Trong quá trình xử lý, Cara sẽ liên hệ lại nếu như cần thêm thông tin từ bạn. 
+        | Ngoài ra Cara cũng sẽ gửi xác nhận đơn hàng bằng Email và tin nhắn.
+      
+      a.btn-continue(href="/") Khám phá thêm các sản phẩm khác tại đây
+
+    //- Phần 2: Chi tiết đơn hàng (Bảng sản phẩm)
+    .order-details
+      h2.section-title THÔNG TIN ĐƠN HÀNG ##{order.code}
+      
+      table.table-order
+        thead
+          tr
+            th(style="text-align: left") Tên sản phẩm
+            th(style="text-align: center") Số lượng
+            th(style="text-align: right") Giá niêm yết
+            th(style="text-align: center") Size
+            th(style="text-align: right") Thành tiền
+        tbody
+          each item in order.products
+            tr
+              td
+                .product-info-cell
+                  img(src=item.image alt=item.name)
+                  span= item.name
+              td(style="text-align: center")= item.quantity
+              td(style="text-align: right") #{formatMoney(item.salePrice)}
+              td(style="text-align: center")= item.size
+              td(style="text-align: right") <b>#{formatMoney(item.subtotal)}</b>
+        
+        tfoot
+          tr.summary-row
+            td(colspan="4") Tổng giá trị sản phẩm
+            td #{formatMoney(order.totalPrice)}
+          tr.summary-row
+            td(colspan="4") Tổng khuyến mãi
+            td #{formatMoney(discountMoney)}
+          tr.summary-row
+            td(colspan="4") Phí giao hàng
+            td #{formatMoney(order.shippingFee)}
+          tr.total-row
+            td(colspan="4") Tổng thanh toán
+            td #{formatMoney(order.totalPrice)}
+
+    //- Phần 3: Thông tin nhận hàng (Box xám)
+    .receiver-info
+      h2.section-title THÔNG TIN NHẬN HÀNG
+      
+      .info-box
+        .info-item
+          label Tên người nhận:
+          p #{order.userInfo.fullName}
+        
+        .info-item
+          label Email:
+          p #{order.userInfo.email}
+        
+        .info-item
+          label Số điện thoại:
+          p #{order.userInfo.phone}
+        
+        .info-item
+          label Hình thức thanh toán:
+          p #{order.paymentMethod === 'COD' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản / Ví điện tử'}
+        
+        .info-item
+          label Địa chỉ nhận hàng:
+          p #{order.userInfo.address}, #{order.userInfo.ward}, #{order.userInfo.district}, #{order.userInfo.province}

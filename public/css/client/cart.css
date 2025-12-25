@@ -21,9 +21,9 @@ h2 {
   margin-top: 20px;
 }
 
-.shipping-form input, 
-.shipping-form select, 
-.shipping-form textarea {
+.shipping-form-content input, 
+.shipping-form-content select, 
+.shipping-form-content textarea {
   width: 100%;
   padding: 15px;
   margin-bottom: 12px;
