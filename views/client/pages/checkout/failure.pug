@@ -1,0 +1,24 @@
+extends ../../layout/default.pug
+
+block main 
+  .container.success-page
+    //- Phần thông báo lỗi
+    .success-header
+      //- Icon X màu đỏ (dùng FontAwesome)
+      div(style="margin-bottom: 20px; color: #dc3545;")
+        i.fa-regular.fa-circle-xmark(style="font-size: 5rem;")
+
+      h1(style="color: #dc3545;") THANH TOÁN THẤT BẠI!
+      
+      p.sub-message
+        | Rất tiếc, quá trình thanh toán đã gặp sự cố hoặc bị hủy bỏ.
+        br
+        | Đơn hàng của bạn chưa được hoàn tất. Vui lòng kiểm tra lại số dư hoặc thử phương thức thanh toán khác.
+      
+      div(style="margin-top: 30px; display: flex; justify-content: center; gap: 15px;")
+        //- Nút này dẫn về trang giỏ hàng
+        a.btn-continue(href="/cart" style="background-color: #dc3545; border: 1px solid #dc3545;") 
+          | Thanh toán lại
+        
+        a.btn-continue(href="/" style="background-color: white; color: #333; border: 1px solid #ddd;") 
+          | Về trang chủ

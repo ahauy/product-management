@@ -11,6 +11,7 @@
     "start": "nodemon --inspect index.js"
   },
   "dependencies": {
+    "axios": "^1.13.2",
     "body-parser": "^2.2.0",
     "chat.js": "^1.0.2",
     "cloudinary": "^2.7.0",
