@@ -8,6 +8,6 @@ routes.post('/add/:productId', controller.addPost)
 
 routes.get('/delete/:productId/:size', controller.deleteProduct)
 
-routes.get('/update/:productId/:quantity', controller.updateQuantity)
+routes.get('/update/:productId/:quantity/:size', controller.updateQuantity)
 
 module.exports = routes;

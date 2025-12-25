@@ -105,7 +105,7 @@ module.exports.addPost = async (req, res) => {
   res.redirect(`/products/detail/${req.body.slug}`);
 };
 
-// [GET] /cart/delete/:productId
+// [GET] /cart/delete/:productId/:size
 module.exports.deleteProduct = async (req, res) => {
   const cartId = req.cookies.cartId;
   const productId = req.params.productId;
@@ -144,22 +144,25 @@ module.exports.deleteProduct = async (req, res) => {
 module.exports.updateQuantity = async (req, res) => {
   const cartId = req.cookies.cartId;
   const productId = req.params.productId;
-  const quantity = req.params.quantity;
+  const quantity = parseInt(req.params.quantity);
+  const size = req.params.size
 
   const cart = await Cart.findOne({
     _id: cartId,
   });
 
-  const product = cart.products.find((item) => (item.productId = productId));
+  const product = cart.products.find((item) => (item.productId == productId));
 
-  const price = product.price;
+  const price = parseInt(product.price);
 
-  const newSubtotal = price.quantity;
+  const newSubtotal = price*quantity;
+
 
   await Cart.updateOne(
     {
       _id: cartId,
       "products.productId": productId,
+      "products.size": size,
     },
     {
       "products.$.quantity": quantity,

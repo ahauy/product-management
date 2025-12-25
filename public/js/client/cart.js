@@ -5,21 +5,22 @@ if (inputsQuantity.length > 0) {
   inputsQuantity.forEach((input) => {
     input.addEventListener("change", (e) => {
       const productId = input.getAttribute("product-id");
+      const productSize = input.getAttribute("product-size");
       const quantity = parseInt(input.value);
 
       // Kiểm tra nếu số lượng hợp lệ (lớn hơn 0)
       if (quantity > 0) {
         // Chuyển hướng trình duyệt đến link cập nhật
         // Trình duyệt sẽ gửi yêu cầu GET đến server
-        window.location.href = `/cart/update/${productId}/${quantity}`;
+        window.location.href = `/cart/update/${productId}/${quantity}/${productSize}`;
       } else {
-        alert("Số lượng phải lớn hơn hoặc bằng 1");
-        input.value = 1; // Reset về 1 nếu người dùng nhập số âm hoặc 0
+        window.location.href = `/cart/delete/${productId}/${productSize}`
       }
     });
   });
 }
 
+// Xử lý nút Trừ (-)
 // Xử lý nút Trừ (-)
 const buttonsMinus = document.querySelectorAll(".btMinus");
 if (buttonsMinus.length > 0) {
@@ -27,9 +28,18 @@ if (buttonsMinus.length > 0) {
     button.addEventListener("click", () => {
       const input = button.parentElement.querySelector("input[name='quantity']");
       const quantity = parseInt(input.value);
+      
+      // --- SỬA LẠI: Lấy thông tin ID và Size ra ngoài trước khi kiểm tra số lượng ---
+      const productId = input.getAttribute("product-id");
+      const productSize = input.getAttribute("product-size");
+
       if (quantity > 1) {
-        const productId = input.getAttribute("product-id");
-        window.location.href = `/cart/update/${productId}/${quantity - 1}`;
+        // Trường hợp giảm số lượng
+        window.location.href = `/cart/update/${productId}/${quantity - 1}/${productSize}`;
+      } else {
+        // Trường hợp xóa sản phẩm (khi quantity = 1)
+        // Lúc này biến productId và productSize đã tồn tại và hoạt động đúng
+        window.location.href = `/cart/delete/${productId}/${productSize}`
       }
     });
   });
@@ -42,9 +52,10 @@ if (buttonsPlus.length > 0) {
     button.addEventListener("click", () => {
       const input = button.parentElement.querySelector("input[name='quantity']");
       const productId = input.getAttribute("product-id");
+      const productSize = input.getAttribute("product-size");
       const quantity = parseInt(input.value);
       
-      window.location.href = `/cart/update/${productId}/${quantity + 1}`;
+      window.location.href = `/cart/update/${productId}/${quantity + 1}/${productSize}`;
     });
   });
 }

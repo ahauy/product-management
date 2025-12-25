@@ -54,7 +54,7 @@ block main
                 .counter
                   button.btMinus
                     <i class="fa-solid fa-minus"></i>
-                  input(type="text" value=product.quantity name='quantity' product-id=product.productId)
+                  input(type="text" value=product.quantity name='quantity' product-id=product.productId product-size=product.size)
                   button.btnPlus
                     <i class="fa-solid fa-plus"></i>
                 a.btn-delete(href=`/cart/delete/${product.productId}/${product.size}`) 
