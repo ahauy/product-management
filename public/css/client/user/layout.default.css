@@ -33,7 +33,7 @@ body {
   padding: 15px 20px;
   text-decoration: none;
   color: #333;
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 500;
   transition: all 0.3s;
   border-bottom: 1px solid #f5f5f5;
@@ -87,7 +87,7 @@ body {
   display: flex;
   padding: 15px 0;
   border-bottom: 1px solid #eee;
-  font-size: 14px;
+  font-size: 1rem;
 }
 
 .info-label {
@@ -126,6 +126,12 @@ body {
   margin-bottom: 20px;
 }
 
+.address-header h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
 .btn-add-new {
   background: #000;
   color: #fff;
@@ -149,7 +155,7 @@ body {
 }
 
 .address-info .phone, .address-info .detail {
-  font-size: 14px;
+  font-size: 1rem;
   color: #666;
   margin-bottom: 5px;
   display: block;
@@ -179,23 +185,24 @@ body {
 .order-card {
   border: 1px solid #eee;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   overflow: hidden;
 }
 
 .order-header {
   background: #2b3595; /* Màu xanh đậm header đơn hàng */
   color: #fff;
-  padding: 10px 20px;
+  padding: 20px 20px;
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  align-items: center;
+  font-size: 1rem;
 }
 
 .status-badge {
   background: #fff;
   color: #2b3595;
-  padding: 2px 10px;
+  padding: 10px 15px;
   border-radius: 10px;
   font-size: 12px;
   font-weight: bold;
@@ -212,20 +219,22 @@ body {
 }
 
 .order-product img {
-  width: 80px;
-  height: 80px;
+  width: 110px;
+  /* height: 80px; */
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   border-radius: 4px;
 }
 
 .product-info h5 {
   font-size: 15px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .product-variant {
   font-size: 13px;
   color: #777;
+  margin-bottom: 10px;
 }
 
 .product-price {
@@ -261,4 +270,474 @@ body {
   border-radius: 20px;
   font-size: 13px;
   cursor: pointer;
+}
+
+/* --- CSS CHO MODAL POPUP --- */
+
+/* Lớp phủ mờ toàn màn hình */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Nền đen mờ */
+  z-index: 9999;
+  display: none; /* Mặc định ẩn */
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Khi thêm class .show thì hiện lên */
+.modal-overlay.show {
+  display: flex;
+  opacity: 1;
+}
+
+/* Hộp nội dung chính màu trắng */
+.modal-content {
+  background: #fff;
+  width: 500px;
+  padding: 40px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Nút đóng X */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.modal-content h3 {
+  margin-bottom: 30px;
+  font-size: 24px;
+  text-align: left; /* Hoặc center tùy thích */
+}
+
+/* Style cho từng ô nhập liệu */
+.modal-input-group {
+  margin-bottom: 20px;
+}
+
+.modal-input-group label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+  background: #fff;
+  width: fit-content;
+  padding: 0 5px;
+  /* Mẹo: Để label đè lên border nếu muốn style floating label */
+  margin-left: 10px;
+  transform: translateY(10px);
+  position: relative;
+  z-index: 1;
+}
+
+.input-with-icon {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 25px; /* Bo tròn như viên thuốc */
+  padding: 10px 15px;
+  transition: border-color 0.3s;
+}
+
+.input-with-icon:focus-within {
+  border-color: #000;
+}
+
+.input-with-icon i {
+  color: #999;
+  font-size: 1rem;
+}
+
+.input-with-icon input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Nút Submit màu đen */
+.btn-modal-submit {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  padding: 15px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.btn-modal-submit:hover {
+  background-color: #333;
+}
+
+/* Tìm đến class này trong file css và thêm cursor pointer */
+.toggle-password {
+  cursor: pointer; /* Thêm dòng này */
+  color: #999;     /* Màu xám */
+  padding: 5px;    /* Tăng diện tích bấm cho dễ */
+}
+
+.toggle-password:hover {
+  color: #333; /* Đổi màu đậm hơn khi hover */
+}
+
+/* --- VALIDATE CHO MODAL --- */
+
+/* Mặc định ẩn thông báo lỗi */
+.modal-input-group .error-message {
+  color: #ff4d4f; /* Màu đỏ */
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
+  font-style: italic;
+  padding-left: 10px; /* Căn lề một chút cho đẹp */
+}
+
+/* Khi có lỗi (class error được thêm vào cha) */
+.modal-input-group.error .error-message {
+  display: block; /* Hiện chữ lỗi */
+}
+
+.modal-input-group.error .input-with-icon {
+  border-color: #ff4d4f; /* Viền input chuyển màu đỏ */
+  /* background-color: #fff1f0; Nền đỏ nhạt (tuỳ chọn) */
+}
+
+.modal-input-group.error label {
+  color: #ff4d4f; /* Đổi màu label thành đỏ luôn cho đồng bộ */
+}
+
+
+/* --- CSS RIÊNG CHO MODAL ĐỊA CHỈ --- */
+
+/* Kích thước modal to hơn modal đổi pass chút */
+.modal-address-size {
+  width: 600px; 
+  max-width: 95%;
+}
+
+.modal-content h3 {
+  text-align: center; /* Căn giữa tiêu đề */
+  font-weight: 800;
+  margin-bottom: 25px;
+}
+
+/* Layout 2 cột cho Họ tên & SĐT */
+.row-2-col {
+  display: flex;
+  gap: 20px;
+}
+.row-2-col .modal-input-group {
+  flex: 1; /* Chia đều 50-50 */
+}
+
+/* Style cho Input/Select để giống hình (Bo tròn, viền xám) */
+.modal-input-group > input, 
+.modal-input-group > select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 7px; /* Bo tròn mạnh */
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s;
+  background: #fff;
+  margin-top: 5px; /* Cách label 1 chút */
+}
+
+.modal-input-group input:focus,
+.modal-input-group select:focus {
+  border-color: #000;
+}
+
+/* Label chỉnh lại chút */
+.modal-input-group label {
+  margin-left: 15px; /* Thụt vào cho thẳng với input bo tròn */
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 0;
+  transform: none; /* Reset transform cũ nếu có */
+}
+
+/* Checkbox */
+.modal-checkbox-group {
+  display: flex;
+  align-items: center;
+  margin: 20px 0 30px 10px;
+}
+
+.modal-checkbox-group input {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.modal-checkbox-group label {
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Footer chứa 2 nút bấm */
+.modal-footer-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.modal-footer-buttons button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+/* Nút Đóng (Trắng viền đen) */
+.btn-outline {
+  background: #fff;
+  border: 1px solid #000;
+  color: #000;
+}
+.btn-outline:hover {
+  background: #f5f5f5;
+}
+
+/* Nút Cập nhật (Đen chữ trắng) */
+.btn-solid {
+  background: #000;
+  border: 1px solid #000;
+  color: #fff;
+}
+.btn-solid:hover {
+  background: #333;
+  border-color: #333;
+}
+
+/* Nút "Cập nhật" ở danh sách bên ngoài (link-blue) phải là button để bắt sự kiện */
+button.link-blue {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 13px;
+  padding: 0;
+  color: #0056d6;
+  margin-right: 10px;
+}
+
+
+/* --- STYLE CHO SELECT ĐỊA ĐIỂM GIỐNG ẢNH --- */
+
+/* Đảm bảo mỗi ô chiếm hết 1 dòng */
+.modal-input-group.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Label màu xám nhạt, chữ nhỏ giống ảnh */
+.modal-input-group label {
+  display: block;
+  margin-bottom: 8px;
+  margin-left: 0; /* Reset lề trái cũ */
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Wrapper để chứa icon mũi tên tùy chỉnh */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Style chính cho thẻ Select */
+.select-wrapper select {
+  width: 100%;
+  padding: 12px 15px;
+  
+  /* Xóa giao diện mặc định xấu xí của trình duyệt */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  background-color: #fff;
+  border: 1px solid #e0e0e0; /* Viền xám nhạt tinh tế */
+  border-radius: 4px; /* Bo góc nhẹ giống ảnh (không bo tròn hẳn) */
+  
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hiệu ứng khi bấm vào */
+.select-wrapper select:focus {
+  border-color: #000; /* Viền đen khi active */
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+/* Style cho thẻ select bị disable (chưa chọn cấp trên) */
+.select-wrapper select:disabled {
+  background-color: #f9f9f9;
+  cursor: not-allowed;
+  color: #999;
+}
+
+/* Icon mũi tên tùy chỉnh (cần FontAwesome) */
+.select-wrapper .arrow-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #999;
+  pointer-events: none; /* Để click xuyên qua icon vào select */
+}
+
+/* --- CUSTOM DROPDOWN STYLE --- */
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+/* Trạng thái Disabled (Mờ đi) */
+.custom-dropdown.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* HEADER: Ô hiển thị chính */
+.dropdown-header {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px; /* Bo góc nhẹ giống ảnh */
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.custom-dropdown.active .dropdown-header {
+  border-color: #000;
+}
+
+/* BODY: Phần xổ xuống */
+/* BẮT BUỘC PHẢI CÓ ĐỂ HIỆN DANH SÁCH */
+.dropdown-body {
+  display: none; /* Mặc định ẩn */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 9999; /* Số này phải cao để nổi lên trên */
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Khi có class active thì hiện ra */
+.custom-dropdown.active .dropdown-body {
+  display: block; 
+}
+
+/* SEARCH BOX */
+.dropdown-search {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-search i {
+  position: absolute;
+  left: 20px;
+  color: #999;
+  font-size: 12px;
+}
+
+.dropdown-search input {
+  width: 100%;
+  padding: 8px 10px 8px 30px; /* Chừa chỗ cho icon */
+  border: 1px solid #eee;
+  border-radius: 4px;
+  outline: none;
+  font-size: 13px;
+}
+
+/* LIST ITEMS */
+.dropdown-list {
+  list-style: none;
+  max-height: 200px; /* Chiều cao tối đa, quá thì cuộn */
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-list li {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #333;
+}
+
+.dropdown-list li:hover {
+  background-color: #f5f5f5;
+}
+
+/* Scrollbar đẹp hơn (tùy chọn) */
+.dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+.dropdown-list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+/* Modal content phải cho phép hiển thị phần tử tràn ra ngoài */
+.modal-content {
+  overflow: visible !important; 
+}
+
+/* Đảm bảo danh sách dropdown nằm trên cùng */
+.dropdown-body {
+  z-index: 10000 !important; 
 }

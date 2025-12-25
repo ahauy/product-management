@@ -12,9 +12,9 @@ const orderSchema = new mongoose.Schema(
     // --- LIÊN KẾT TÀI KHOẢN (Tối ưu ObjectId) ---
     // Đổi tên thành user_id (snake_case) hoặc giữ userId tùy convention của bạn, 
     // nhưng type phải là ObjectId
-    userId: {
+    cartId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Tên Model User của bạn (để dùng .populate('user_id'))
+      ref: "Cart", // Tên Model User của bạn (để dùng .populate('user_id'))
       // required: true,
     },
 

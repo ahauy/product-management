@@ -33,7 +33,7 @@ h2 {
   font-size: 1rem;
 }
 
-.input-group {
+.input-group-cart {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -154,13 +154,21 @@ h2 {
 .cart-summary {
   background: white;
   /* margin-left: 20px; */
+  /* padding-top: 0px; */
+  /* margin-top: 20px; */
 }
 
 .section-title {
   display: flex;
   align-items: center;
   gap: 10px;
+  
   /* margin-bottom: 15px; */
+}
+
+.section-title {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 .product-item {
@@ -189,8 +197,6 @@ h2 {
   color: #777;
   font-size: 0.85rem;
 }
-
-
 
 .quantity-controls {
   display: flex;

@@ -1,21 +1,24 @@
 extends ../../layout/default.pug
 
 block main
-  //- Khai báo tiêu đề trang để sidebar biết active mục nào
+
+  - if (messages.success)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess= messages.success[0]
+    )
+
   - var pageTitle = 'info'
-  
-  //- Link CSS riêng
   link(rel="stylesheet", href="/css/client/user/layout.default.css")
 
   .user-dashboard-container
-    //- INCLUDE SIDEBAR VÀO ĐÂY
     include ../../partials/user-sidebar.pug
 
     .user-content
       .user-header
         h3 Thông tin tài khoản
 
-      //- Phần thông tin cá nhân
       .info-group
         .info-row
           .info-label Họ và tên
@@ -45,9 +48,195 @@ block main
       .info-group
         .info-row
           .info-label Email
-          .info-value vutuanhau.haui@gmail.com
+          .info-value #{user.email}
         .info-row
           .info-label Mật khẩu
           .info-value ***************
         
-        button.btn-update CẬP NHẬT
+        //- THAY ĐỔI Ở ĐÂY: Thêm ID để bắt sự kiện click
+        button#btn-open-password.btn-update CẬP NHẬT
+
+  //- --- BỔ SUNG MODAL VÀO CUỐI FILE ---
+  div#modal-password.modal-overlay
+    div.modal-content
+      button#btn-close-modal.close-btn &times;
+      h3 Chỉnh sửa thông tin tài khoản
+
+      //- ... Phần Form trong Modal ...
+      form#form-change-password(action="/user/password/change?_method=PATCH" method="POST")
+        
+        .modal-input-group
+          label Mật khẩu cũ
+          .input-with-icon
+            i.fa-solid.fa-lock
+            input(type="password" name="oldPassword" placeholder="Nhập mật khẩu cũ")
+            i.fa-solid.fa-eye.toggle-password
+          //- Thêm dòng này
+          span.error-message 
+
+        .modal-input-group
+          label Mật khẩu mới
+          .input-with-icon
+            i.fa-solid.fa-lock
+            input(type="password" name="newPassword" placeholder="Nhập mật khẩu mới")
+            i.fa-solid.fa-eye.toggle-password
+          //- Thêm dòng này
+          span.error-message 
+
+        .modal-input-group
+          label Nhập lại mật khẩu
+          .input-with-icon
+            i.fa-solid.fa-lock
+            input(type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu")
+            i.fa-solid.fa-eye.toggle-password
+          //- Thêm dòng này
+          span.error-message 
+
+        button.btn-modal-submit(type="submit") CẬP NHẬT MẬT KHẨU
+
+  //- SCRIPT XỬ LÝ ĐÓNG/MỞ MODAL
+  script.
+    // 1. Lấy các phần tử cần thiết
+    const modal = document.getElementById('modal-password');
+    const btnOpen = document.getElementById('btn-open-password');
+    const btnClose = document.getElementById('btn-close-modal');
+    
+    // 2. Mở Modal
+    if(btnOpen) {
+        btnOpen.addEventListener('click', () => {
+            modal.classList.add('show');
+        });
+    }
+
+    // 3. Đóng Modal
+    if(btnClose) {
+        btnClose.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+    }
+
+    // 4. Click ra ngoài vùng trắng cũng đóng Modal
+    window.addEventListener('click', (e) => {
+        if (e.target == modal) {
+            modal.classList.remove('show');
+        }
+    });
+
+    // --- PHẦN MỚI THÊM: XỬ LÝ ẨN/HIỆN MẬT KHẨU ---
+    const togglePasswordIcons = document.querySelectorAll('.toggle-password');
+
+    togglePasswordIcons.forEach(icon => {
+      icon.addEventListener('click', function() {
+        // 1. Tìm ô input tương ứng (nằm ngay trước icon con mắt)
+        const input = this.previousElementSibling;
+
+        // 2. Kiểm tra trạng thái hiện tại
+        const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+        
+        // 3. Đổi kiểu input
+        input.setAttribute('type', type);
+
+        // 4. Đổi icon (Mở mắt <-> Gạch chéo mắt)
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+      });
+    });
+
+    // --- PHẦN VALIDATE FORM ĐỔI MẬT KHẨU ---
+    const formChangePass = document.getElementById('form-change-password');
+    
+    if(formChangePass) {
+        const oldPass = formChangePass.querySelector('input[name="oldPassword"]');
+        const newPass = formChangePass.querySelector('input[name="newPassword"]');
+        const confirmPass = formChangePass.querySelector('input[name="confirmPassword"]');
+
+        // Hàm hiển thị lỗi
+        const showError = (input, message) => {
+            const parent = input.closest('.modal-input-group');
+            const errorSpan = parent.querySelector('.error-message');
+            
+            parent.classList.add('error');
+            errorSpan.innerText = message;
+        };
+
+        // Hàm xóa lỗi (Success)
+        const showSuccess = (input) => {
+            const parent = input.closest('.modal-input-group');
+            const errorSpan = parent.querySelector('.error-message');
+            
+            parent.classList.remove('error');
+            errorSpan.innerText = '';
+        };
+
+        // 1. Kiểm tra Mật khẩu cũ (Không được để trống)
+        oldPass.addEventListener('blur', function() {
+            if(!this.value) showError(this, 'Vui lòng nhập mật khẩu cũ');
+        });
+        oldPass.addEventListener('input', function() {
+            showSuccess(this);
+        });
+
+        // 2. Kiểm tra Mật khẩu mới (Độ dài > 6)
+        newPass.addEventListener('blur', function() {
+            if(!this.value) {
+                showError(this, 'Vui lòng nhập mật khẩu mới');
+            } else if (this.value.length < 6) {
+                showError(this, 'Mật khẩu phải có tối thiểu 6 ký tự');
+            }
+        });
+        newPass.addEventListener('input', function() {
+            showSuccess(this);
+            // Nếu đang sửa mật khẩu mới, cũng nên check lại ô confirm xem còn khớp ko
+            if(confirmPass.value) {
+                 if(this.value !== confirmPass.value) {
+                     showError(confirmPass, 'Mật khẩu nhập lại không khớp');
+                 } else {
+                     showSuccess(confirmPass);
+                 }
+            }
+        });
+
+        // 3. Kiểm tra Nhập lại mật khẩu (Phải khớp với mật khẩu mới)
+        confirmPass.addEventListener('blur', function() {
+            if(!this.value) {
+                showError(this, 'Vui lòng nhập lại mật khẩu');
+            } else if (this.value !== newPass.value) {
+                showError(this, 'Mật khẩu nhập lại không khớp');
+            }
+        });
+        confirmPass.addEventListener('input', function() {
+            if (this.value !== newPass.value) {
+                // Nếu đang gõ mà chưa khớp thì chưa cần báo lỗi ngay, 
+                // nhưng nếu muốn gõ đến đâu check đến đó thì để logic ở đây.
+                // Ở đây mình chỉ xóa lỗi để user gõ tiếp.
+                showSuccess(this); 
+            } else {
+                showSuccess(this);
+            }
+        });
+
+        // 4. Chặn Submit nếu còn lỗi
+        formChangePass.addEventListener('submit', (e) => {
+            let isValid = true;
+
+            // Check lại tât cả 1 lượt
+            if(!oldPass.value) {
+                showError(oldPass, 'Vui lòng nhập mật khẩu cũ');
+                isValid = false;
+            }
+
+            if(!newPass.value || newPass.value.length < 6) {
+                showError(newPass, 'Mật khẩu mới không hợp lệ');
+                isValid = false;
+            }
+
+            if(newPass.value !== confirmPass.value) {
+                showError(confirmPass, 'Mật khẩu nhập lại không khớp');
+                isValid = false;
+            }
+
+            if(!isValid) {
+                e.preventDefault(); // Chặn gửi form
+            }
+        });
+    }

@@ -4,29 +4,47 @@ block main
   .container.section-p1
     //- THAY ĐỔI 1: Biến div thành form để bao trùm cả 2 cột
     form.checkout-layout(action="/checkout/order" method="POST")
-      
       // --- CỘT TRÁI: THÔNG TIN GIAO HÀNG ---
       .shipping-info
         h2 Thông tin Giao hàng
-        //- THAY ĐỔI 2: Xóa thẻ form.shipping-form cũ, giữ lại div hoặc xóa hẳn tùy CSS
-        //- Ở đây mình giữ cấu trúc input, chỉ bỏ tag form con
-        .shipping-form-content 
-          input(type="text" name="fullName" placeholder="Họ và tên" required)
-          .input-group
-            input(type="email" name="email" placeholder="Email")
-            input(type="text" name="phone" placeholder="Số điện thoại" required)
-          input(type="text" name="address" placeholder="Địa chỉ nhà" required)
-          .input-row-3
-            select#province.form-control(name="province")
-              option(value="") Chọn Tỉnh/Thành phố
-            select#district.form-control(name="district")
-              option(value="") Chọn Quận/Huyện
-            select#ward.form-control(name="ward")
-              option(value="") Chọn Phường/Xã
-          input(type="hidden" name="province" id="provinceName")
-          input(type="hidden" name="district" id="districtName")
-          input(type="hidden" name="ward" id="wardName")
-          textarea(name="note" placeholder="Ghi chú thêm (cơ quan làm việc, giao trong giờ hành chính)")
+        if (!user)
+          //- THAY ĐỔI 2: Xóa thẻ form.shipping-form cũ, giữ lại div hoặc xóa hẳn tùy CSS
+          //- Ở đây mình giữ cấu trúc input, chỉ bỏ tag form con
+          .shipping-form-content 
+            input(type="text" name="fullName" placeholder="Họ và tên" required)
+            .input-group-cart
+              input(type="email" name="email" placeholder="Email")
+              input(type="text" name="phone" placeholder="Số điện thoại" required)
+            input(type="text" name="address" placeholder="Địa chỉ nhà" required)
+            .input-row-3
+              select#province.form-control(name="province")
+                option(value="") Chọn Tỉnh/Thành phố
+              select#district.form-control(name="district")
+                option(value="") Chọn Quận/Huyện
+              select#ward.form-control(name="ward")
+                option(value="") Chọn Phường/Xã
+            input(type="hidden" name="province" id="provinceName")
+            input(type="hidden" name="district" id="districtName")
+            input(type="hidden" name="ward" id="wardName")
+            textarea(name="note" placeholder="Ghi chú thêm (cơ quan làm việc, giao trong giờ hành chính)")
+        else 
+          .shipping-form-content 
+            input(type="text" name="fullName" placeholder="Họ và tên" required value=addressDefault.name)
+            .input-group-cart
+              input(type="email" name="email" placeholder="Email" value=user.email)
+              input(type="text" name="phone" placeholder="Số điện thoại" required value=addressDefault.phone)
+            input(type="text" name="address" placeholder="Địa chỉ nhà" required value=addressDefault.address)
+            .input-row-3
+              select#province.form-control(name="province" data-default=addressDefault.province)
+                option(value="") Chọn Tỉnh/Thành phố
+              select#district.form-control(name="district" data-default=addressDefault.district)
+                option(value="") Chọn Quận/Huyện
+              select#ward.form-control(name="ward" data-default=addressDefault.ward)
+                option(value="") Chọn Phường/Xã
+            input(type="hidden" name="province" id="provinceName" value=addressDefault.province)
+            input(type="hidden" name="district" id="districtName" value=addressDefault.district)
+            input(type="hidden" name="ward" id="wardName" value=addressDefault.ward)
+            textarea(name="note" placeholder="Ghi chú thêm (cơ quan làm việc, giao trong giờ hành chính)")
 
         h2 Phương thức thanh toán 
         label(for="cod") 

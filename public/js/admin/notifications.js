@@ -44,6 +44,10 @@ function createNofification(status, message) {
         createDiv.style.animation = 'hide 2s ease-in-out';
     }, 4000);
 
+    createDiv.addEventListener('click', e => {
+        createDiv.remove();
+    })
+
     // remove createDiv
     setTimeout(() => {
         createDiv.remove();

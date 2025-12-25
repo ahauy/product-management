@@ -53,9 +53,9 @@ module.exports.orderPost = async (req, res) => {
       email: req.body.email,
       phone: req.body.phone,
       address: req.body.address, 
-      province: req.body.province ? req.body.province : "",
-      district: req.body.district ? req.body.district : "",
-      ward: req.body.ward ? req.body.ward : "",
+      province: req.body.province ? req.body.province[1] : "",
+      district: req.body.district ? req.body.district[1] : "",
+      ward: req.body.ward ? req.body.ward[1] : "",
     }
     
     const note = req.body.note;
@@ -133,7 +133,7 @@ module.exports.orderPost = async (req, res) => {
         const product = await Product.findOne({_id: item.productId})
         const objectProduct = {
           productId: item.productId,
-          title: item.name || product.title,
+          name: item.name || product.title,
           image: item.image || product.thumbnail,
           price: product.price,
           discountPercentage: product.discountPercentage,
@@ -147,6 +147,7 @@ module.exports.orderPost = async (req, res) => {
 
       const orderInfo = {
         code: orderCode,
+        cartId: cartId,
         userInfo: userInfo,
         products: products,
         note: note,
@@ -200,7 +201,7 @@ module.exports.momoCallback = async (req, res) => {
         if(product) {
             const objectProduct = {
             productId: item.productId,
-            title: product.title, 
+            name: product.title, 
             image: product.thumbnail,
             price: product.price,
             discountPercentage: product.discountPercentage,
@@ -216,6 +217,7 @@ module.exports.momoCallback = async (req, res) => {
       // 4. BÂY GIỜ MỚI LƯU ĐƠN HÀNG VÀO DB
       const newOrder = new Orders({
         code: orderCode, // Dùng lại mã đã tạo lúc trước
+        cartId: cartId,
         userInfo: userInfo,
         products: products,
         note: note,

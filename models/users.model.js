@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
         province: { type: String }, // Tỉnh/Thành
         district: { type: String }, // Quận/Huyện
         ward: { type: String },     // Phường/Xã
-        detail: { type: String },   // Số nhà, đường...
+        address: { type: String },   // Số nhà, đường...
         isDefault: { 
             type: Boolean, 
             default: false 
