@@ -183,7 +183,8 @@ module.exports.changeMulti = async (req, res) => {
 // [GET] admin/accounts/edit/:id
 module.exports.edit = async (req, res) => {
   const find = {
-    deleted: false
+    deleted: false,
+    _id: req.params.id
   }
 
   const findRole = {

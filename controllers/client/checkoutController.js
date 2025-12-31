@@ -6,6 +6,8 @@ const formatMoney = require("../../helpers/client/formatMoney");
 const axios = require("axios");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
+const createTreeHelper = require("../../helpers/client/createTree"); // Nhớ đường dẫn file helper
+const ProductsCategory = require("../../models/productsCategory.model");
 
 // [GET] /checkout/failure
 module.exports.failure = async (req, res) => {
@@ -17,6 +19,17 @@ module.exports.failure = async (req, res) => {
 // [GET] /checkout/:orderId
 module.exports.getCheckout = async (req, res) => {
   try {
+
+    // 1. Lấy danh mục "active" và chưa bị xóa
+    const find = {
+      deleted: false,
+      status: "active",
+    };
+    const records = await ProductsCategory.find(find);
+
+    // 2. Tạo cây danh mục (Level 1 -> Level 2 -> Level 3)
+    const newRecords = createTreeHelper(records);
+
     const orderId = req.params.orderId;
     if (!mongoose.Types.ObjectId.isValid(orderId)) {
       return res.redirect("/");
@@ -28,12 +41,13 @@ module.exports.getCheckout = async (req, res) => {
       const price = cur.price || 0;
       const salePrice = cur.salePrice || price;
       return acc + (price - salePrice)
-    }, 0)
+    }, 0) 
 
     res.render('client/pages/checkout/checkout.success.pug', {
       order: order,
       formatMoney: formatMoney,
-      discountMoney: discountMoney
+      discountMoney: discountMoney,
+      layoutProductsCategory: newRecords, // Truyền biến này sang view
     })
   } catch (error) {
     console.log(error);
@@ -84,7 +98,8 @@ module.exports.orderPost = async (req, res) => {
       
       const redirectUrl = `http://localhost:3000/checkout/momo/callback`; 
       const ipnUrl = `http://localhost:3000/checkout/momo/ipn`; 
-      const requestType = "payWithATM"; 
+      // const requestType = "payWithATM"; 
+      const requestType = "captureWallet";
 
       // --- MẤU CHỐT Ở ĐÂY: GỬI THÔNG TIN KHÁCH HÀNG VÀO EXTRADATA ---
       // Ta đóng gói thông tin khách hàng vào JSON, sau đó mã hóa Base64 để gửi đi

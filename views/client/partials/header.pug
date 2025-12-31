@@ -5,7 +5,7 @@ section#header
   div
     ul#navbar
       li
-        a(href='/') Home
+        a(href='/') Trang chủ
 
       //- --- BẮT ĐẦU PHẦN SỬA ĐỔI ---
       //- Kiểm tra nếu có danh mục được truyền vào
@@ -25,12 +25,12 @@ section#header
                     a(href=`/products/${child.slug}`) #{child.title}
       //- --- KẾT THÚC PHẦN SỬA ĐỔI ---
 
-      li
-        a(href='blog.html') Blog
-      li
-        a(href='about.html') About
-      li
-        a(href='contact.html') Contact
+      //- li
+      //-   a(href='blog.html') Blog
+      //- li
+      //-   a(href='about.html') About
+      //- li
+      //-   a(href='contact.html') Contact
       if (!user)
         li
           a(href='/user') 

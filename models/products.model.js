@@ -86,7 +86,7 @@ productSchema.pre("save", function (next) {
     const rawSalePrice = this.price * (1 - this.discountPercentage / 100);
     
     // Math.round: Làm tròn đến số nguyên gần nhất
-    this.salePrice = Math.round(rawSalePrice); 
+    this.salePrice = Math.round(rawSalePrice/1000) * 1000; 
     
     // Đánh dấu là đang giảm giá
     this.isOnSale = true;

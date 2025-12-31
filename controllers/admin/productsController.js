@@ -185,6 +185,13 @@ module.exports.createPost = async (req, res) => {
     // Đếm số lượng sản phẩm hiện tại
     const count = await Products.countDocuments(find);
 
+    const price = parseInt(req.body.price)
+    const discountPercentage = parseInt(req.body.discountPercentage)
+
+    const rawSalePrice = price * (1 - discountPercentage / 100);
+
+    const salePrice = Math.round(rawSalePrice / 1000) * 1000;
+
     const product = {
       title: req.body.title,
       description: req.body.description,
@@ -192,10 +199,7 @@ module.exports.createPost = async (req, res) => {
       price: parseInt(req.body.price),
       currency: req.body.currency,
       discountPercentage: parseInt(req.body.discountPercentage),
-      salePrice:
-        (parseInt(req.body.price) *
-          (100 - parseInt(req.body.discountPercentage))) /
-        100,
+      salePrice: salePrice,
       gender: req.body.gender,
       variants: JSON.parse(req.body.variants),
       media: urls.map((url) => ({ url, alt: req.body.title })),
@@ -248,6 +252,14 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
+
+  const price = parseInt(req.body.price)
+  const discountPercentage = parseInt(req.body.discountPercentage)
+
+  const rawSalePrice = price * (1 - discountPercentage / 100);
+
+  const salePrice = Math.round(rawSalePrice / 1000) * 1000;
+
   const product = {
     title: req.body.title,
     description: req.body.description,
@@ -255,10 +267,7 @@ module.exports.editPatch = async (req, res) => {
     price: parseInt(req.body.price),
     currency: req.body.currency,
     discountPercentage: parseInt(req.body.discountPercentage),
-    salePrice:
-      (parseInt(req.body.price) *
-        (100 - parseInt(req.body.discountPercentage))) /
-      100,
+    salePrice: salePrice,
     gender: req.body.gender,
     variants: JSON.parse(req.body.variants),
     // media: urls.map((url) => ({ url, alt: req.body.title })),
