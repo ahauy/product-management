@@ -380,13 +380,10 @@ module.exports.postOTP = async (req, res) => {
   const email = req.query.email
   const otp = req.body.otp
 
-  console.log(email, otp)
-
   const isCheck = await PasswordForgot.findOne({
     email: email,
     OTP: otp
   })
-
 
   if(isCheck) {
     res.redirect(`/user/password/new-password?email=${email}`)
