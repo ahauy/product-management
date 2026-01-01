@@ -26,4 +26,14 @@ routes.patch('/address/update/:addressId', controller.updateAddress)
 
 routes.get('/logout', controller.logout)
 
+routes.get("/password/forgot", controller.getPasswordForgot)
+
+routes.post("/password/forgot", controller.postPasswordForgot)
+
+routes.get("/password/otp", controller.getOTP)
+
+routes.post("/password/otp", controller.postOTP)
+
+routes.get("/password/new-password", controller.getNewPassword)
+
 module.exports = routes;

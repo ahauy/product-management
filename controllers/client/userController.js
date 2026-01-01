@@ -5,6 +5,8 @@ const Cart = require("../../models/cart.model");
 const Orders = require("../../models/orders.model");
 const md5 = require("md5");
 const formatMoney = require("../../helpers/client/formatMoney");
+const generate = require("../../helpers/admin/generate")
+const PasswordForgot = require("../../models/password-forgot.model")
 
 // [GET] user/
 module.exports.getUser = async (req, res) => {
@@ -305,3 +307,108 @@ module.exports.logout = async (req, res) => {
   res.clearCookie('tokenUser')
   res.redirect('/user')
 };
+
+// [GET] user/password/forgot
+module.exports.getPasswordForgot = async (req, res) => {
+  // 1. Lấy danh mục "active" và chưa bị xóa
+  const find = {
+    deleted: false,
+    status: "active",
+  };
+  const records = await ProductsCategory.find(find);
+
+  // 2. Tạo cây danh mục (Level 1 -> Level 2 -> Level 3)
+  const newRecords = createTreeHelper(records);
+
+  res.render("client/pages/user/passwordForgot.pug", {
+    layoutProductsCategory: newRecords, // Truyền biến này sang view
+  })
+}
+
+// [POST] user/password/forgot
+module.exports.postPasswordForgot = async (req, res) => {
+  const email = req.body.email
+  
+  const user = await User.findOne({
+    email: email,
+    deleted: false,
+  })
+
+  if(user) {
+
+    const objForgot = {
+      email: email,
+      OTP: generate.generateRandomStringOTP(6),
+      expireAt: Date.now()
+    }
+
+    console.log(objForgot)
+
+    const passwordForgot = new PasswordForgot(objForgot)
+    await passwordForgot.save()
+
+    res.redirect(`/user/password/otp?email=${email}`);
+  } else {
+    req.flash("error", "Email không chính xác !")
+    res.redirect("/user/password/forgot")
+  }
+}
+
+// [GET] user/password/otp
+module.exports.getOTP = async (req, res) => {
+  // 1. Lấy danh mục "active" và chưa bị xóa
+  const find = {
+    deleted: false,
+    status: "active",
+  };
+  const records = await ProductsCategory.find(find);
+
+  // 2. Tạo cây danh mục (Level 1 -> Level 2 -> Level 3)
+  const newRecords = createTreeHelper(records);
+
+
+  const email = req.query.email
+
+  res.render("client/pages/user/password-OTP.pug", {
+    email: email,
+    layoutProductsCategory: newRecords, // Truyền biến này sang view
+  })
+}
+
+// [POST] user/password/otp
+module.exports.postOTP = async (req, res) => {
+  const email = req.query.email
+  const otp = req.body.otp
+
+  console.log(email, otp)
+
+  const isCheck = await PasswordForgot.findOne({
+    email: email,
+    OTP: otp
+  })
+
+
+  if(isCheck) {
+    res.redirect(`/user/password/new-password?email=${email}`)
+  } else {
+    req.flash("error", "Mã OTP sai !")
+    res.redirect("/user/password/otp")
+  }
+}
+
+// [GET] user/password/new-password
+module.exports.getNewPassword = async (req, res) => {
+  // 1. Lấy danh mục "active" và chưa bị xóa
+  const find = {
+    deleted: false,
+    status: "active",
+  };
+  const records = await ProductsCategory.find(find);
+
+  // 2. Tạo cây danh mục (Level 1 -> Level 2 -> Level 3)
+  const newRecords = createTreeHelper(records);
+
+  res.render("client/pages/user/newPassword.pug", {
+    layoutProductsCategory: newRecords, // Truyền biến này sang view
+  })
+}

@@ -1,0 +1,13 @@
+.timer {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.timer span {
+  color: rgb(211, 0, 0);
+  font-weight: 600;
+}
+
+.timer span:first-child {
+  margin-left: 10px;
+}
