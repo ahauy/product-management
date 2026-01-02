@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/products-layout.pug
+include ../../mixins/pagination.pug
 
 block main 
   section#page-header
@@ -9,11 +10,7 @@ block main
   section#product1.section-p1  
     +product-grid(products)
 
-  section#pagination.section-p1
-    a.normal(href='#') 1
-    a.normal(href='#') 2
-    a.normal(href='#')
-      i.fa-solid.fa-arrow-right
+  +pagination(pagination)
 
   section#newsletter.section-p1.section-m1
     .newstext
@@ -25,3 +22,5 @@ block main
       form(action='')
         input(type='text' placeholder='Your email address')
         button.normal Sign up
+
+  script(src="/js/admin/pagination.js")

@@ -1,0 +1,11 @@
+mixin pagination(pagination)
+  section#pagination.section-p1
+    a.normal(page-pagination=pagination.currentPage-1) 
+      i.fa-solid.fa-arrow-left 
+    - for(let i = 1; i <= pagination.totalPage; i ++) 
+      a.nomal(
+        page-pagination=i
+        class=`${pagination.currentPage == i ? "active" : ""}`
+      ) #{i} 
+    a.normal(page-pagination=pagination.currentPage+1) 
+      i.fa-solid.fa-arrow-right
