@@ -1,6 +1,7 @@
 const express = require('express')
 const routes = express.Router()
 const controller = require('../../controllers/client/userController')
+const userValidate = require("../../validate/client/user.validate")
 
 routes.get('/', controller.getUser)
 
@@ -35,5 +36,7 @@ routes.get("/password/otp", controller.getOTP)
 routes.post("/password/otp", controller.postOTP)
 
 routes.get("/password/new-password", controller.getNewPassword)
+
+routes.post("/password/new-password", userValidate.confirmPassword, controller.postNewPassword)
 
 module.exports = routes;

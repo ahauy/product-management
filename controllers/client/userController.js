@@ -7,6 +7,8 @@ const md5 = require("md5");
 const formatMoney = require("../../helpers/client/formatMoney");
 const generate = require("../../helpers/admin/generate")
 const PasswordForgot = require("../../models/password-forgot.model")
+const nodemailer = require('nodemailer');
+require("dotenv").config()
 
 // [GET] user/
 module.exports.getUser = async (req, res) => {
@@ -132,8 +134,6 @@ module.exports.getOrders = async (req, res) => {
 
   const orders = await Orders.find({ cartId: cartId });
 
-  // console.log(orders)
-
   res.render("client/pages/user/orders.pug", {
     layoutProductsCategory: newRecords, // Truyền biến này sang view
     orders: orders,
@@ -195,7 +195,6 @@ module.exports.createAddress = async (req, res) => {
     req.flash("success", "Thêm địa chỉ mới thành công!");
     res.redirect("/user/address");
   } catch (error) {
-    console.log(error);
     req.flash("error", "Lỗi thêm địa chỉ!");
     res.redirect("/user/address");
   }
@@ -241,7 +240,6 @@ module.exports.updateAddress = async (req, res) => {
     req.flash("success", "Cập nhật địa chỉ thành công!");
     res.redirect("/user/address");
   } catch (error) {
-    console.log(error);
     req.flash("error", "Lỗi cập nhật địa chỉ!");
     res.redirect("/user/address");
   }
@@ -261,7 +259,6 @@ module.exports.deleteAddress = async (req, res) => {
     req.flash("warning", "Đã xóa địa chỉ!");
     res.redirect("/user/address");
   } catch (error) {
-    console.log(error);
     res.redirect("/user/address");
   }
 };
@@ -296,7 +293,6 @@ module.exports.defaultAddress = async (req, res) => {
     res.redirect("/user/address");
     
   } catch (error) {
-    console.log(error);
     req.flash("error", "Lỗi cập nhật địa chỉ!");
     res.redirect("/user/address");
   }
@@ -342,10 +338,38 @@ module.exports.postPasswordForgot = async (req, res) => {
       expireAt: Date.now()
     }
 
-    console.log(objForgot)
-
     const passwordForgot = new PasswordForgot(objForgot)
     await passwordForgot.save()
+
+    // gửi mã OTP qua email
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
+      }
+    });
+    
+    let mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: `Hãy xác minh email của bạn, ${email}`,
+      html: `
+        <p>Xin chào, ${email}</p>
+        <p>Rất vui được chào đón bạn! Hãy nhanh chóng xác minh email của bạn để bắt đầu. Mã xác minh của bạn là: <span style="color: rgb(180, 0, 0); font-size: 20px">${objForgot.OTP}</span></p>
+        <p>Hãy nhớ, mã này chỉ có hiệu lực trong <span style="color: rgb(180, 0, 0)">3 phút tới</span>. Chúng tôi rất mong chờ bạn khám phá tất cả những tính năng tuyệt vời mà chúng tôi cung cấp!</p>
+        <p>Rất hân hạnh khi được gặp bạn !</p>
+        <p>TenClothes</p>
+      `
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
 
     res.redirect(`/user/password/otp?email=${email}`);
   } else {
@@ -405,7 +429,23 @@ module.exports.getNewPassword = async (req, res) => {
   // 2. Tạo cây danh mục (Level 1 -> Level 2 -> Level 3)
   const newRecords = createTreeHelper(records);
 
+  const email = req.query.email
+
   res.render("client/pages/user/newPassword.pug", {
     layoutProductsCategory: newRecords, // Truyền biến này sang view
+    email: email
   })
+}
+
+// [POST] user/password/new-password
+module.exports.postNewPassword = async (req, res) => {
+  const email = req.query.email
+  const password = req.body.password
+  const confirmPassword = req.body.confirmPassword
+
+  await User.updateOne({email: email}, {
+    password: md5(password)
+  })
+
+  res.redirect("/user")
 }

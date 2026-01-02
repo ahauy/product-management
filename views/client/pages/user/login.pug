@@ -3,11 +3,11 @@ extends ../../layout/default.pug
 block main 
 
   - if (messages.error)
-      div(
-        class="notifications" 
-        data-status="error" 
-        data-mess= messages.error[0]
-      )
+    div(
+      class="notifications" 
+      data-status="error" 
+      data-mess= messages.error[0]
+    )
 
   .auth-container
     //- ... (Phần Tabs giữ nguyên) ...
