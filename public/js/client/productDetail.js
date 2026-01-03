@@ -68,6 +68,6 @@ btnMinus.addEventListener("click", () => {
     inputQuantity.value = quantity;
   }
   if (inputQuantity.value == 0) {
-    inputQuantity.value = "";
+    inputQuantity.value = "1";
   }
 });

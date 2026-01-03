@@ -1,6 +1,14 @@
 extends ../../layout/default.pug
 
 block main 
+
+  - if (messages.warning)
+    div(
+      class="notifications" 
+      data-status="warning" 
+      data-mess= messages.warning[0]
+    )
+
   .container.section-p1
     //- THAY ĐỔI 1: Biến div thành form để bao trùm cả 2 cột
     form.checkout-layout(action="/checkout/order" method="POST")

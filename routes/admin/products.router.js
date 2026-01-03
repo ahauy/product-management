@@ -12,6 +12,8 @@ routes.get("/", controller.index);
 
 routes.patch("/change-status/:status/:id", controller.changeStatus);
 
+routes.patch("/change-featured/:featured/:id", controller.changeFeatured);
+
 routes.patch("/change-multi", controller.changeMulti);
 
 // thay đổi position của sản phẩm

@@ -1,0 +1,13 @@
+mixin modal()
+  div.modal-overlay
+    div.modal-content
+      button#btn-close-modal.close-btn &times;
+      h4.mb-4.text-center Lịch sử hoạt động sản phẩm
+      table.table.table-borderless.table-history
+        thead 
+          tr 
+            th(scope='col' width="30%") <i class="fa-solid fa-user-plus"></i> Người tạo
+            th(scope='col' width="35%") <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử cập nhật
+            th(scope='col' width="30%") <i class="fa-solid fa-user-xmark"></i> Trạng thái xóa
+        tbody 
+        //- Dữ liệu sẽ được JS điền vào đây

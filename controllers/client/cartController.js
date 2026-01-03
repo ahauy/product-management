@@ -45,6 +45,12 @@ module.exports.addPost = async (req, res) => {
   const priceInt = parseInt(req.body.price);
   const quantityInt = parseInt(req.body.quantity);
 
+  if(!quantityInt) {
+    req.flash("warning", "Bạn hãy chọn số lượng sản phẩm muốn mua !")
+    res.redirect(req.get('Referrer') || '/');
+    return
+  }
+
   // lấy giỏ hàng
   const cartAfter = await Cart.findOne({ _id: cartId });
 

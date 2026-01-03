@@ -65,7 +65,7 @@ module.exports.productsCategory = async (req, res) => {
     const objPagination = paginationHelpers(
       req.query,
       {
-        limitItem: 8,
+        limitItem: 2,
         currentPage: 1,
       },
       countPage
@@ -95,7 +95,7 @@ module.exports.productsCategory = async (req, res) => {
   }
 };
 
-// [GET] products/:slugProduct
+// [GET] products/detail/:slugProduct
 module.exports.productDetail = async (req, res) => {
   // --- PHẦN 1: LẤY MENU BÊN NGOÀI (GIỮ NGUYÊN) ---
   const find = {

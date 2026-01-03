@@ -1,5 +1,7 @@
 const { request } = require("express");
 const Products = require("../../models/products.model");
+const Accounts = require("../../models/accounts.model");
+const Role = require("../../models/role.model");
 const systemAdmin = require("../../config/system");
 const filterStatusHelpers = require("../../helpers/admin/filterStatus");
 const searchHelpers = require("../../helpers/admin/search");
@@ -9,7 +11,7 @@ const ProductsCategory = require("../../models/productsCategory.model");
 const createTree = require("../../helpers/admin/createTree");
 const cloudinary = require("../../config/cloudinary.config");
 // const fs = require("fs");
-const uploadImage = require("../../helpers/admin/uploadImage")
+const uploadImage = require("../../helpers/admin/uploadImage");
 const treeToFlatArray = require("../../helpers/admin/treeToPlatArray");
 // const cloudinary = require('cloudinary').v2;
 
@@ -25,13 +27,16 @@ module.exports.index = async (req, res) => {
   };
 
   // Bộ lọc sản phẩm
-  const filterStatus = filterStatusHelpers(req.query);
-
-  // console.log(filterStatus)
+  // const filterStatus = filterStatusHelpers(req.query);
 
   // req là phần yêu cầu của người dùng gửi lên sever http://localhost:3000/admin/products?status=active (?status=active đây là phần req và req.query là một đối tượng chứa status=active)
   if (req.query.status) {
-    find.status = req.query.status;
+    find.status = req.query.status.toLowerCase();
+  }
+
+  // lọc sản phẩm theo có nổi bật hay không
+  if (req.query.featured) {
+    find.featured = req.query.featured;
   }
 
   // Tìm kiếm sản phẩm
@@ -69,27 +74,116 @@ module.exports.index = async (req, res) => {
     .sort(sort)
     .limit(objPagination.limitItem)
     .skip(objPagination.skip)
-    .populate('category', 'title')
+    .populate("category", "title")
+    .lean();
+
+  for (let product of products) {
+    // 1. KIỂM TRA createdBy CÓ TỒN TẠI KHÔNG TRƯỚC KHI DÙNG
+    if (product.createdBy && product.createdBy.accountId) {
+      const accountCreate = await Accounts.findOne({
+        _id: product.createdBy.accountId,
+      });
+
+      if (accountCreate) {
+        const role = await Role.findOne({ _id: accountCreate.roleId });
+        product.createdBy.fullName = accountCreate.fullName;
+        product.createdBy.role = role ? role.title : ""; // Thêm check role tồn tại
+      }
+    } else {
+      // Xử lý trường hợp sản phẩm cũ không có người tạo
+      // Gán một object rỗng hoặc giá trị mặc định để bên view không bị lỗi
+      product.createdBy = {
+        fullName: "Không rõ",
+        role: "",
+      };
+    }
+
+    // 2. KIỂM TRA updatedBy CÓ TỒN TẠI KHÔNG
+    if (product.updatedBy && product.updatedBy.length > 0) {
+      let i = 0;
+      for (let acc of product.updatedBy) {
+        if (acc && acc.accountId) {
+          // Kiểm tra kỹ từng phần tử
+          const accUpdate = await Accounts.findOne({ _id: acc.accountId });
+          if (accUpdate) {
+            const role = await Role.findOne({ _id: accUpdate.roleId });
+            product.updatedBy[i].fullName = accUpdate.fullName;
+            product.updatedBy[i].role = role ? role.title : "";
+          }
+        }
+        i++;
+      }
+    }
+
+    // 3. KIỂM TRA deletedBy (Tương tự)
+    if (product.deletedBy && product.deletedBy.accountId) {
+      const accountDelete = await Accounts.findOne({
+        _id: product.deletedBy.accountId,
+      });
+      if (accountDelete) {
+        const role = await Role.findOne({ _id: accountDelete.roleId });
+        product.deletedBy.fullName = accountDelete.fullName;
+        product.deletedBy.role = role ? role.title : "";
+      }
+    }
+  }
 
   res.render("admin/pages/products/index2.pug", {
     title: "Trang danh sách sản phẩm",
     products: products,
-    filterStatus: filterStatus,
+    // filterStatus: filterStatus,
     pagination: objPagination,
     message: {
-      successEdit: req.flash('successEdit'),
-      successCreate: req.flash('successCreate')
-    }
+      successEdit: req.flash("successEdit"),
+      successCreate: req.flash("successCreate"),
+    },
   });
 };
 
 // [PACTCH] admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
   const { status, id } = req.params;
+  const token = req.cookies.token;
 
-  await Products.updateOne({ _id: id }, { status: status });
+  const account = await Accounts.findOne({ token: token });
+
+  const updatedBy = {
+    accountId: account._id,
+    updatedAt: new Date(),
+  };
+
+  await Products.updateOne(
+    { _id: id },
+    {
+      status: status,
+      $push: { updatedBy: updatedBy },
+    }
+  );
 
   req.flash("successStatus", "Update status success !!");
+  // res.redirect(`/admin/products/`)
+  const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
+  res.redirect(backURL);
+};
+
+// [PACTCH] admin/products/change-featured/:featured/:id
+module.exports.changeFeatured = async (req, res) => {
+  const { featured, id } = req.params;
+
+  const token = req.cookies.token;
+  const account = await Accounts.findOne({ token: token });
+
+  const updatedBy = {
+    accountId: account._id,
+    updatedAt: new Date(),
+  };
+
+  await Products.updateOne(
+    { _id: id },
+    { featured: featured, $push: { updatedBy: updatedBy } }
+  );
+
+  req.flash("successStatus", "Update featured success !!");
   // res.redirect(`/admin/products/`)
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
@@ -103,16 +197,39 @@ module.exports.changeMulti = async (req, res) => {
 
   let arrIds = ids.split(",");
 
+  const token = req.cookies.token;
+  const account = await Accounts.findOne({ token: token });
+
+  const updatedBy = {
+    accountId: account._id,
+    updatedAt: new Date(),
+  };
+
   if (ids) {
     if (type == "active") {
-      await Products.updateMany({ _id: { $in: arrIds } }, { status: "active" });
+      await Products.updateMany(
+        { _id: { $in: arrIds } },
+        { status: "active", $push: { updatedBy: updatedBy } }
+      );
       req.flash("successStatus", "Update status success !!");
     } else if (type == "inactive") {
       await Products.updateMany(
         { _id: { $in: arrIds } },
-        { status: "inactive" }
+        { status: "inactive", $push: { updatedBy: updatedBy } }
       );
       req.flash("successStatus", "Update status success !!");
+    } else if (type == "featured-true") {
+      await Products.updateMany(
+        { _id: { $in: arrIds } },
+        { featured: true, $push: { updatedBy: updatedBy } }
+      );
+      req.flash("successStatus", "Update featured success !!");
+    } else if (type == "featured-false") {
+      await Products.updateMany(
+        { _id: { $in: arrIds } },
+        { featured: false, $push: { updatedBy: updatedBy } }
+      );
+      req.flash("successStatus", "Update featured success !!");
     } else if (type == "delete") {
       await Products.updateMany(
         { _id: { $in: arrIds } },
@@ -123,7 +240,10 @@ module.exports.changeMulti = async (req, res) => {
       for (let item of arrIds) {
         let [id, position] = item.split("-");
         position = parseInt(position);
-        await Products.updateOne({ _id: id }, { position: position });
+        await Products.updateOne(
+          { _id: id },
+          { position: position, $push: { updatedBy: updatedBy } }
+        );
       }
       req.flash("successPosition", "Position update success !!");
     }
@@ -136,8 +256,18 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.changePosition = async (req, res) => {
   const id = req.params.id;
   const position = parseInt(req.params.position);
+  const token = req.cookies.token;
+  const account = await Accounts.findOne({ token: token });
+  const updatedBy = {
+    accountId: account._id,
+    updatedAt: new Date(),
+  };
+
   if (id && position) {
-    await Products.updateOne({ _id: id }, { position: position });
+    await Products.updateOne(
+      { _id: id },
+      { position: position, $push: { updatedBy: updatedBy } }
+    );
   }
   req.flash("successPosition", "Position update successful !!");
   res.redirect(`${prefixAdmin}/products`);
@@ -147,11 +277,19 @@ module.exports.changePosition = async (req, res) => {
 module.exports.deleteProduct = async (req, res) => {
   const { id } = req.params;
 
+  const token = req.cookies.token;
+  const account = await Accounts.findOne({ token: token });
+
+  const deletedBy = {
+    accountId: account._id,
+    deletedAt: new Date(),
+  };
+
   await Products.updateOne(
     { _id: id },
     {
       deleted: true,
-      deleteAt: new Date(),
+      deletedBy: deletedBy,
     }
   );
 
@@ -181,16 +319,22 @@ module.exports.createPost = async (req, res) => {
   try {
     const find = { deleted: false };
     const files = req.files;
-    const urls = await uploadImage(files)
+    const urls = await uploadImage(files);
+    const token = req.cookies.token;
     // Đếm số lượng sản phẩm hiện tại
     const count = await Products.countDocuments(find);
 
-    const price = parseInt(req.body.price)
-    const discountPercentage = parseInt(req.body.discountPercentage)
+    const price = parseInt(req.body.price);
+    const discountPercentage = parseInt(req.body.discountPercentage);
 
     const rawSalePrice = price * (1 - discountPercentage / 100);
 
     const salePrice = Math.round(rawSalePrice / 1000) * 1000;
+
+    // tìm kiếm người dùng
+    const account = await Accounts.findOne({
+      token: token,
+    });
 
     const product = {
       title: req.body.title,
@@ -207,6 +351,10 @@ module.exports.createPost = async (req, res) => {
       featured: req.body.featured === "yes" ? true : false,
       position: count + 1,
       deleted: false,
+      createdBy: {
+        accountId: account._id,
+        createdAt: new Date(),
+      },
     };
 
     const record = new Products(product);
@@ -252,13 +400,28 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
+  const price = parseInt(req.body.price);
+  const discountPercentage = parseInt(req.body.discountPercentage);
+  const token = req.cookies.token;
+  let salePrice = 0;
 
-  const price = parseInt(req.body.price)
-  const discountPercentage = parseInt(req.body.discountPercentage)
+  if (discountPercentage > 0) {
+    const rawSalePrice = price * (1 - discountPercentage / 100);
+    salePrice = Math.round(rawSalePrice / 1000) * 1000;
+    isOnSale = true;
+  } else {
+    salePrice = price;
+  }
+  const account = await Accounts.findOne({
+    token: token,
+  });
 
-  const rawSalePrice = price * (1 - discountPercentage / 100);
+  const updatedBy = {
+    accountId: account._id,
+    updatedAt: new Date(),
+  };
 
-  const salePrice = Math.round(rawSalePrice / 1000) * 1000;
+  console.log(req.body);
 
   const product = {
     title: req.body.title,
@@ -276,12 +439,17 @@ module.exports.editPatch = async (req, res) => {
   };
 
   if (req.file) {
-    let urls = uploadImage(req.files)
-    product.media = urls.map((url) => ({ url, alt: req.body.title }))
+    let urls = uploadImage(req.files);
+    product.media = urls.map((url) => ({ url, alt: req.body.title }));
   }
 
-
-  await Products.updateOne({ _id: req.params.id }, product);
+  await Products.updateOne(
+    { _id: req.params.id },
+    {
+      $set: product,
+      $push: { updatedBy: updatedBy },
+    }
+  );
 
   req.flash("successEdit", "Success Edit Product !!");
   // console.log(req.flash("successEdit"))
@@ -292,13 +460,13 @@ module.exports.editPatch = async (req, res) => {
 module.exports.readProduct = async (req, res) => {
   const find = {
     deleted: false,
-    _id: req.params.id
-  }
+    _id: req.params.id,
+  };
 
-  const product = await Products.findOne(find)
+  const product = await Products.findOne(find);
 
   res.render("admin/pages/products/readProduct.pug", {
     title: "Detail Product",
-    product: product
-  })
-}
+    product: product,
+  });
+};

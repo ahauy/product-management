@@ -13,8 +13,6 @@ module.exports.cardId = async (req, res, next) => {
     })
   } else {
     const cart = await Cart.findOne({_id: req.cookies.cartId})
-    // console.log(cart)
-    // console.log(cart)
     res.locals.miniCart = cart;
   }
 

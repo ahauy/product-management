@@ -3,8 +3,6 @@ if(btnChangeStatus.length > 0) {
 
   const formChangeStatus = document.querySelector('#form-change-status')
 
-  // console.log(formChangeStatus)
-
   btnChangeStatus.forEach(ele => {
     ele.addEventListener('click', () => {
 
@@ -19,6 +17,30 @@ if(btnChangeStatus.length > 0) {
 
       formChangeStatus.action = `${dataPath}/${activeChange}/${id}?_method=PATCH`
       formChangeStatus.submit()
+    })
+  })
+}
+
+// change fearued
+const btnChangeFeatured = document.querySelectorAll('[btn-change-featured]')
+if(btnChangeFeatured.length > 0) {
+
+  const formChangeFeatured = document.querySelector('#form-change-featured')
+
+  btnChangeFeatured.forEach(ele => {
+    ele.addEventListener('click', () => {
+
+      // get status and id of item
+      const activeCurrent = ele.getAttribute('itemFeatured')
+      const id = ele.getAttribute('itemId')
+
+      const dataPath = formChangeFeatured.getAttribute('data-path')
+
+      // change active
+      const activeChange = activeCurrent ? false : true;
+
+      formChangeFeatured.action = `${dataPath}/${activeChange}/${id}?_method=PATCH`
+      formChangeFeatured.submit()
     })
   })
 }

@@ -72,9 +72,47 @@ const productSchema = new mongoose.Schema(
     
     position: { type: Number, default: 0 },
 
+    // nguời tạo
+    createdBy: {
+      accountId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Accounts",
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now
+      }
+    },
+
+    // người chỉnh SỬA
+    updatedBy: [
+      {
+        accountId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Accounts",
+        },
+        updatedAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ],
+
+    // người xoá
+    deletedBy: {
+      accountId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Accounts",
+      },
+      deletedAt: {
+        type: Date,
+        default: Date.now
+      }
+    },
+
     // Xóa mềm
     deleted: { type: Boolean, default: false },
-    deleteAt: Date,
+    // deleteAt: Date,
   },
   { timestamps: true }
 );

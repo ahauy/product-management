@@ -9,7 +9,7 @@ module.exports = (query, objPagination, countPage) => {
       objPagination.currentPage = 1
     }
     else if(objPagination.currentPage > objPagination.totalPage) {
-      objPagination.currentPage = objPagination.totalPage + 1;
+      objPagination.currentPage = objPagination.totalPage;
     }
   } else {
     objPagination.currentPage = 1;

@@ -1,6 +1,9 @@
 extends ../../layout/default.pug
+include ../../mixins/modal.pug
 
 block main 
+
+  link(rel="stylesheet", href="/css/admin/products/modal.css")
 
   if (role.permissions.includes("product_view"))
 
@@ -53,25 +56,29 @@ block main
           .card-body
             h2.card-title.pb-3 Filter
             .row
-              .col-4
+              .col-3
                 label.form-label(for='filter-name') Filter name: 
                 input.form-control(type='text' placeholder="Input name ..." id="filter-name")
-              .col-4
+              .col-3
                 label.form-label(for='filter-active') Filter active: 
                 select.form-select(name='' id='filter-active')
                   option(value="") All
                   option(value="active") Active 
                   option(value="inactive") Inactive   
-              .col-4
+              .col-3
+                label.form-label(for='filter-featured') Filter featured: 
+                select.form-select(name='' id='filter-featured')
+                  option(value="") All
+                  option(value="true") True 
+                  option(value="false") False   
+              .col-3
                 label.form-label(for='filter-sort') Filter sort: 
                 select.form-select(name='' id='filter-sort')
                   option(value="") Sort 
                   option(value="position-desc") Vị trí giảm dần  
                   option(value="position-asc") Vị trí tăng dần
                   option(value="price-desc") Giá giảm dần
-                  option(value="price-ase") Giá tăng dần
-                  option(value="salesCount-desc") Lượt bán giảm dần
-                  option(value="SalesCount-ase") Lượt bán tăng dần 
+                  option(value="price-asc") Giá tăng dần
             .row.mt-2
               .col-3
                 button.btn.btn-primary(type="submit" btn-filter)
@@ -90,27 +97,30 @@ block main
                   button.btn.btn-secondary  - Export
               .col-1
               .col-4
-                form(
-                  action=`${prefixAdmin}/products/change-multi?_method=PATCH`
-                  method="POST"
-                  form-change-multi
-                )
-                  .input-group
-                    select.form-select(name='type' id='')
-                      option(disable selected) Choose active
-                      option(value="active") Active 
-                      option(value="inactive") Inactive 
-                      if (role.permissions.includes('product_delete'))
-                        option(value="delete") Delete
-                      option(value="position") Sort position 
-                    input(
-                      type="text"
-                      name="ids"
-                      value=""
-                      class="form-control"
-                      class="d-none"
-                    )
-                    button.btn.btn-primary(type="submit") Apply Action 
+                if (role.permissions.includes('product_edit'))
+                  form(
+                    action=`${prefixAdmin}/products/change-multi?_method=PATCH`
+                    method="POST"
+                    form-change-multi
+                  )
+                    .input-group
+                      select.form-select(name='type' id='')
+                        option(disable selected) Choose active
+                        option(value="active") Active 
+                        option(value="inactive") Inactive 
+                        option(value="featured-true") Featured true
+                        option(value="featured-false") Featured false
+                        if (role.permissions.includes('product_delete'))
+                          option(value="delete") Delete
+                        option(value="position") Sort position 
+                      input(
+                        type="text"
+                        name="ids"
+                        value=""
+                        class="form-control"
+                        class="d-none"
+                      )
+                      button.btn.btn-primary(type="submit") Apply Action 
               .col-1
                 if (role.permissions.includes('product_create'))
                   a.btn.btn-primary(href=`${prefixAdmin}/products/create`)  + New
@@ -118,7 +128,7 @@ block main
             table.table-css.mb-5(checkbox-multi)
               thead
                 tr
-                  if (role.permissions.includes('product-edit'))
+                  if (role.permissions.includes('product_edit'))
                     td 
                       input(type="checkbox" name="checkall")
                   td(scope='col') #
@@ -133,7 +143,7 @@ block main
               tbody
                 each item, index in products 
                   tr 
-                    if (role.permissions.includes('product-edit'))
+                    if (role.permissions.includes('product_edit'))
                       td 
                         input(type="checkbox" name="id" value=item.id)
                     th(scope='row' style="padding: 0px 20px") #{index + 1}
@@ -146,7 +156,7 @@ block main
                       else 
                         | No Category
                     td #{item.price}VND
-                    if (role.permissions.includes('product-edit'))
+                    if (role.permissions.includes('product_edit'))              
                       td 
                         form(
                           action="" 
@@ -160,16 +170,38 @@ block main
                             min="1"
                             name="position"
                             value=item.position 
-                            idItem=item.id
+                            idItem=item._id
                             class="form-control"
-                            style="width: 70px"
+                            style="width: 50px; text-align: center"
                           ) 
                     else 
                       td.text-center=item.position
-                    if item.featured == true
-                      td.text-success True
-                    else 
-                      td.text-danger False
+                    if (role.permissions.includes('product_edit'))
+                      td 
+                        if(item.featured == true)
+                          a(
+                            href="javascript:;" 
+                            btn-change-featured
+                            itemFeatured=item.featured
+                            itemId=item._id
+                            class='badge badge-success p-2'
+                            style="font-size: 0.9rem"
+                          ) True
+                        else 
+                          a(
+                            href="javascript:;" 
+                            btn-change-featured
+                            itemFeatured=item.featured
+                            itemId=item._id
+                            class='badge badge-danger p-2'
+                            style="font-size: 0.9rem"
+                          ) False
+                    else  
+                      td 
+                        if (item.featured == true)
+                          p.text-success True
+                        else 
+                          p.text-danger False
                     if (role.permissions.includes('product_edit'))
                       td 
                         if(item.status == "active")
@@ -186,7 +218,7 @@ block main
                             href="javascript:;" 
                             btn-change-status
                             itemStatus=item.status 
-                            itemId=item.id
+                            itemId=item._id
                             class='badge badge-danger p-2'
                             style="font-size: 0.9rem"
                           ) Inactive
@@ -198,7 +230,7 @@ block main
                           p.text-danger Inactive
                     td  
                       a(
-                          href=`${prefixAdmin}/products/read/${item.id}`
+                          href=`${prefixAdmin}/products/read/${item._id}`
                           class='btn btn-primary btn-sm p-2 m-2'
                           style="font-size: 0.9rem"
                           data-bs-toggle="tooltip" 
@@ -209,7 +241,7 @@ block main
                       ) <i class="fa-brands fa-readme"></i>
                       if (role.permissions.includes('product_edit'))
                         a(
-                          href=`${prefixAdmin}/products/edit/${item.id}`
+                          href=`${prefixAdmin}/products/edit/${item._id}`
                           class='btn btn-warning btn-sm p-2 m-2'
                           style="font-size: 0.9rem"
                           data-bs-toggle="tooltip" 
@@ -222,7 +254,7 @@ block main
                           button(
                             class='btn btn-danger btn-sm p-2 m-2'
                             button-delete
-                            data-id=item.id
+                            data-id=item._id
                             style="font-size: 0.9rem"
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top"
@@ -230,7 +262,17 @@ block main
                             data-bs-custom-class="custom-tooltip"
                             title="Delete"
                           ) <i class="fa-regular fa-trash"></i>
-                      
+                      button(
+                        class='btn btn-secondary btn-sm p-2 m-2'
+                        style="font-size: 0.9rem"
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top" 
+                        data-bs-offset="0,10"
+                        data-bs-custom-class="custom-tooltip"
+                        title="Statistical"
+                        btn-show-statistical
+                        data-product=JSON.stringify(item)
+                      ) <i class="fa-solid fa-chart-bar"></i>
 
 
           .row
@@ -255,6 +297,9 @@ block main
                   - for (let i = 4; i <= 10; i += 2)
                     option(value=i selected=(pagination.limitItem == i ? true : false)) #{i} items per page
 
+    //- Modal để xem người tạo, người cập nhật và người xoá sản phẩm
+    +modal()
+
     if (role.permissions.includes('product_edit'))
       form(
         action=""
@@ -266,15 +311,23 @@ block main
       form(
         action=""
         method="POST"
+        id = 'form-change-featured'
+        data-path = `${prefixAdmin}/products/change-featured`
+      ) 
+
+      form(
+        action=""
+        method="POST"
         id = 'form-delete'
         data-path = `${prefixAdmin}/products/delete-product`
       ) 
                 
       // LIST PRODUCTS END
-    script(src="/js/admin/filter.js")
-    script(src="/js/admin/pagination.js")
-    script(src="/js/admin/changePosition.js")
-    script(src="/js/admin/changeStatus.js")
-    script(src="/js/admin/deleteProduct.js")
-  else 
-    h3.notFound Bạn không có quyền quản lý sản phẩm
+      script(src="/js/admin/filter.js")
+      script(src="/js/admin/pagination.js")
+      script(src="/js/admin/changePosition.js")
+      script(src="/js/admin/changeStatus.js")
+      script(src="/js/admin/deleteProduct.js")
+      script(src="/js/admin/fontend/modal.js")
+    else 
+      h3.notFound Bạn không có quyền quản lý sản phẩm

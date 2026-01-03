@@ -60,6 +60,12 @@ module.exports.orderPost = async (req, res) => {
   try {
     const cartId = req.cookies.cartId;
     const cart = await Cart.findOne({_id: cartId});
+
+    if(cart.products.length == 0) {
+      req.flash("warning", "Bạn chưa thêm sản phẩm vào giỏ hàng !")
+      res.redirect("/cart")
+      return
+    }
     
     // 1. Lấy thông tin khách hàng từ form
     const userInfo = {

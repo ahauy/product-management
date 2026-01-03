@@ -1,7 +1,10 @@
 :root {
   --notification_success: rgba(0, 128, 0, 0.5);
   --notification_warning: rgba(255, 165, 0, 0.5);
-  --notification_error: rgba(255, 0, 0, 0.5)
+  --notification_error: rgba(255, 0, 0, 0.5);
+  --btnSuccess: rgb(0, 114, 0);
+  --btnWarning: rgb(86, 86, 0);
+  --btnError: rgb(119, 0, 0);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
@@ -16,7 +19,7 @@
 
 .notifications {
   position: fixed;
-  top: 1rem;
+  top: 90px;
   right: 1rem;
   z-index: 9999;
 }
@@ -52,7 +55,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 4px;
+  height: 2px;
   width: 100%;
   /* background-color: var(--btnSuccess); */
   border-bottom-right-radius: 5px;
@@ -111,16 +114,16 @@
 }
 
 .notification.success {
-  border: 1px solid var(--notification_success);
-  background: white;
+  background: var(--notification_success);
+  color: rgb(53, 53, 53);
 }
 
 .notification.warning {
-  border: 1px solid var(--notification_warning);
-  background: white;
+  background: var(--notification_warning);
+  color: rgb(53, 53, 53);
 }
 
 .notification.error {
-  border: 1px solid var(--notification_error);
-  background: white;
+  background: var(--notification_error);
+  color: rgb(53, 53, 53);
 }

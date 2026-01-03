@@ -59,7 +59,7 @@ section#header
         a(href='/cart')
           .cart
             i.fa-regular.fa-bag-shopping
-            if (miniCart.totalQuantity > 0) 
+            if (miniCart.totalQuantity > 0 && miniCart.totalQuantity) 
               div
                 span.quantity=miniCart.totalQuantity
           .cart-notification

@@ -1,0 +1,164 @@
+/* public/css/admin/products/modal.css */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Nền đen mờ */
+  z-index: 9999;
+  display: none; /* Mặc định ẩn */
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Khi thêm class .show thì hiện lên */
+.modal-overlay.show {
+  display: flex;
+  opacity: 1;
+}
+
+/* Tùy chỉnh Modal rộng hơn chút để chứa đủ thông tin */
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 1000px; /* Tăng độ rộng */
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  border: none;
+}
+
+.modal-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+/* Style cho bảng */
+.table-history th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.table-history td {
+  vertical-align: top;
+  padding: 15px;
+}
+
+/* Card thông tin người dùng (Dùng cho Người tạo & Người xóa) */
+.user-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  transition: all 0.2s;
+}
+
+.user-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.user-avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #495057;
+  font-size: 1.2rem;
+}
+
+/* Màu sắc đại diện */
+.card-create .user-avatar-placeholder { background-color: #d1e7dd; color: #0f5132; } /* Xanh lá */
+.card-delete .user-avatar-placeholder { background-color: #f8d7da; color: #842029; } /* Đỏ */
+
+/* Timeline Style (Dùng cho Lịch sử cập nhật) */
+.timeline-scroll-area {
+  max-height: 400px;      /* Chiều cao tối đa, quá thì scroll */
+  overflow-y: auto;       /* Cho phép cuộn dọc */
+  overflow-x: hidden;     /* Ẩn cuộn ngang */
+  padding-left: 30px;     /* QUAN TRỌNG: Tạo khoảng trống 30px bên trái để chứa cái chấm */
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* 2. Timeline bên trong chỉ lo hiển thị, KHÔNG lo scroll nữa */
+.history-timeline {
+  position: relative;
+  border-left: 2px solid #e9ecef; /* Đường kẻ dọc */
+  padding-left: 20px;
+  /* XÓA height và overflow ở đây đi (nếu có) */
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -26px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #0d6efd; /* Màu xanh dương */
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #cfe2ff;
+  z-index: 999;
+}
+
+/* Typography đẹp hơn */
+.info-name {
+  font-weight: 700;
+  color: #333;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.info-role {
+  font-size: 0.85rem;
+  color: #666;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 12px;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.info-time {
+  font-size: 0.8rem;
+  color: #999;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Nút đóng */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #aaa;
+  transition: color 0.2s;
+}
+.close-btn:hover { color: #333; }
