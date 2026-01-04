@@ -459,7 +459,7 @@ module.exports.editPatch = async (req, res) => {
 // [GET] admin/read/:id
 module.exports.readProduct = async (req, res) => {
   const find = {
-    deleted: false,
+    // deleted: false,
     _id: req.params.id,
   };
 
@@ -470,3 +470,186 @@ module.exports.readProduct = async (req, res) => {
     product: product,
   });
 };
+
+// thao tác với các sản phầm đã bị xoá
+// [GET] amdin/product/list-delete
+module.exports.getTrash = async (req, res) => {
+  const find = {
+    deleted: true,
+  };
+
+  // Phân trang
+  const limit = req.query.limit;
+  const countPage = await Products.countDocuments(find);
+  const objPagination = paginationHelpers(
+    req.query,
+    {
+      limitItem: limit == undefined ? 4 : limit,
+      currentPage: 1,
+    },
+    countPage
+  );
+
+  if (req.query.status) {
+    find.status = req.query.status.toLowerCase();
+  }
+
+  // lọc sản phẩm theo có nổi bật hay không
+  if (req.query.featured) {
+    find.featured = req.query.featured;
+  }
+
+  // Tìm kiếm sản phẩm
+  if (searchHelpers(req.query)) {
+    find.title = searchHelpers(req.query);
+  }
+
+  // sắp xếp sản phẩm
+  const sort = {};
+  const { sortKey, sortValue } = req.query;
+  if (sortKey && sortValue) {
+    if (sortKey == "salesCount") {
+      sort[`rating.${sortKey}`] = sortValue;
+    } else {
+      sort[sortKey] = sortValue;
+    }
+  } else {
+    sort.position = "desc";
+  }
+
+  const products = await Products.find(find)
+    .lean()
+    .limit(objPagination.limitItem)
+    .skip(objPagination.skip)
+    .populate("category", "title")
+    .sort(sort);
+
+  for (let product of products) {
+    // 1. KIỂM TRA createdBy CÓ TỒN TẠI KHÔNG TRƯỚC KHI DÙNG
+    if (product.createdBy && product.createdBy.accountId) {
+      const accountCreate = await Accounts.findOne({
+        _id: product.createdBy.accountId,
+      });
+
+      if (accountCreate) {
+        const role = await Role.findOne({ _id: accountCreate.roleId });
+        product.createdBy.fullName = accountCreate.fullName;
+        product.createdBy.role = role ? role.title : ""; // Thêm check role tồn tại
+      }
+    } else {
+      // Xử lý trường hợp sản phẩm cũ không có người tạo
+      // Gán một object rỗng hoặc giá trị mặc định để bên view không bị lỗi
+      product.createdBy = {
+        fullName: "Không rõ",
+        role: "",
+      };
+    }
+
+    // 2. KIỂM TRA updatedBy CÓ TỒN TẠI KHÔNG
+    if (product.updatedBy && product.updatedBy.length > 0) {
+      let i = 0;
+      for (let acc of product.updatedBy) {
+        if (acc && acc.accountId) {
+          // Kiểm tra kỹ từng phần tử
+          const accUpdate = await Accounts.findOne({ _id: acc.accountId });
+          if (accUpdate) {
+            const role = await Role.findOne({ _id: accUpdate.roleId });
+            product.updatedBy[i].fullName = accUpdate.fullName;
+            product.updatedBy[i].role = role ? role.title : "";
+          }
+        }
+        i++;
+      }
+    }
+
+    // 3. KIỂM TRA deletedBy (Tương tự)
+    if (product.deletedBy && product.deletedBy.accountId) {
+      const accountDelete = await Accounts.findOne({
+        _id: product.deletedBy.accountId,
+      });
+      if (accountDelete) {
+        const role = await Role.findOne({ _id: accountDelete.roleId });
+        product.deletedBy.fullName = accountDelete.fullName;
+        product.deletedBy.role = role ? role.title : "";
+      }
+    }
+  }
+
+  res.render("admin/pages/products/trash.pug", {
+    products: products,
+    pagination: objPagination,
+  });
+};
+
+// [PATCH] admin/products/trash/change-multi
+module.exports.trashChangeMulti = async (req, res) => {
+  let { type, ids } = req.body;
+
+  let arrIds = ids.split(",");
+
+  const token = req.cookies.token;
+  const account = await Accounts.findOne({ token: token });
+
+  if (ids) {
+    if (type == "delete") {
+      await Products.deleteMany(
+        { _id: { $in: arrIds } },
+      );
+      req.flash("success", "Delete success !!");
+    } else if (type == "restore") {
+      await Products.updateMany(
+        {_id: { $in: arrIds }}, {
+          deleted: false,
+          $unset: {deletedBy: 1},
+          $push: {
+            updatedBy: {
+              accountId: account._id,
+              updatedAt: new Date(),
+            }
+          }
+        })
+      req.flash("success", "Restore success !!");
+    }
+  }
+  const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
+  res.redirect(backURL);
+}
+
+// [DELETE] admin/products/trash/delete-product/:id
+module.exports.trashDeleteProduct = async (req, res) => {
+  const id = req.params.id
+
+  await Products.deleteOne({_id: id})
+
+  req.flash("success", "Delete product success !!");
+
+  const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
+  res.redirect(backURL);
+}
+
+// [PATCH] admin/products/trash/restore-product/:id
+module.exports.trashRestoreProduct = async (req, res) => {
+  const id = req.params.id
+  const token = req.cookies.token
+
+  const account = await Accounts.findOne({token: token})
+
+  if (id) {
+    await Products.updateOne({_id: id}, {
+      deleted: false,
+      $unset: {deletedBy: 1}, 
+      $push: {
+        updatedBy: {
+          accountId: account._id,
+          updatedAt: new Date()
+        }
+      }
+    })
+    req.flash("success", "Restore Success")
+    res.redirect("/admin/products")
+  } else {
+    req.flash("error", "Restore Error")
+    const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
+    res.redirect(backURL);
+  }
+} 

@@ -112,10 +112,11 @@ const productSchema = new mongoose.Schema(
 
     // Xóa mềm
     deleted: { type: Boolean, default: false },
-    // deleteAt: Date,
+    
   },
   { timestamps: true }
 );
+
 
 // Middleware: tự tính salePrice và xử lý logic giảm giá
 productSchema.pre("save", function (next) {

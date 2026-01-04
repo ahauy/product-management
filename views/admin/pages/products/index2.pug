@@ -262,21 +262,21 @@ block main
                             data-bs-custom-class="custom-tooltip"
                             title="Delete"
                           ) <i class="fa-regular fa-trash"></i>
-                      button(
-                        class='btn btn-secondary btn-sm p-2 m-2'
-                        style="font-size: 0.9rem"
-                        data-bs-toggle="tooltip" 
-                        data-bs-placement="top" 
-                        data-bs-offset="0,10"
-                        data-bs-custom-class="custom-tooltip"
-                        title="Statistical"
-                        btn-show-statistical
-                        data-product=JSON.stringify(item)
-                      ) <i class="fa-solid fa-chart-bar"></i>
+                        button(
+                          class='btn btn-secondary btn-sm p-2 m-2'
+                          style="font-size: 0.9rem"
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="top" 
+                          data-bs-offset="0,10"
+                          data-bs-custom-class="custom-tooltip"
+                          title="Statistical"
+                          btn-show-statistical
+                          data-product=JSON.stringify(item)
+                        ) <i class="fa-solid fa-chart-bar"></i>
 
 
           .row
-            .col-10
+            .col-9
               nav(aria-label='Page navigation example')
                 ul.pagination
                   li.page-item
@@ -288,7 +288,7 @@ block main
                   li.page-item
                     button.page-link(page-pagination=pagination.currentPage+1)
                       span(aria-hidden='true') &raquo;
-            .col
+            .col-2
               form(
                 action=""
                 form-number-items-page
@@ -296,6 +296,18 @@ block main
                 select.form-select(name='numberItemPage' select-number-items-page)
                   - for (let i = 4; i <= 10; i += 2)
                     option(value=i selected=(pagination.limitItem == i ? true : false)) #{i} items per page
+            if (role.permissions.includes('product_delete'))
+              .col-1
+                a(
+                  class='btn btn-dark sm p-2'
+                  style="font-size: 0.9rem"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-offset="0,10"
+                  data-bs-custom-class="custom-tooltip"
+                  title="Trash"
+                  href="/admin/products/trash"
+                ) <i class="fa-regular fa-trash"></i>
 
     //- Modal để xem người tạo, người cập nhật và người xoá sản phẩm
     +modal()

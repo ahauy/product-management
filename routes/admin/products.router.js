@@ -43,4 +43,16 @@ routes.patch("/edit/:id", upload.array('media'), validate.editPatch,controller.e
 // xem chi tiết sản phẩm
 routes.get('/read/:id', controller.readProduct)
 
+// lấy danh sách các sản phẩm đã bị xoá
+routes.get("/trash", controller.getTrash)
+
+// sửa nhiều sản phẩm trong thùng rác
+routes.patch("/trash/change-multi", controller.trashChangeMulti)
+
+// Xoá sản phẩm 
+routes.delete("/trash/delete-product/:id", controller.trashDeleteProduct) 
+
+// Khôi phục sản phẩm
+routes.patch("/trash/restore-product/:id", controller.trashRestoreProduct)
+
 module.exports = routes;
