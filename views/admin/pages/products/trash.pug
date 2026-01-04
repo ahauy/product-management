@@ -4,220 +4,259 @@ include ../../mixins/modal.pug
 block main 
 
   link(rel="stylesheet", href="/css/admin/products/modal.css")
+  link(rel="stylesheet", href="/css/admin/products/restore.css")
 
-  if (role.permissions.includes("product_delete"))
-
+  if (products.length == 0) 
     .row 
       .col-10 
-        h1.title Trash
+        h1.title Thùng rác rỗng
       .col-2.text-end
         button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px" onclick="history.back()")
-          <i class="fa-solid fa-rotate-right"></i> Back
-    .container-fluid.pt-2
-      // FILTER START
-      .card.shadow-css.p-3.mb-5
-        form(action='' form-filter)
+            <i class="fa-solid fa-rotate-right"></i> Back
+  
+  else 
+    if (role.permissions.includes("product_delete"))
+
+      .row 
+        .col-10 
+          h1.title Trash
+        .col-2.text-end
+          button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px" onclick="history.back()")
+            <i class="fa-solid fa-rotate-right"></i> Back
+      .container-fluid.pt-2
+        // FILTER START
+        .card.shadow-css.p-3.mb-5
+          form(action='' form-filter)
+            .card-body
+              h2.card-title.pb-3 Filter
+              .row
+                .col-3
+                  label.form-label(for='filter-name') Filter name: 
+                  input.form-control(type='text' placeholder="Input name ..." id="filter-name")
+                .col-3
+                  label.form-label(for='filter-active') Filter active: 
+                  select.form-select(name='' id='filter-active')
+                    option(value="") All
+                    option(value="active") Active 
+                    option(value="inactive") Inactive   
+                .col-3
+                  label.form-label(for='filter-featured') Filter featured: 
+                  select.form-select(name='' id='filter-featured')
+                    option(value="") All
+                    option(value="true") True 
+                    option(value="false") False   
+                .col-3
+                  label.form-label(for='filter-sort') Filter sort: 
+                  select.form-select(name='' id='filter-sort')
+                    option(value="") Sort 
+                    option(value="position-desc") Vị trí giảm dần  
+                    option(value="position-asc") Vị trí tăng dần
+                    option(value="price-desc") Giá giảm dần
+                    option(value="price-asc") Giá tăng dần
+              .row.mt-2
+                .col-3
+                  button.btn.btn-primary(type="submit" btn-filter)
+                    <i class="fa-solid fa-filter mr-1" style="border: none"></i> Filter
+        // FILTER END
+        // LIST PRODUCTS START
+        .card.shadow-css.p-3.mb-5
           .card-body
-            h2.card-title.pb-3 Filter
             .row
-              .col-3
-                label.form-label(for='filter-name') Filter name: 
-                input.form-control(type='text' placeholder="Input name ..." id="filter-name")
-              .col-3
-                label.form-label(for='filter-active') Filter active: 
-                select.form-select(name='' id='filter-active')
-                  option(value="") All
-                  option(value="active") Active 
-                  option(value="inactive") Inactive   
-              .col-3
-                label.form-label(for='filter-featured') Filter featured: 
-                select.form-select(name='' id='filter-featured')
-                  option(value="") All
-                  option(value="true") True 
-                  option(value="false") False   
-              .col-3
-                label.form-label(for='filter-sort') Filter sort: 
-                select.form-select(name='' id='filter-sort')
-                  option(value="") Sort 
-                  option(value="position-desc") Vị trí giảm dần  
-                  option(value="position-asc") Vị trí tăng dần
-                  option(value="price-desc") Giá giảm dần
-                  option(value="price-asc") Giá tăng dần
-            .row.mt-2
-              .col-3
-                button.btn.btn-primary(type="submit" btn-filter)
-                  <i class="fa-solid fa-filter mr-1" style="border: none"></i> Filter
-      // FILTER END
-      // LIST PRODUCTS START
-      .card.shadow-css.p-3.mb-5
-        .card-body
-          .row
-            .col-8
-              h2.card-title Trash
-            .col-4.text-end
-              if (role.permissions.includes('product_edit') && role.permissions.includes('product_delete'))
-                form(
-                  action=`${prefixAdmin}/products/trash/change-multi?_method=PATCH`
-                  method="POST"
-                  form-change-multi
-                )
-                  .input-group
-                    select.form-select(name='type' id='')
-                      option(disable selected) Choose active
-                      option(value="restore") Restore 
-                      if (role.title.includes("Quản trị viên"))
-                        option(value="delete") Delete
-                    input(
-                      type="text"
-                      name="ids"
-                      value=""
-                      class="form-control"
-                      class="d-none"
-                    )
-                    button.btn.btn-primary(type="submit") Apply Action 
-          .row.p-2.mt-3
-            table.table-css.mb-5(checkbox-multi)
-              thead
-                tr
-                  if (role.permissions.includes('product_edit'))
-                    td 
-                      input(type="checkbox" name="checkall")
-                  td(scope='col') #
-                  td(scope='col') Image
-                  td(scope='col') Title
-                  td(scope="col") Category
-                  td(scope='col') Price (VND)
-                  td(scope='col') Deleted By
-                  td(scope='col') Featured
-                  td(scope='col') Status
-                  td(scope='col') Action
-              tbody
-                each item, index in products 
-                  tr 
-                    if (role.permissions.includes('product_delete'))
+              .col-8
+                h2.card-title Trash
+              .col-4.text-end
+                if (role.permissions.includes('product_edit') && role.permissions.includes('product_delete'))
+                  form(
+                    action=`${prefixAdmin}/products/trash/change-multi?_method=PATCH`
+                    method="POST"
+                    form-change-multi
+                  )
+                    .input-group
+                      select.form-select(name='type' id='')
+                        option(disable selected) Choose active
+                        option(value="restore") Restore 
+                        if (role.title.includes("Quản trị viên"))
+                          option(value="delete") Delete
+                      input(
+                        type="text"
+                        name="ids"
+                        value=""
+                        class="form-control"
+                        class="d-none"
+                      )
+                      button.btn.btn-primary(type="submit") Apply Action 
+            .row.p-2.mt-3
+              table.table-css.mb-5(checkbox-multi)
+                thead
+                  tr
+                    if (role.permissions.includes('product_edit'))
                       td 
-                        input(type="checkbox" name="id" value=item.id)
-                    th(scope='row' style="padding: 0px 20px") #{index + 1}
-                    td 
-                      img(src=item.media[0].url alt=item.media[0].alt width='100px' class="img-thumbnail")
-                    td=item.title
-                    td 
-                      if item.category 
-                        | #{item.category.title}
-                      else 
-                        | No Category
-                    td #{item.price}VND    
-                    td 
-                      b #{item.deletedBy.fullName} 
-                      br
-                      i #{item.deletedBy.role}
-                      p #{moment(item.deletedBy.deletedAt).format("DD/MM/YYYY HH:mm")}
-                    td 
-                      if (item.featured == true)
-                        p.text-success True
-                      else 
-                        p.text-danger False
-                    td 
-                      if (item.status == "active")
-                        p.text-success Active
-                      else 
-                        p.text-danger Inactive
-                    td  
-                      a(
-                          href=`${prefixAdmin}/products/read/${item._id}`
-                          class='btn btn-primary btn-sm p-2 m-2'
+                        input(type="checkbox" name="checkall")
+                    td(scope='col') #
+                    td(scope='col') Image
+                    td(scope='col') Title
+                    td(scope="col") Category
+                    td(scope='col') Price (VND)
+                    td(scope='col') Deleted By
+                    td(scope='col') Featured
+                    td(scope='col') Status
+                    td(scope='col') Action
+                tbody
+                  each item, index in products 
+                    tr 
+                      if (role.permissions.includes('product_delete'))
+                        td 
+                          input(type="checkbox" name="id" value=item.id)
+                      th(scope='row' style="padding: 0px 20px") #{index + 1}
+                      td 
+                        img(src=item.media[0].url alt=item.media[0].alt width='100px' class="img-thumbnail")
+                      td=item.title
+                      td 
+                        if item.category 
+                          | #{item.category.title}
+                        else 
+                          | No Category
+                      td #{item.price}VND    
+                      td 
+                        b #{item.deletedBy.fullName} 
+                        br
+                        i #{item.deletedBy.role}
+                        p #{moment(item.deletedBy.deletedAt).format("DD/MM/YYYY HH:mm")}
+                      td 
+                        if (item.featured == true)
+                          p.text-success True
+                        else 
+                          p.text-danger False
+                      td 
+                        if (item.status == "active")
+                          p.text-success Active
+                        else 
+                          p.text-danger Inactive
+                      td  
+                        a(
+                            href=`${prefixAdmin}/products/read/${item._id}`
+                            class='btn btn-primary btn-sm p-2 m-2'
+                            style="font-size: 0.9rem"
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="top" 
+                            data-bs-offset="0,10"
+                            data-bs-custom-class="custom-tooltip"
+                            title="Read"
+                        ) <i class="fa-brands fa-readme"></i>
+                        if (role.permissions.includes('product_delete'))
+                          if item.deletedBy && item.deletedBy.deletedAt && !role.title.includes("Quản trị viên")
+                            //- Wrapper chứa hiệu ứng đếm ngược
+                            div.restore-timer-wrapper(
+                              data-time=item.deletedBy.deletedAt 
+                              data-limit="10"
+                            )
+                              //- Hình vòng tròn SVG
+                              svg.timer-svg(viewBox="0 0 36 36")
+                                path.bg-ring(
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                )
+                                path.progress-ring(
+                                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                )
+                              
+                              //- Nút Restore chính
+                              button(
+                                class='btn btn-warning btn-sm btn-restore-circle'
+                                button-restore
+                                data-id=item._id
+                                style="font-size: 0.9rem"
+                                data-bs-toggle="tooltip" 
+                                data-bs-placement="top"
+                                data-bs-offset="0,10"
+                                data-bs-custom-class="custom-tooltip"
+                                title="Khôi phục (Còn hiệu lực)"
+                              ) <i class="fa-solid fa-rotate-left"></i>
+                          else
+                            button(
+                              class='btn btn-warning btn-sm p-2 m-2'
+                              button-restore
+                              data-id=item._id
+                              style="font-size: 0.9rem"
+                              data-bs-toggle="tooltip" 
+                              data-bs-placement="top"
+                              data-bs-offset="0,10"
+                              data-bs-custom-class="custom-tooltip"
+                              title="Restore"
+                            ) <i class="fa-solid fa-rotate-left"></i>
+                        if (role.title.includes("Quản trị viên")) 
+                          button(
+                            class='btn btn-danger btn-sm p-2 m-2'
+                            button-delete
+                            data-id=item._id
+                            style="font-size: 0.9rem"
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="top" 
+                            data-bs-offset="0,10"
+                            data-bs-custom-class="custom-tooltip"
+                            title="Delete"
+                          ) <i class="fa-solid fa-trash"></i>
+                        button(
+                          class='btn btn-secondary btn-sm p-2 m-2'
                           style="font-size: 0.9rem"
                           data-bs-toggle="tooltip" 
                           data-bs-placement="top" 
                           data-bs-offset="0,10"
                           data-bs-custom-class="custom-tooltip"
-                          title="Read"
-                      ) <i class="fa-brands fa-readme"></i>
-                      if (role.permissions.includes('product_delete'))
-                        button(
-                          class='btn btn-warning btn-sm p-2 m-2'
-                          button-restore
-                          data-id=item._id
-                          style="font-size: 0.9rem"
-                          data-bs-toggle="tooltip" 
-                          data-bs-placement="top"
-                          data-bs-offset="0,10"
-                          data-bs-custom-class="custom-tooltip"
-                          title="Restore"
-                        ) <i class="fa-solid fa-rotate-left"></i>
-                      if (role.title.includes("Quản trị viên")) 
-                        button(
-                          class='btn btn-danger btn-sm p-2 m-2'
-                          button-delete
-                          data-id=item._id
-                          style="font-size: 0.9rem"
-                          data-bs-toggle="tooltip" 
-                          data-bs-placement="top"
-                          data-bs-offset="0,10"
-                          data-bs-custom-class="custom-tooltip"
-                          title="Delete"
-                        ) <i class="fa-solid fa-trash"></i>
-                      button(
-                        class='btn btn-secondary btn-sm p-2 m-2'
-                        style="font-size: 0.9rem"
-                        data-bs-toggle="tooltip" 
-                        data-bs-placement="top" 
-                        data-bs-offset="0,10"
-                        data-bs-custom-class="custom-tooltip"
-                        title="Statistical"
-                        btn-show-statistical
-                        data-product=JSON.stringify(item)
-                      ) <i class="fa-solid fa-chart-bar"></i>
+                          title="Statistical"
+                          btn-show-statistical
+                          data-product=JSON.stringify(item)
+                        ) <i class="fa-solid fa-chart-bar"></i>
 
 
-          .row
-            .col-10
-              nav(aria-label='Page navigation example')
-                ul.pagination
-                  li.page-item
-                    button.page-link(page-pagination=pagination.currentPage-1)
-                      span(aria-hidden='true') &laquo;
-                  - for(let i = 1; i <= pagination.totalPage; i ++) 
-                    li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
-                      button.page-link(page-pagination=i) #{i}
-                  li.page-item
-                    button.page-link(page-pagination=pagination.currentPage+1)
-                      span(aria-hidden='true') &raquo;
-            .col-2
-              form(
-                action=""
-                form-number-items-page
-              )
-                select.form-select(name='numberItemPage' select-number-items-page)
-                  - for (let i = 4; i <= 10; i += 2)
-                    option(value=i selected=(pagination.limitItem == i ? true : false)) #{i} items per page
+            .row
+              .col-10
+                nav(aria-label='Page navigation example')
+                  ul.pagination
+                    li.page-item
+                      button.page-link(page-pagination=pagination.currentPage-1)
+                        span(aria-hidden='true') &laquo;
+                    - for(let i = 1; i <= pagination.totalPage; i ++) 
+                      li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
+                        button.page-link(page-pagination=i) #{i}
+                    li.page-item
+                      button.page-link(page-pagination=pagination.currentPage+1)
+                        span(aria-hidden='true') &raquo;
+              .col-2
+                form(
+                  action=""
+                  form-number-items-page
+                )
+                  select.form-select(name='numberItemPage' select-number-items-page)
+                    - for (let i = 4; i <= 10; i += 2)
+                      option(value=i selected=(pagination.limitItem == i ? true : false)) #{i} items per page
 
-    //- Modal để xem người tạo, người cập nhật và người xoá sản phẩm
-    +modal()
+      //- Modal để xem người tạo, người cập nhật và người xoá sản phẩm
+      +modal()
 
-    if (role.permissions.includes('product_edit'))
+      if (role.permissions.includes('product_edit'))
 
-      form(
-        action=""
-        method="POST"
-        id = 'form-delete'
-        data-path = `${prefixAdmin}/products/trash/delete-product`
-      ) 
+        form(
+          action=""
+          method="POST"
+          id = 'form-delete'
+          data-path = `${prefixAdmin}/products/trash/delete-product`
+        ) 
 
-      form(
-        action=""
-        method="POST"
-        id = 'form-restore'
-        data-path = `${prefixAdmin}/products/trash/restore-product`
-      ) 
-                
-      // LIST PRODUCTS END
-      script(src="/js/admin/filter.js")
-      script(src="/js/admin/pagination.js")
-      script(src="/js/admin/changePosition.js")
-      script(src="/js/admin/changeStatus.js")
-      script(src="/js/admin/deleteProduct.js")
-      script(src="/js/admin/restoreProduct.js")
-      script(src="/js/admin/fontend/modal.js")
-    else 
-      h3.notFound Bạn không có quyền quản lý sản phẩm
+        form(
+          action=""
+          method="POST"
+          id = 'form-restore'
+          data-path = `${prefixAdmin}/products/trash/restore-product`
+        ) 
+                  
+        // LIST PRODUCTS END
+        script(src="/js/admin/filter.js")
+        script(src="/js/admin/pagination.js")
+        script(src="/js/admin/changePosition.js")
+        script(src="/js/admin/changeStatus.js")
+        script(src="/js/admin/deleteProduct.js")
+        script(src="/js/admin/restoreProduct.js")
+        script(src="/js/admin/fontend/modal.js")
+        script(src="/js/admin/fontend/restore.js")
+      else 
+        h3.notFound Bạn không có quyền quản lý sản phẩm

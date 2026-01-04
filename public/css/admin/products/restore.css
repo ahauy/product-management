@@ -1,0 +1,54 @@
+/* --- Hiệu ứng đếm ngược cho nút Restore --- */
+.restore-timer-wrapper {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px; 
+  height: 40px;
+  margin: 0 5px; /* Căn chỉnh khoảng cách với các nút khác */
+  vertical-align: middle;
+}
+
+/* Ép nút restore thành hình tròn để khớp với vòng timer */
+.restore-timer-wrapper .btn-restore-circle {
+  position: absolute;
+  z-index: 2;
+  border-radius: 50% !important; /* Bắt buộc tròn */
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* SVG bao quanh */
+.timer-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* Xoay để bắt đầu từ 12h */
+  pointer-events: none; /* Click xuyên qua SVG vào nút */
+}
+
+/* Vòng tròn nền (màu xám) */
+.timer-svg .bg-ring {
+  fill: none;
+  stroke: #e9ecef;
+  stroke-width: 3;
+}
+
+/* Vòng tròn chạy (Màu đỏ/xanh) */
+.timer-svg .progress-ring {
+  fill: none;
+  stroke: #ffc107; /* Màu vàng giống nút warning */
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 100; /* Sẽ được set lại bằng JS */
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+}

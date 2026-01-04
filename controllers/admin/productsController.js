@@ -472,11 +472,14 @@ module.exports.readProduct = async (req, res) => {
 };
 
 // thao tác với các sản phầm đã bị xoá
-// [GET] amdin/product/list-delete
+// [GET] amdin/products/trash
 module.exports.getTrash = async (req, res) => {
   const find = {
     deleted: true,
   };
+
+  const user = res.locals.user
+  const role = res.locals.role
 
   // Phân trang
   const limit = req.query.limit;
@@ -517,7 +520,7 @@ module.exports.getTrash = async (req, res) => {
     sort.position = "desc";
   }
 
-  const products = await Products.find(find)
+  let products = await Products.find(find)
     .lean()
     .limit(objPagination.limitItem)
     .skip(objPagination.skip)
@@ -575,6 +578,16 @@ module.exports.getTrash = async (req, res) => {
     }
   }
 
+
+  if(!role.title.includes("Quản trị viên")) {
+    products = products.filter((product) => {
+      return product.deletedBy.accountId.toString() === user._id.toString()
+    })
+  }
+
+
+
+
   res.render("admin/pages/products/trash.pug", {
     products: products,
     pagination: objPagination,
@@ -592,64 +605,84 @@ module.exports.trashChangeMulti = async (req, res) => {
 
   if (ids) {
     if (type == "delete") {
-      await Products.deleteMany(
-        { _id: { $in: arrIds } },
-      );
+      await Products.deleteMany({ _id: { $in: arrIds } });
       req.flash("success", "Delete success !!");
     } else if (type == "restore") {
       await Products.updateMany(
-        {_id: { $in: arrIds }}, {
+        { _id: { $in: arrIds } },
+        {
           deleted: false,
-          $unset: {deletedBy: 1},
+          $unset: { deletedBy: 1 },
           $push: {
             updatedBy: {
               accountId: account._id,
               updatedAt: new Date(),
-            }
-          }
-        })
+            },
+          },
+        }
+      );
       req.flash("success", "Restore success !!");
     }
   }
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
-}
+};
 
 // [DELETE] admin/products/trash/delete-product/:id
 module.exports.trashDeleteProduct = async (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
 
-  await Products.deleteOne({_id: id})
+  await Products.deleteOne({ _id: id });
 
   req.flash("success", "Delete product success !!");
 
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
-}
+};
 
 // [PATCH] admin/products/trash/restore-product/:id
 module.exports.trashRestoreProduct = async (req, res) => {
-  const id = req.params.id
-  const token = req.cookies.token
+  const id = req.params.id;
+  const token = req.cookies.token;
+  const role = res.locals.role;
+  // let isRestore = true; // vẫn có thể restore sản phẩm
 
-  const account = await Accounts.findOne({token: token})
+  const account = await Accounts.findOne({ token: token });
+
+  // const product = await Products.findOne({_id: id})
+
+
+  // if(!role.title.includes("Quản trị viên")) {
+    
+  //   const now = new Date()
+  //   const deleteAt = new Date(product.deletedBy.deletedAt)
+  //   const timeDiff = now - deleteAt // tinh bang mini giay
+  //   const limit = 60 * 60 * 1000 // 60phut doi ra mini giay
+
+  //   if(timeDiff > limit) {
+      
+  //   }
+  // }
 
   if (id) {
-    await Products.updateOne({_id: id}, {
-      deleted: false,
-      $unset: {deletedBy: 1}, 
-      $push: {
-        updatedBy: {
-          accountId: account._id,
-          updatedAt: new Date()
-        }
+    await Products.updateOne(
+      { _id: id },
+      {
+        deleted: false,
+        $unset: { deletedBy: 1 },
+        $push: {
+          updatedBy: {
+            accountId: account._id,
+            updatedAt: new Date(),
+          },
+        },
       }
-    })
-    req.flash("success", "Restore Success")
-    res.redirect("/admin/products")
+    );
+    req.flash("success", "Restore Success");
+    res.redirect("/admin/products");
   } else {
-    req.flash("error", "Restore Error")
+    req.flash("error", "Restore Error");
     const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
     res.redirect(backURL);
   }
-} 
+};
