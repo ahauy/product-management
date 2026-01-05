@@ -1,24 +1,24 @@
 const formFilter = document.querySelector('[form-filter]')
 
 if(formFilter) {
-  const filterName = formFilter.querySelector('[filter-name]')
-  const filterActive = formFilter.querySelector('[filter-active]')
-  const filterSort = formFilter.querySelector('[filter-sort]')
-  const filterFeatured = formFilter.querySelector("[filter-featured]")
-  const btnFilter = formFilter.querySelector('[btn-filter]')
+  // const filterName = formFilter.querySelector('[filter-name]')
+  // const filterActive = formFilter.querySelector('[filter-active]')
+  // const filterSort = formFilter.querySelector('[filter-sort]')
+  // const filterFeatured = formFilter.querySelector("[filter-featured]")
+  // const btnFilter = formFilter.querySelector('[btn-filter]')
 
   formFilter.addEventListener('submit', e => {
     e.preventDefault()
 
     const url = new URL(window.location.href)
     // lấy các giá trị dùng để lọc
-    let key = e.target.querySelector('#filter-name').value
-    let status = e.target.querySelector('#filter-active').value
-    let featured = e.target.querySelector("#filter-featured").value
-    let category = e.target.querySelector("#filter-category").value
+    let key = e.target.querySelector('#filter-name')?.value
+    let status = e.target.querySelector('#filter-active')?.value
+    let featured = e.target.querySelector("#filter-featured")?.value
+    let category = e.target.querySelector("#filter-category")?.value
 
     // xử lý filter sort
-    let stringSort = e.target.querySelector('#filter-sort').value
+    let stringSort = e.target.querySelector('#filter-sort')?.value
     let [sortKey, sortValue] = stringSort.split('-')
     
     // xử lý tìm theo tên sản phẩm

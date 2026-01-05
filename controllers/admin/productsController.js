@@ -296,7 +296,10 @@ module.exports.changeMulti = async (req, res) => {
     } else if (type == "delete") {
       await Products.updateMany(
         { _id: { $in: arrIds } },
-        { deleted: true, deleteAt: new Date() }
+        { deleted: true, deletedBy: {
+          accountId: account._id,
+          deletedAt: new Date()
+        } }
       );
       req.flash("successDelete", "Delete status success !!");
     } else if (type == "position") {
@@ -483,8 +486,6 @@ module.exports.editPatch = async (req, res) => {
     accountId: account._id,
     updatedAt: new Date(),
   };
-
-  console.log(req.body);
 
   const product = {
     title: req.body.title,

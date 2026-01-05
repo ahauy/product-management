@@ -29,4 +29,16 @@ routes.patch('/edit/:id', upload.single('thumbnail'), validate.createPost, contr
 
 routes.get('/read/:id', controller.read)
 
+// lấy danh sách các sản phẩm đã bị xoá
+routes.get("/trash", controller.getTrash)
+
+// sửa nhiều sản phẩm trong thùng rác
+routes.patch("/trash/change-multi", controller.trashChangeMulti)
+
+// Xoá sản phẩm 
+routes.delete("/trash/delete-category/:id", controller.trashDeleteProduct) 
+
+// Khôi phục sản phẩm
+routes.patch("/trash/restore-category/:id", controller.trashRestoreProduct)
+
 module.exports = routes;

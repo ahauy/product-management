@@ -29,11 +29,49 @@ const productsCategorySchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+
+    // nguời tạo
+    createdBy: {
+      accountId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Accounts",
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now
+      }
+    },
+
+    // người chỉnh SỬA
+    updatedBy: [
+      {
+        accountId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Accounts",
+        },
+        updatedAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ],
+
+    // người xoá
+    deletedBy: {
+      accountId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Accounts",
+      },
+      deletedAt: {
+        type: Date,
+        default: Date.now
+      }
+    },
+    
     deleted: {
       type: Boolean,
       default: false,
     },
-    deletedAt: Date,
     slug: { type: String, slug: "title", unique: true },
   },
   {
