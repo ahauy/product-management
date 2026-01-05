@@ -276,27 +276,27 @@ block main
 
 
           .row
-            .col-9
-              nav(aria-label='Page navigation example')
-                ul.pagination
-                  li.page-item
-                    button.page-link(page-pagination=pagination.currentPage-1)
-                      span(aria-hidden='true') &laquo;
-                  - for(let i = 1; i <= pagination.totalPage; i ++) 
-                    li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
-                      button.page-link(page-pagination=i) #{i}
-                  li.page-item
-                    button.page-link(page-pagination=pagination.currentPage+1)
-                      span(aria-hidden='true') &raquo;
-            .col-2
-              form(
-                action=""
-                form-number-items-page
-              )
-                select.form-select(name='numberItemPage' select-number-items-page)
-                  - for (let i = 4; i <= 10; i += 2)
-                    option(value=i selected=(pagination.limitItem == i ? true : false)) #{i} items per page
             if (role.permissions.includes('product_delete'))
+              .col-9
+                nav(aria-label='Page navigation example')
+                  ul.pagination
+                    li.page-item
+                      button.page-link(page-pagination=pagination.currentPage-1)
+                        span(aria-hidden='true') &laquo;
+                    - for(let i = 1; i <= pagination.totalPage; i ++) 
+                      li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
+                        button.page-link(page-pagination=i) #{i}
+                    li.page-item
+                      button.page-link(page-pagination=pagination.currentPage+1)
+                        span(aria-hidden='true') &raquo;
+              .col-2
+                form(
+                  action=""
+                  form-number-items-page
+                )
+                  select.form-select(name='numberItemPage' select-number-items-page)
+                    - for (let i = 4; i <= 10; i += 2)
+                      option(value=i selected=(pagination.limitItem == i ? true : false)) #{i} items per page
               .col-1
                 a(
                   class='btn btn-dark sm p-2'
@@ -308,6 +308,27 @@ block main
                   title="Trash"
                   href="/admin/products/trash"
                 ) <i class="fa-regular fa-trash"></i>
+            else 
+              .col-10
+                nav(aria-label='Page navigation example')
+                  ul.pagination
+                    li.page-item
+                      button.page-link(page-pagination=pagination.currentPage-1)
+                        span(aria-hidden='true') &laquo;
+                    - for(let i = 1; i <= pagination.totalPage; i ++) 
+                      li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
+                        button.page-link(page-pagination=i) #{i}
+                    li.page-item
+                      button.page-link(page-pagination=pagination.currentPage+1)
+                        span(aria-hidden='true') &raquo;
+              .col-2
+                form(
+                  action=""
+                  form-number-items-page
+                )
+                  select.form-select(name='numberItemPage' select-number-items-page)
+                    - for (let i = 4; i <= 10; i += 2)
+                      option(value=i selected=(pagination.limitItem == i ? true : false)) #{i} items per page
 
     //- Modal để xem người tạo, người cập nhật và người xoá sản phẩm
     +modal()
@@ -341,5 +362,9 @@ block main
       script(src="/js/admin/changeStatus.js")
       script(src="/js/admin/deleteProduct.js")
       script(src="/js/admin/fontend/modal.js")
-    else 
-      h3.notFound Bạn không có quyền quản lý sản phẩm
+  else 
+    .notFound
+      .icon <i class="fa-solid fa-lock" style="color: #aaaaaa;"></i>
+      .title You do not have access
+      .description Contact your organization administrator(s) for more information 
+      button.btn.btn-primary.p-2(onclick="history.back()") Return to previous page

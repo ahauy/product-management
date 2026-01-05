@@ -178,4 +178,8 @@ block main
     script(src="/js/admin/fontend/labelImage.js")
     script(src="/js/admin/fontend/chooseSizeAndStock.js")
   else 
-    h3.notFound Bạn không có quyền thêm mới sản phẩm
+    .notFound
+      .icon <i class="fa-solid fa-lock" style="color: #aaaaaa;"></i>
+      .title You do not have access
+      .description Contact your organization administrator(s) for more information 
+      button.btn.btn-primary.p-2(onclick="history.back()") Return to previous page
