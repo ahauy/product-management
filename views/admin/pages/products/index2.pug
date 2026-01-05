@@ -56,16 +56,16 @@ block main
           .card-body
             h2.card-title.pb-3 Filter
             .row
-              .col-3
+              .col-2
                 label.form-label(for='filter-name') Filter name: 
                 input.form-control(type='text' placeholder="Input name ..." id="filter-name")
-              .col-3
+              .col-2
                 label.form-label(for='filter-active') Filter active: 
                 select.form-select(name='' id='filter-active')
                   option(value="") All
                   option(value="active") Active 
                   option(value="inactive") Inactive   
-              .col-3
+              .col-2
                 label.form-label(for='filter-featured') Filter featured: 
                 select.form-select(name='' id='filter-featured')
                   option(value="") All
@@ -79,6 +79,13 @@ block main
                   option(value="position-asc") Vị trí tăng dần
                   option(value="price-desc") Giá giảm dần
                   option(value="price-asc") Giá tăng dần
+              .col-3
+                label.form-label(for='filter-sort') Filter category:
+                select.form-select(name='' id="filter-category")
+                  option(value='') All
+                    if (newRecords)
+                      each item in newRecords
+                        option(value=item._id) #{item.prefixTitle} (#{item.productCount})
             .row.mt-2
               .col-3
                 button.btn.btn-primary(type="submit" btn-filter)
@@ -87,7 +94,7 @@ block main
       // LIST PRODUCTS START
       .card.shadow-css.p-3.mb-5
         .card-body
-          h2.card-title.pb-3 List Prodcuts
+          h2.card-title.pb-3 List Prodcuts (#{totalProducts})
           if (role.permissions.includes('product_edit'))
             .row
               .col-6

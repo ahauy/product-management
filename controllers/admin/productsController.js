@@ -13,6 +13,7 @@ const cloudinary = require("../../config/cloudinary.config");
 // const fs = require("fs");
 const uploadImage = require("../../helpers/admin/uploadImage");
 const treeToFlatArray = require("../../helpers/admin/treeToPlatArray");
+const getSubCategory = require("../../helpers/admin/getSubCategory")
 // const cloudinary = require('cloudinary').v2;
 
 // NOTE: http://localhost:3000/admin/products/change-status/active/123?page=1
@@ -26,6 +27,51 @@ module.exports.index = async (req, res) => {
     deleted: false,
   };
 
+  const records = await ProductsCategory.find(find);
+  const newRecords = treeToFlatArray(records);
+
+  // 1. Dùng Aggregate để đếm số lượng sản phẩm theo từng danh mục
+  const countProducts = await Products.aggregate([
+    {
+      $match: {
+        deleted: false, // Chỉ đếm các sản phẩm chưa bị xóa
+      },
+    },
+    {
+      $group: {
+        _id: "$category", // Nhóm theo trường category (ID danh mục)
+        count: { $sum: 1 }, // Đếm tổng số
+      },
+    },
+  ]);
+
+  // 2. Gán số lượng trực tiếp (Con nào có sản phẩm thì hiện số đó)
+  newRecords.forEach((record) => {
+    // Tìm trong mảng countProducts xem có trùng ID không
+    const result = countProducts.find(
+      (item) =>
+        item._id && record._id && item._id.toString() === record._id.toString()
+    );
+    record.productCount = result ? result.count : 0;
+  });
+
+  // 3. Cộng dồn từ con lên cha (FIXED)
+  const mapCategory = {};
+  newRecords.forEach((record) => {
+    mapCategory[record._id.toString()] = record;
+  });
+
+  for (let i = newRecords.length - 1; i >= 0; i--) {
+    const currentRecord = newRecords[i];
+    if (currentRecord.parentId) {
+      const parentId = currentRecord.parentId.toString();
+      const parentRecord = mapCategory[parentId];
+      if (parentRecord) {
+        parentRecord.productCount += currentRecord.productCount;
+      }
+    }
+  }
+
   // Bộ lọc sản phẩm
   // const filterStatus = filterStatusHelpers(req.query);
 
@@ -37,6 +83,21 @@ module.exports.index = async (req, res) => {
   // lọc sản phẩm theo có nổi bật hay không
   if (req.query.featured) {
     find.featured = req.query.featured;
+  }
+
+  // tìm theo danh mục
+  if (req.query.category) {
+    // 1. Lấy tất cả danh mục con của danh mục đang chọn
+    const listSubCategory = await getSubCategory(req.query.category);
+
+    // 2. Tạo mảng chứa ID của danh mục cha + tất cả ID con cháu
+    const listSubCategoryId = listSubCategory.map(item => item.id);
+    
+    // Đừng quên push chính cái ID cha đang chọn vào mảng
+    listSubCategoryId.push(req.query.category);
+
+    // 3. Dùng toán tử $in để tìm sản phẩm thuộc bất kỳ ID nào trong mảng trên
+    find.category = { $in: listSubCategoryId };
   }
 
   // Tìm kiếm sản phẩm
@@ -131,8 +192,10 @@ module.exports.index = async (req, res) => {
   res.render("admin/pages/products/index2.pug", {
     title: "Trang danh sách sản phẩm",
     products: products,
+    totalProducts: countPage,
     // filterStatus: filterStatus,
     pagination: objPagination,
+    newRecords: newRecords,
     message: {
       successEdit: req.flash("successEdit"),
       successCreate: req.flash("successCreate"),
@@ -478,8 +541,8 @@ module.exports.getTrash = async (req, res) => {
     deleted: true,
   };
 
-  const user = res.locals.user
-  const role = res.locals.role
+  const user = res.locals.user;
+  const role = res.locals.role;
 
   // Phân trang
   const limit = req.query.limit;
@@ -578,15 +641,11 @@ module.exports.getTrash = async (req, res) => {
     }
   }
 
-
-  if(!role.title.includes("Quản trị viên")) {
+  if (!role.title.includes("Quản trị viên")) {
     products = products.filter((product) => {
-      return product.deletedBy.accountId.toString() === user._id.toString()
-    })
+      return product.deletedBy.accountId.toString() === user._id.toString();
+    });
   }
-
-
-
 
   res.render("admin/pages/products/trash.pug", {
     products: products,
@@ -651,16 +710,15 @@ module.exports.trashRestoreProduct = async (req, res) => {
 
   // const product = await Products.findOne({_id: id})
 
-
   // if(!role.title.includes("Quản trị viên")) {
-    
+
   //   const now = new Date()
   //   const deleteAt = new Date(product.deletedBy.deletedAt)
   //   const timeDiff = now - deleteAt // tinh bang mini giay
   //   const limit = 60 * 60 * 1000 // 60phut doi ra mini giay
 
   //   if(timeDiff > limit) {
-      
+
   //   }
   // }
 

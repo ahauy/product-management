@@ -15,6 +15,7 @@ if(formFilter) {
     let key = e.target.querySelector('#filter-name').value
     let status = e.target.querySelector('#filter-active').value
     let featured = e.target.querySelector("#filter-featured").value
+    let category = e.target.querySelector("#filter-category").value
 
     // xử lý filter sort
     let stringSort = e.target.querySelector('#filter-sort').value
@@ -48,6 +49,12 @@ if(formFilter) {
     } else {
       url.searchParams.delete('sortKey')
       url.searchParams.delete('sortValue')
+    }
+
+    if (category) {
+      url.searchParams.set("category", category)
+    } else {
+      url.searchParams.delete('category')
     }
     
     window.location.href = url.href
