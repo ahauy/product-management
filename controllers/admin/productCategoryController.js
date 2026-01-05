@@ -151,6 +151,7 @@ module.exports.index = async (req, res) => {
     message: {
       successEdit: req.flash("successEdit"),
       successCreate: req.flash("successCreate"),
+      successRestore: req.flash("successRestore"),
     },
   });
 };
@@ -621,7 +622,7 @@ module.exports.trashRestoreProduct = async (req, res) => {
         },
       }
     );
-    req.flash("success", "Success Restore Category!");
+    req.flash("successRestore", "Success Restore Category!");
     res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
   } else {
     req.flash("error", "Restore Error");

@@ -1,0 +1,22 @@
+.trash-page-empty {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.trash-page-empty .trash-icon {
+  font-size: 8rem;
+}
+
+.trash-page-empty .title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+}

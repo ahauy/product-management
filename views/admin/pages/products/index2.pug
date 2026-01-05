@@ -3,44 +3,44 @@ include ../../mixins/modal.pug
 
 block main 
 
+  - if (messages.successPosition)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess= messages.successPosition[0]
+    )
+
+  - if (messages.successStatus)
+    div(
+      class="notifications"    
+      data-status="success" 
+      data-mess= messages.successStatus[0]
+    )
+
+  - if (messages.successDelete)
+    div(
+      class="notifications" 
+      data-status="warning" 
+      data-mess=messages.successDelete[0]
+    )
+
+  if (message.successEdit.length > 0 || message.successRestore.length > 0)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=message.successEdit[0] || message.successRestore[0]
+    )
+
+  - if (message.successCreate)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=message.successCreate[0]
+    )
+
   link(rel="stylesheet", href="/css/admin/products/modal.css")
 
   if (role.permissions.includes("product_view"))
-
-    - if (messages.successPosition)
-      div(
-        class="notifications" 
-        data-status="success" 
-        data-mess= messages.successPosition[0]
-      )
-
-    - if (messages.successStatus)
-      div(
-        class="notifications" 
-        data-status="success" 
-        data-mess= messages.successStatus[0]
-      )
-
-    - if (messages.successDelete)
-      div(
-        class="notifications" 
-        data-status="warning" 
-        data-mess=messages.successDelete[0]
-      )
-
-    - if (message.successEdit.length > 0)
-      div(
-        class="notifications" 
-        data-status="success" 
-        data-mess=message.successEdit[0]
-      )
-
-    - if (message.successCreate)
-      div(
-        class="notifications" 
-        data-status="success" 
-        data-mess=message.successCreate[0]
-      )
       
 
     //- - if (messages.successPosition)

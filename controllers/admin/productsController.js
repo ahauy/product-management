@@ -199,6 +199,7 @@ module.exports.index = async (req, res) => {
     message: {
       successEdit: req.flash("successEdit"),
       successCreate: req.flash("successCreate"),
+      successRestore: req.flash("successRestore")
     },
   });
 };
@@ -737,7 +738,7 @@ module.exports.trashRestoreProduct = async (req, res) => {
         },
       }
     );
-    req.flash("success", "Restore Success");
+    req.flash("successRestore", "Restore Success Product");
     res.redirect("/admin/products");
   } else {
     req.flash("error", "Restore Error");

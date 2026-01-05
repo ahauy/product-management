@@ -4,23 +4,22 @@ include ../../mixins/modal.pug
 block main 
   link(rel="stylesheet", href="/css/admin/products/modal.css")
   link(rel="stylesheet", href="/css/admin/products/restore.css")
+  link(rel="stylesheet", href="/css/admin/trash-empty.css")
 
+  - if (messages.success)
+    div(
+      class="notifications" 
+      data-status="warning" 
+      data-mess= messages.success[0]
+    )
 
   if (role.permissions.includes('products-category_delete') && newRecord.length == 0) 
-    .row 
-      .col-10 
-        h1.title Thùng rác rỗng
-      .col-2.text-end
-        button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px" onclick="history.back()")
-            <i class="fa-solid fa-rotate-right"></i> Back
+    .trash-page-empty
+      .trash-icon <i class="fa-solid fa-trash" style="color: #929292;"></i>
+      .title Oops! Your trash can is empty.
+      a(href="/admin/products-category").btn.btn-primary.p-2 Return page category
   else if (role.permissions.includes("products-category_delete") && newRecord.length > 0)
 
-    - if (messages.success)
-      div(
-        class="notifications" 
-        data-status="success" 
-        data-mess= messages.success
-      )
 
     .row 
       .col-10 

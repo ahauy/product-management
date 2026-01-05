@@ -2,42 +2,53 @@ extends ../../layout/default.pug
 include ../../mixins/modal.pug
 
 block main 
-  link(rel="stylesheet", href="/css/admin/products/modal.css")
-  if (role.permissions.includes('products-category_view'))
-    - if (messages.successPosition)
+  //- div alo #{message.successRestore}
+
+  - if (messages.successPosition)
       div(
         class="notifications" 
         data-status="success" 
         data-mess= messages.successPosition[0]
       )
 
-    - if (messages.successStatus)
-      div(
-        class="notifications" 
-        data-status="success" 
-        data-mess= messages.successStatus[0]
-      )
+  - if (messages.successStatus)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess= messages.successStatus[0]
+    )
 
-    - if (messages.successDelete)
-      div(
-        class="notifications" 
-        data-status="warning" 
-        data-mess=messages.successDelete[0]
-      )
+  - if (messages.successDelete)
+    div(
+      class="notifications" 
+      data-status="warning" 
+      data-mess=messages.successDelete[0]
+    )
 
-    - if (message.successEdit.length > 0)
-      div(
-        class="notifications" 
-        data-status="success" 
-        data-mess=message.successEdit[0]
-      )
+  if (message.successEdit.length > 0 || message.successRestore.length > 0)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=message.successEdit[0] || message.successRestore[0]
+    )
 
-    - if (message.successCreate)
-      div(
-        class="notifications" 
-        data-status="success" 
-        data-mess=message.successCreate[0]
-      )
+  - if (message.successCreate)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess=message.successCreate[0]
+    )
+
+
+  //- if (message.successRestore && message.successRestore.length > 0)
+  //-   div(
+  //-     class="notifications"
+  //-     data-status="success"
+  //-     data-mess=message.successRestore[0]
+  //-   )=message.successRestore[0]
+
+  link(rel="stylesheet", href="/css/admin/products/modal.css")
+  if (role.permissions.includes('products-category_view'))
 
     h1.title=title
 
