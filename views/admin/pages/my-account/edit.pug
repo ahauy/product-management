@@ -41,10 +41,16 @@ block main
                   .col-6
                     label.form-label(for='') Last Name
                     input.mb-4.form-control(type='' id='' placeholder='Last Name...' name="lastName" value=user.lastName)
-                .row
-                  .col-12 
-                    label.form-label(for='') Email Address
-                    input.mb-4.form-control(type='' id='' placeholder='comerow@gmail.com' name="email" value=user.email)
+                if (role.title.includes("Quản trị viên"))
+                  .row
+                    .col-12 
+                      label.form-label(for='') Email Address
+                      input.mb-4.form-control(type='' id='' placeholder='comerow@gmail.com' name="email" value=user.email)
+                else 
+                  .row
+                    .col-12 
+                      label.form-label(for='') Email Address
+                      input.mb-4.form-control.pe-none(type='' id='' value=user.email disable readonly)
                 .row
                   .col-12 
                     label.form-label(for='') Phone Number
@@ -54,31 +60,43 @@ block main
                   h6.lh-1 Status
                   small.opacity-50 Pick Available Status
 
-                  div(class="form-check ml-2")
-                    input#statusActive.form-check-input(type='radio' name='status' value='active' checked=(user.status === 'active'))
-                    label.form-check-label.mr-5(for='statusActive') Active
+                  if (role.title.includes("Quản trị viên"))
+                    div(class="form-check ml-2")
+                      input#statusActive.form-check-input(type='radio' name='status' value='active' checked=(user.status === 'active'))
+                      label.form-check-label.mr-5(for='statusActive') Active
 
-                    input#statusInactive.form-check-input(type='radio' name='status' value='inactive' checked=(user.status === 'inactive'))
-                    label.form-check-label(for='statusInactive') Inactive
+                      input#statusInactive.form-check-input(type='radio' name='status' value='inactive' checked=(user.status === 'inactive'))
+                      label.form-check-label(for='statusInactive') Inactive
+                  else 
+                    div(class="form-check ml-2 pe-none")
+                      input#statusActive.form-check-input(type='radio' checked=(user.status === 'active'))
+                      label.form-check-label.mr-5(for='statusActive') Active
+
+                      input#statusInactive.form-check-input(type='radio' checked=(user.status === 'inactive'))
+                      label.form-check-label(for='statusInactive') Inactive
                 .col-6 
                   h6.lh-1 Feature
-                  select.form-select.mt-3(name='roleId')
-                    option(value='' disable) -- Chọn chức vụ --
-                    each item in roles 
-                      option(value=item.id selected=(String(user.roleId) === String(item.id))) #{item.title}
+                  if (role.title.includes("Quản trị viên"))
+                    select.form-select.mt-3(name='roleId')
+                      option(value='' disable) -- Chọn chức vụ --
+                      each item in roles 
+                        option(value=item.id selected=(String(user.roleId) === String(item.id))) #{item.title}
+                  else 
+                    input.mb-4.form-control.pe-none.mt-3(type='' id='' value=role.title disable readonly)
 
-          .card.shadow-css.p-3.mb-5 
-            .card-body 
-              h3.card-title.pb-3 Password 
-              .row
-                .row 
-                  .col-12
-                    label.form-label(for='') Password
-                    input.mb-4.form-control(type='' id='' placeholder='Password...')
-                .row 
-                  .col-12
-                    label.form-label(for='') Confirm Password
-                    input.mb-4.form-control(type='' id='' placeholder='Confirm Password' name="password")
+          if (role.title.includes("Quản trị viên"))
+            .card.shadow-css.p-3.mb-5 
+              .card-body 
+                h3.card-title.pb-3 Password 
+                .row
+                  .row 
+                    .col-12
+                      label.form-label(for='') Password
+                      input.mb-4.form-control(type='' id='' placeholder='Password...')
+                  .row 
+                    .col-12
+                      label.form-label(for='') Confirm Password
+                      input.mb-4.form-control(type='' id='' placeholder='Confirm Password' name="password")
           // Card general information - end
       
 

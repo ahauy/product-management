@@ -60,7 +60,9 @@ module.exports.editPatch = async (req, res) => {
   
     req.body.fullName = `${req.body.lastName} ${req.body.firstName}`
   
-    req.body.password = md5(req.body.password)
+    if(req.body.password) {
+      req.body.password = md5(req.body.password)
+    }
   
     // update accounts by id
     await Accounts.updateOne({_id: id}, req.body)
