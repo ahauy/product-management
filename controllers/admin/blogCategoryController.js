@@ -1,5 +1,5 @@
 const systemAdmin = require("../../config/system");
-const ProductsCategory = require("../../models/productsCategory.model");
+const BlogCategory = require("../../models/blogCategory.model");
 const createTree = require("../../helpers/admin/createTree");
 const filterStatusHelpers = require("../../helpers/admin/filterStatus");
 const searchHelpers = require("../../helpers/admin/search");
@@ -10,9 +10,11 @@ const cloudinary = require("../../config/cloudinary.config");
 const uploadImage = require("../../helpers/admin/uploadImage");
 const Role = require("../../models/role.model");
 const Accounts = require("../../models/accounts.model");
+const pagination = require("../../helpers/admin/pagination");
 
-// [GET] admin/products-category
+// [GET] admin/blog-category/
 module.exports.index = async (req, res) => {
+
   // Tìm kiếm sản phẩm
   let find = {
     deleted: false,
@@ -32,7 +34,7 @@ module.exports.index = async (req, res) => {
 
   // Phân trang
   const limit = req.query.limit;
-  const countPage = await ProductsCategory.countDocuments(find);
+  const countPage = await BlogCategory.countDocuments(find);
   const objPagination = paginationHelpers(
     req.query,
     {
@@ -52,14 +54,14 @@ module.exports.index = async (req, res) => {
   }
 
   // các sản phẩm trả về
-  const record = await ProductsCategory.find(find)
+  const record = await BlogCategory.find(find)
     .sort(sort)
     .limit(objPagination.limitItem)
     .skip(objPagination.skip);
 
   // Query 2: Lấy "bản đồ" toàn bộ danh mục để tra cứu tổ tiên
   // Chỉ lấy id, title, parentId => Cực nhẹ
-  const allCategories = await ProductsCategory.find({ deleted: false }).select(
+  const allCategories = await BlogCategory.find({ deleted: false }).select(
     "_id title parentId"
   );
 
@@ -143,20 +145,15 @@ module.exports.index = async (req, res) => {
     }
   }
 
-  res.render("admin/pages/productsCategory/index.pug", {
-    title: "Product Category",
+  res.render("admin/pages/blogCategory/index.pug", {
+    title: "Blog Category", 
     newRecord: newRecord,
     filterStatus: filterStatus,
     pagination: objPagination,
-    message: {
-      successEdit: req.flash("successEdit"),
-      successCreate: req.flash("successCreate"),
-      successRestore: req.flash("successRestore"),
-    },
-  });
-};
+  })
+}
 
-// [PATCH] admin/products-category/change-status/:status/:id
+// [PATCH] admin/blog-category/change-status/:status/:id_abc
 module.exports.changeStatus = async (req, res) => {
   const { status, id } = req.params;
 
@@ -169,7 +166,7 @@ module.exports.changeStatus = async (req, res) => {
     updatedAt: new Date(),
   };
 
-  await ProductsCategory.updateOne(
+  await BlogCategory.updateOne(
     { _id: id },
     {
       status: status,
@@ -178,13 +175,11 @@ module.exports.changeStatus = async (req, res) => {
   );
 
   req.flash("successStatus", "Update status success !!");
-  res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
-};
+  res.redirect(`${systemAdmin.prefixAdmin}/blog-category`);
+}
 
-// [PACTCH] admin/products/change-multi
+// [PACTCH] admin/blog-category/change-multi
 module.exports.changeMulti = async (req, res) => {
-  // console.log(req.body);
-
   let { type, ids } = req.body;
 
   let arrIds = ids.split(",");
@@ -199,19 +194,19 @@ module.exports.changeMulti = async (req, res) => {
 
   if (ids) {
     if (type == "active") {
-      await ProductsCategory.updateMany(
+      await BlogCategory.updateMany(
         { _id: { $in: arrIds } },
         { status: "active", $push: { updatedBy: updatedBy } }
       );
       req.flash("successStatus", "Update status success !!");
     } else if (type == "inactive") {
-      await ProductsCategory.updateMany(
+      await BlogCategory.updateMany(
         { _id: { $in: arrIds } },
         { status: "inactive", $push: { updatedBy: updatedBy } }
       );
       req.flash("successStatus", "Update status success !!");
     } else if (type == "delete") {
-      await ProductsCategory.updateMany(
+      await BlogCategory.updateMany(
         { _id: { $in: arrIds } },
         {
           deleted: true,
@@ -226,7 +221,7 @@ module.exports.changeMulti = async (req, res) => {
       for (let item of arrIds) {
         let [id, position] = item.split("-");
         position = parseInt(position);
-        await ProductsCategory.updateOne(
+        await BlogCategory.updateOne(
           { _id: id },
           { position: position, $push: { updatedBy: updatedBy } }
         );
@@ -236,10 +231,10 @@ module.exports.changeMulti = async (req, res) => {
   }
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
-};
+}
 
-// [PACTCH] admin/products/change-position/:id/:position
-module.exports.changePosition = async (req, res) => {
+// [PATCH] admin/blog-category/change-position/:id/:position
+module.exports.changePostition = async (req, res) => {
   const id = req.params.id;
   const position = parseInt(req.params.position);
 
@@ -252,37 +247,37 @@ module.exports.changePosition = async (req, res) => {
   };
 
   if (id && position) {
-    await ProductsCategory.updateOne(
+    await BlogCategory.updateOne(
       { _id: id },
       { position: position, $push: { updatedBy: updatedBy } }
     );
   }
   req.flash("successPosition", "Position update successful !!");
-  res.redirect(`${prefixAdmin}/products-category`);
-};
+  res.redirect(`${prefixAdmin}/blog-category`);
+}
 
-// [GET] admin/products-category/create
-module.exports.create = async (req, res) => {
+// [GET] admin/blog-category/create
+module.exports.getCreate = async (req, res) => {
   const find = {
     deleted: false,
   };
 
-  const record = await ProductsCategory.find(find);
+  const record = await BlogCategory.find(find);
 
   const newRecord = treeToFlatArray(record);
 
-  res.render("admin/pages/productsCategory/createProductCategory.pug", {
-    title: "Create Product Category",
+  res.render("admin/pages/blogCategory/createBlogCategory.pug", {
+    title: "Create Blog Category",
     newRecord: newRecord,
   });
-};
+}
 
-// [POST] admin/products-category/create
-module.exports.createPost = async (req, res) => {
+// [POST] admin/blog-category/create
+module.exports.postCreate = async (req, res) => {
   // --- 1. Xử lý logic Position (Vị trí) ---
   // Nếu người dùng không nhập vị trí, tự động tính toán tăng lên 1
   if (!req.body.position) {
-    const count = await ProductsCategory.countDocuments({ deleted: false });
+    const count = await BlogCategory.countDocuments({ deleted: false });
     req.body.position = count + 1;
   } else {
     req.body.position = parseInt(req.body.position);
@@ -297,7 +292,7 @@ module.exports.createPost = async (req, res) => {
   // --- 3. Xử lý logic ParentId & Level (QUAN TRỌNG) ---
   if (req.body.parentId) {
     // Nếu có chọn cha: Tìm cha để lấy level của cha
-    const parent = await ProductsCategory.findOne({
+    const parent = await BlogCategory.findOne({
       _id: req.body.parentId,
       deleted: false,
     });
@@ -321,21 +316,21 @@ module.exports.createPost = async (req, res) => {
 
   // --- 4. Lưu dữ liệu ---
   // Lúc này req.body đã đầy đủ và sạch sẽ, chỉ cần ném vào Model
-  const record = new ProductsCategory(req.body);
+  const record = new BlogCategory(req.body);
   await record.save();
 
-  req.flash("successCreate", "Success Create Product Category !");
-  res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
-};
+  req.flash("successCreate", "Success Create Blog Category !");
+  res.redirect(`${systemAdmin.prefixAdmin}/blog-category`);
+}
 
-// [DELETE] admin/product-category/delete-category/:id
+// [DELETE] admin/blog-category/delete-category/:id
 module.exports.deleteCategory = async (req, res) => {
   const { id } = req.params;
 
   const token = req.cookies.token;
   const account = await Accounts.findOne({ token: token });
 
-  await ProductsCategory.updateOne(
+  await BlogCategory.updateOne(
     { _id: id },
     {
       deleted: true,
@@ -347,30 +342,30 @@ module.exports.deleteCategory = async (req, res) => {
   );
 
   req.flash("successDelete", "Success Delete Product Category !");
-  res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
-};
+  res.redirect(`${systemAdmin.prefixAdmin}/blog-category`);
+}
 
-// [GET] admin/product-category/edit/:id
-module.exports.edit = async (req, res) => {
+// [GET] admin/blog-category/edit/:id
+module.exports.getEdit = async (req, res) => {
   const find = {
     deleted: false,
   };
 
   const { id } = req.params;
-  const productCategory = await ProductsCategory.findById(id);
-  const records = await ProductsCategory.find(find);
+  const blogCategory = await BlogCategory.findById(id);
+  const records = await BlogCategory.find(find);
 
   const newRecords = treeToFlatArray(records);
 
-  res.render("admin/pages/productsCategory/editProductCategory.pug", {
-    title: "Edit Product Category",
-    productCategory: productCategory,
+  res.render("admin/pages/blogCategory/editBlogCategory.pug", {
+    title: "Edit Blog Category",
+    blogCategory: blogCategory,
     newRecords: newRecords,
   });
-};
+}
 
-// [PATCH] admin/product-category/edit/:id
-module.exports.editPatch = async (req, res) => {
+// [PATCH] admin/blog-category/edit/:id_abc
+module.exports.patchEdit = async (req, res) => {
   const { id } = req.params;
 
   if (req.file) {
@@ -387,31 +382,28 @@ module.exports.editPatch = async (req, res) => {
     updatedAt: new Date()
   }
 
-  await ProductsCategory.updateOne({ _id: id }, req.body);
+  await BlogCategory.updateOne({ _id: id }, req.body);
 
-  req.flash("successEdit", "Success Edit Product Category !");
-  res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
-};
+  req.flash("successEdit", "Success Edit Blog Category !");
+  res.redirect(`${systemAdmin.prefixAdmin}/blog-category`);
+}
 
-// [GET] admin/products-category/read/:id
-module.exports.read = async (req, res) => {
-
+// [GET] admin/blog-category/read/:id
+module.exports.getRead = async (req, res) => {
   const { id } = req.params;
-  const productCategory = await ProductsCategory.findById(id);
-  const records = await ProductsCategory.find({});
+  const blogCategory = await BlogCategory.findById(id);
+  const records = await BlogCategory.find({});
 
   const newRecords = treeToFlatArray(records);
 
-  res.render("admin/pages/productsCategory/readProductCategory.pug", {
-    title: "Read Product Category",
-    productCategory: productCategory,
+  res.render("admin/pages/blogCategory/readBlogCategory.pug", {
+    title: "Read Blog Category",
+    blogCategory: blogCategory,
     newRecords: newRecords,
   });
-};
+}
 
-
-// thao tác với các sản phầm đã bị xoá
-// [GET] amdin/products-category/trash
+// [GET] admin/blog-category/trash
 module.exports.getTrash = async (req, res) => {
   // Tìm kiếm sản phẩm
   let find = {
@@ -432,7 +424,7 @@ module.exports.getTrash = async (req, res) => {
 
   // Phân trang
   const limit = req.query.limit;
-  const countPage = await ProductsCategory.countDocuments(find);
+  const countPage = await BlogCategory.countDocuments(find);
   const objPagination = paginationHelpers(
     req.query,
     {
@@ -452,14 +444,14 @@ module.exports.getTrash = async (req, res) => {
   }
 
   // các sản phẩm trả về
-  const record = await ProductsCategory.find(find)
+  const record = await BlogCategory.find(find)
     .sort(sort)
     .limit(objPagination.limitItem)
     .skip(objPagination.skip);
 
   // Query 2: Lấy "bản đồ" toàn bộ danh mục để tra cứu tổ tiên
   // Chỉ lấy id, title, parentId => Cực nhẹ
-  const allCategories = await ProductsCategory.find({ deleted: false }).select(
+  const allCategories = await BlogCategory.find({ deleted: false }).select(
     "_id title parentId"
   );
 
@@ -543,15 +535,15 @@ module.exports.getTrash = async (req, res) => {
     }
   }
 
-  res.render("admin/pages/productsCategory/trash.pug", {
-    title: "Trash Product Category",
+  res.render("admin/pages/blogCategory/trash.pug", {
+    title: "Trash Blog Category",
     newRecord: newRecord,
     filterStatus: filterStatus,
     pagination: objPagination,
   });
-};
+}
 
-// [PATCH] admin/products/trash/change-multi
+// [PATCH] admin/blog-category/trash/change-multi
 module.exports.trashChangeMulti = async (req, res) => {
   let { type, ids } = req.body;
 
@@ -562,10 +554,10 @@ module.exports.trashChangeMulti = async (req, res) => {
 
   if (ids) {
     if (type == "delete") {
-      await ProductsCategory.deleteMany({ _id: { $in: arrIds } });
+      await BlogCategory.deleteMany({ _id: { $in: arrIds } });
       req.flash("success", "Delete success !!");
     } else if (type == "restore") {
-      await ProductsCategory.updateMany(
+      await BlogCategory.updateMany(
         { _id: { $in: arrIds } },
         {
           deleted: false,
@@ -583,23 +575,23 @@ module.exports.trashChangeMulti = async (req, res) => {
   }
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
-};
+}
 
-// [DELETE] admin/products/trash/delete-product/:id
-module.exports.trashDeleteProduct = async (req, res) => {
+// [DELETE] admin/blog-category/trash/delete-category
+module.exports.trashDeleteBlog = async (req, res) => {
   const id = req.params.id;
 
-  await ProductsCategory.deleteOne({ _id: id });
+  await BlogCategory.deleteOne({ _id: id });
 
   
-  req.flash("success", "Delete product success !!");
+  req.flash("success", "Delete Blog Category Success !!");
 
   const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
   res.redirect(backURL);
-};
+}
 
-// [PATCH] admin/products/trash/restore-product/:id
-module.exports.trashRestoreProduct = async (req, res) => {
+// [PATCH] admin/blog-category/trash/restore-category
+module.exports.trashRestoreBlog = async (req, res) => {
   const id = req.params.id;
   const token = req.cookies.token;
   // let isRestore = true; // vẫn có thể restore sản phẩm
@@ -608,7 +600,7 @@ module.exports.trashRestoreProduct = async (req, res) => {
 
 
   if (id) {
-    await ProductsCategory.updateOne(
+    await BlogCategory.updateOne(
       { _id: id },
       {
         deleted: false,
@@ -622,10 +614,10 @@ module.exports.trashRestoreProduct = async (req, res) => {
       }
     );
     req.flash("successRestore", "Success Restore Category!");
-    res.redirect(`${systemAdmin.prefixAdmin}/products-category`);
+    res.redirect(`${systemAdmin.prefixAdmin}/blog-category`);
   } else {
     req.flash("error", "Restore Error");
     const backURL = req.header("Referer") || "/"; // fallback về trang chủ nếu không có Referer
     res.redirect(backURL);
   }
-};
+}

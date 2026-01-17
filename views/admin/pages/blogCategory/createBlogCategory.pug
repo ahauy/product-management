@@ -1,0 +1,67 @@
+extend ../../layout/default.pug
+
+block main 
+  if (role.permissions.includes('blog-category_create'))
+    form(
+      action=`${prefixAdmin}/blog-category/create`
+      method="POST"
+      enctype="multipart/form-data"
+      id="form-edit-product"
+    ) 
+      .row 
+        .col-10 
+          h1.title #{title} 
+        .col-2.text-end
+          button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px")
+            <i class="fa-solid fa-check pr-2"></i>Add Product Category
+      .container-fluid.pt-2
+        .row
+          .col-8
+            // Card general information - start
+            .card.shadow-css.p-3.mb-5
+              .card-body
+                h3.card-title.pb-3 General Information
+                .row
+                  label.form-label(for='') Name Product Category
+                  input.mb-4.form-control(type='' id='' placeholder='Input name product category...' name="title")
+                  label.form-label(for='') Description Product
+                  textarea.form-control(id='description' rows='4' name="description")
+                .row.mt-4
+                  .col-6 
+                    h6.lh-1 Status
+                    small.opacity-50 Pick Available Status
+
+                    div(class="form-check ml-2")
+                      input#statusActive.form-check-input(type='radio' name='status' value='active' checked)
+                      label.form-check-label.mr-5(for='statusActive') Active
+
+                      input#statusInactive.form-check-input(type='radio' name='status' value='inactive')
+                      label.form-check-label(for='statusInactive') Inactive
+                  .col-6 
+                    h6.lh-1 Parent Category
+                    select.form-select.mt-3(name='parentId')
+                      option(value='') -- Là danh mục gốc (Root) --
+                      - if (newRecord)
+                        each item in newRecord 
+                          option(value=item._id)=item.prefixTitle
+
+            // Card general information - end
+
+          .col-4
+            // Card upload image - start
+            .card.shadow-css.p-3.mb-5
+              .card-body
+                h3.card-title.pb-3 Upload Image
+                .row
+                  .col-12
+                    label.label-image(for='form-image-0')
+                      input#form-image-0.form-image(type='file' accept='image/*' hidden='' name="thumbnail")
+                      .show-image
+                        div
+                          i.fa-solid.fa-plus(style='color: #ffffff;')
+            // Card upload image - end
+        
+
+    script(src="/js/admin/fontend/labelImage.js")
+  else 
+    h3.notFound Bạn không có quyền thêm danh mục sản phẩm

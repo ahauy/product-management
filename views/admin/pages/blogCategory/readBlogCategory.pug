@@ -1,0 +1,65 @@
+extend ../../layout/default.pug
+
+block main 
+
+  .row 
+    .col-10 
+      h1.title #{title} 
+    .col-2.text-end
+      button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px" onclick="history.back()")
+          <i class="fa-solid fa-rotate-right"></i> Back
+  .container-fluid.pt-2
+    .row
+      .col-8
+        // Card general information - start
+        .card.shadow-css.p-3.mb-5
+          .card-body
+            h3.card-title.pb-3 General Information
+            .row
+              label.form-label(for='') Name Product Category
+              input.mb-4.form-control(type='' id='' placeholder='Input name product category...' name="title" value=blogCategory .title style="pointer-events: none")
+              label.form-label(for='') Description Product
+              div.description.border.p-3=blogCategory .description
+            .row.mt-4
+              .col-6 
+                h6.lh-1 Status
+                small.opacity-50 Pick Available Status
+
+                div(class="form-check ml-2")
+                  input#statusActive.form-check-input(type='radio' name='status' value='active' checked=(blogCategory .status == 'active') style="pointer-events: none")
+                  label.form-check-label.mr-5(for='statusActive' style="pointer-events: none") Active
+
+                  input#statusInactive.form-check-input(type='radio' name='status' value='inactive' checked=(blogCategory .status == 'inactive') style="pointer-events: none")
+                  label.form-check-label(for='statusInactive' style="pointer-events: none") Inactive
+              .col-6 
+                h6.lh-1 Parent Category
+                select.form-select.mt-3(name="parentId" style="pointer-events: none")
+                  option(value="" selected=!blogCategory .parentId) -- Là danh mục gốc (Root) --
+                  if newRecords
+                    each item in newRecords
+                      option(
+                        value=item._id
+                        selected=(String(item._id) === String(blogCategory .parentId))
+                      ) #{item.prefixTitle}
+
+        // Card general information - end
+
+      .col-4
+        // Card upload image - start
+        .card.shadow-css.p-3.mb-5
+          .card-body
+            h3.card-title.pb-3 Upload Image
+            .row
+              .col-12
+                label.label-image(for='form-image-0' style="pointer-events: none")
+                  div.thumbnail.d-none=blogCategory .thumbnail
+                  input#form-image-0.form-image(type='file' accept='image/*' hidden='' name="thumbnail")
+                  .show-image
+                    div
+                      i.fa-solid.fa-plus(style='color: #ffffff;')
+        // Card upload image - end
+      
+
+  script(src="/js/admin/fontend/labelImage.js")
+  script(src="/js/admin/fontend/editProductCategory.js")
+  script(src="/js/admin/fontend/readProduct.js")
