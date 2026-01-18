@@ -37,3 +37,11 @@
   color: var(--white);
 }
 
+.table-css tr:hover label {
+  color: white;
+}
+
+.table-css tr td label:hover {
+  color: white !important; 
+  opacity: 0.6;
+}

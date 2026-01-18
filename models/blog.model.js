@@ -27,8 +27,8 @@ const blogSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["active", "inactive", "draft"],
-      default: "active",
+      enum: ["active", "inactive", "draft", "pending"],
+      default: "draft",
     },
 
     // --- MỚI THÊM: Bài viết nổi bật ---
