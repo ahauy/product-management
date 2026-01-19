@@ -2,7 +2,7 @@ extends ../../layout/default.pug
 include ../../mixins/modal.pug
 
 block main 
-  link(rel="stylesheet", href="/css/admin/products/modal.css")
+  link(rel="stylesheet", href="/css/admin/blog/modal.css")
 
   if (role.permissions.includes("blog_view"))
 
@@ -66,7 +66,7 @@ block main
               .col-4
                 if (role.permissions.includes('blog_edit'))
                   form(
-                    action=`${prefixAdmin}/products/change-multi?_method=PATCH`
+                    action=`${prefixAdmin}/blog/change-multi?_method=PATCH`
                     method="POST"
                     form-change-multi
                   )
@@ -79,7 +79,7 @@ block main
                         option(value="draft") Draft 
                         option(value="featured-true") Featured true
                         option(value="featured-false") Featured false
-                        if (role.permissions.includes('product_delete'))
+                        if (role.permissions.includes('blog_delete'))
                           option(value="delete") Delete
                       input(
                         type="text"
@@ -90,8 +90,8 @@ block main
                       )
                       button.btn.btn-primary(type="submit") Apply Action 
               .col-1
-                if (role.permissions.includes('product_create'))
-                  a.btn.btn-primary(href=`${prefixAdmin}/products/create`)  + New
+                if (role.permissions.includes('blog_create'))
+                  a.btn.btn-primary(href=`${prefixAdmin}/blog/create`)  + New
           .row.p-2.mt-3
             table.table-css.mb-5(checkbox-multi)
               thead
@@ -106,7 +106,7 @@ block main
                   td(scope='col') Position
                   td(scope='col') Featured
                   td(scope='col') Status
-                  td(scope='col') Publish
+                  td(scope='col') PublishAt
                   td(scope='col') Action
               tbody
                 each item, index in blog
@@ -129,7 +129,7 @@ block main
                           action="" 
                           form-change-position
                           method="POST"
-                          data-path=`${prefixAdmin}/products/change-position`
+                          data-path=`${prefixAdmin}/blog/change-position`
                         )
                           input(
                             change-position
@@ -170,35 +170,11 @@ block main
                         else 
                           p.text-danger False
                     td Pending
-                    if (role.permissions.includes('blog-category_edit'))  
-                      td 
-                        if(item.status == "active")
-                          a(
-                            href="javascript:;" 
-                            btn-change-status
-                            itemStatus=item.status 
-                            itemId=item._id
-                            class='badge badge-success p-2'
-                            style="font-size: 0.9rem"
-                          ) Active
-                        else 
-                          a(
-                            href="javascript:;" 
-                            btn-change-status
-                            itemStatus=item.status 
-                            itemId=item._id
-                            class='badge badge-danger p-2'
-                            style="font-size: 0.9rem"
-                          ) Inactive
-                    else 
-                      td 
-                        if (item.status == "active")
-                          p.text-success Active
-                        else 
-                          p.text-danger Inactive
+                    td 
+                      p 19/01/2026 - 11:23
                     td  
                       a(
-                          href=`${prefixAdmin}/products/read/${item._id}`
+                          href=`${prefixAdmin}/blog/read/${item._id}`
                           class='btn btn-primary btn-sm p-2 m-2'
                           style="font-size: 0.9rem"
                           data-bs-toggle="tooltip" 
@@ -209,7 +185,7 @@ block main
                       ) <i class="fa-brands fa-readme"></i>
                       if (role.permissions.includes('blog_edit'))
                         a(
-                          href=`${prefixAdmin}/products/edit/${item._id}`
+                          href=`${prefixAdmin}/blog/edit/${item._id}`
                           class='btn btn-warning btn-sm p-2 m-2'
                           style="font-size: 0.9rem"
                           data-bs-toggle="tooltip" 
@@ -218,7 +194,7 @@ block main
                           data-bs-custom-class="custom-tooltip"
                           title="Edit"
                         ) <i class="fa-solid fa-pen-to-square"></i>
-                        if (role.permissions.includes('product_delete'))
+                        if (role.permissions.includes('blog_delete'))
                           button(
                             class='btn btn-danger btn-sm p-2 m-2'
                             button-delete
@@ -244,7 +220,7 @@ block main
 
 
           //- .row
-            if (role.permissions.includes('product_delete'))
+            if (role.permissions.includes('blog_delete'))
               .col-9
                 nav(aria-label='Page navigation example')
                   ul.pagination
@@ -274,7 +250,7 @@ block main
                   data-bs-offset="0,10"
                   data-bs-custom-class="custom-tooltip"
                   title="Trash"
-                  href="/admin/products/trash"
+                  href="/admin/blog/trash"
                 ) <i class="fa-regular fa-trash"></i>
             else 
               .col-10
@@ -306,21 +282,21 @@ block main
         action=""
         method="POST"
         id = 'form-change-status'
-        data-path = `${prefixAdmin}/products/change-status`
+        data-path = `${prefixAdmin}/blog/change-status`
       ) 
 
       form(
         action=""
         method="POST"
         id = 'form-change-featured'
-        data-path = `${prefixAdmin}/products/change-featured`
+        data-path = `${prefixAdmin}/blog/change-featured`
       ) 
 
       form(
         action=""
         method="POST"
         id = 'form-delete'
-        data-path = `${prefixAdmin}/products/delete-product`
+        data-path = `${prefixAdmin}/blog/delete-product`
       ) 
                 
       // LIST PRODUCTS END

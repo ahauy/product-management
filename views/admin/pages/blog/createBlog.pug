@@ -1,0 +1,108 @@
+extend ../../layout/default.pug
+
+block main 
+  link(rel="stylesheet", href="/css/admin/blog/createBlog.css")
+  if (role.permissions.includes('blog_create'))
+    form(
+      action=`${prefixAdmin}/blog/create`
+      method="POST"
+      enctype="multipart/form-data"
+      id="form-edit-product"
+    ) 
+      .row 
+        .col-6 
+          h1.title #{title} 
+        .col-6.text-end
+          a.btn.border.border-primary.p-2.pr-3.pl-3.text-primary.mr-2(href="javascript;") 
+            <i class="fa-regular fa-eye"></i> Preview
+          if (role.title.includes("Quản trị viên"))
+            button.btn.btn-primary.p-2.pr-5.pl-5.mr-2(type="submit" style="margin: 20px 0px;")
+              <i class="fa-solid fa-upload"></i> Publish
+          else 
+            button.btn.btn-warning.p-2.pr-5.pl-5.mr-2(type="submit" style="margin: 20px 0px;")
+              <i class="fa-solid fa-hourglass-start"></i> Pending
+          button.btn.btn-success.p-2.pr-5.pl-5(type="submit" style="margin: 20px 0px;")
+            <i class="fa-solid fa-check pr-2"></i> Save draft
+      .container-fluid.pt-2
+        .row
+          .col-9
+            // Card general information - start
+            .card.shadow-css.p-3.mb-5
+              .card-body
+                h3.card-title.pb-3 General Information
+                .row
+                  label.form-label(for='title') Blog title <span style="color: red">*</span>
+                  input.mb-4.form-control(type='' id='title' placeholder='Blog title...' name="title" required)
+                  label.form-label(for='description') Brief description <span style="color: red">*</span>
+                  textarea.form-control(id='description' name="description" required)
+                  label.mt-4.form-label(for='detail') Blog Detail <span style="color: red">*</span>
+                  textarea.form-control(id='detail' row="7" name="detail" required)
+            // Card general information - end
+
+          .col-3
+            // Card upload image - start
+            .card.shadow-css.p-3.mb-4
+              .card-body
+                h3.card-title.pb-3 Feature Image
+                .row
+                  .col-12
+                    label.label-image(for='form-image-0')
+                      input#form-image-0.form-image(type='file' accept='image/*' hidden='' name="thumbnail")
+                      .show-image
+                        div
+                          i.fa-solid.fa-plus(style='color: #ffffff;')
+            // Card upload image - end
+
+            // Card Add Information- start
+            .card.shadow-css.p-3
+              .card-body
+                h3.card-title.pb-3 Add information
+                .row.mb-2
+                  label(for="") Blog Date (Optional)
+                  div.date
+                    label.input-date
+                      input(type="date")
+                      <i class="fa-regular fa-calendar"></i>
+                    label.input-time
+                      input(type="time")
+                      <i class="fa-regular fa-clock"></i>
+                    input.d-none(type="text" name="date_client")
+
+                .row.mb-3
+                  label(for="") Category
+                  label.cat-wrapper
+                    .cat-content 
+                      //- .cat-title 
+                      //-   div Big Data
+                      //-   <ion-icon name="close-outline"></ion-icon>
+                      //- .cat-title 
+                      //-   div Big Data
+                      //-   <ion-icon name="close-outline"></ion-icon>
+                      //- .cat-title 
+                      //-   div Big Data
+                      //-   <ion-icon name="close-outline"></ion-icon>
+                      //- .cat-title 
+                      //-   div Big Data
+                      //-   <ion-icon name="close-outline"></ion-icon>
+                    .cat-icon
+                      <ion-icon name="add-circle-outline" btn-cat></ion-icon>
+                  .select_item_box.hide 
+                    .select_item.active Thời trang nam 
+                    .select_item Thời trang nữ
+
+                .row
+                  label(for="") Tag
+                  label.tag-wrapper
+                    .tag-content 
+                      //- .tag-title 
+                      //-   div Big Data
+                      //-   <ion-icon name="close-outline"></ion-icon>
+                    .tag-icon
+                      <ion-icon name="add-circle-outline" btn-tag></ion-icon>
+                  input.form-control.input_box.hide(type="text" placeholder="Input tag ...")
+            // Card Add Information - end
+
+    script(src="/js/admin/fontend/labelImage.js")
+    script(src="/js/admin/fontend/blog/createBlog.js")
+  else 
+    h3.notFound Bạn không có quyền thêm danh mục sản phẩm

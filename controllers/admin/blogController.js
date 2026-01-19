@@ -13,3 +13,10 @@ module.exports.index = async (req, res) => {
     blog: blog
   })
 }
+
+// [GET] admin/blog/create
+module.exports.getCreate = async (req, res) => {
+  res.render("admin/pages/blog/createBlog.pug", {
+    title: "Create Blog"
+  })
+}

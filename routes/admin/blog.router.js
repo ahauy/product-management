@@ -8,4 +8,6 @@ const upload = multer({ dest: 'uploads/' });
 
 routes.get("/", controller.index);
 
+routes.get("/create", controller.getCreate)
+
 module.exports = routes;

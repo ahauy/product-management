@@ -1,0 +1,162 @@
+/* DATE - START */
+.date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.date input {
+  border: none;
+  outline: none;
+  font-size: 1.2rem;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.date label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.date label i {
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+/* DATE - END */
+
+/* CATEGORY - START */
+.cat-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-left: 12px;
+  margin-right: 12px;
+  height: max-content;
+  width: calc(100% - 24px);
+  min-height: 50px;
+}
+
+.cat-wrapper .cat-content {
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  column-gap: 10px;
+}
+
+.cat-wrapper .cat-content .cat-title {
+  padding: 5px 10px;
+  margin: 8px 0px;
+  background: #d5e6e9;
+  width: max-content;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cat-wrapper .cat-icon ion-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.cat-wrapper .cat-content .cat-title ion-icon {
+  margin-left: 6px;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.select_item_box {
+  border: 1px solid #ccc;
+  width: calc(100% - 24px);
+  margin-left: 12px;
+  border-radius: 10px;
+  padding: 10px 15px;
+}
+
+.select_item {
+  padding: 20px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-self: unset;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+/* .select_item:hover {
+  background: #d5e6e9;
+} */
+
+.select_item.active {
+  background: #d5e6e9;
+}
+
+/* CATEGORY - END */
+
+/* TAG - START */
+.tag-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 0px 12px;
+  width: calc(100% - 24px);
+  margin-bottom: 8px;
+  min-height: 50px;
+}
+
+.tag-wrapper .tag-content {
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  column-gap: 10px;
+}
+
+.tag-wrapper .tag-content .tag-title {
+  padding: 5px 10px;
+  margin: 8px 0px;
+  background: #d5e6e9;
+  width: max-content;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tag-wrapper .tag-icon ion-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.tag-wrapper .tag-content .tag-title ion-icon {
+  margin-left: 6px;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.input_box {
+  margin: 0px 12px;
+  width: calc(100% - 24px);
+}
+/* TAG - END */
+
+.hide {
+  display: none;
+}
+
+.rotate {
+  transform: rotate(45deg)
+}
