@@ -28,14 +28,16 @@ if (arrSelectItem.length > 0) {
       ).map((node) => node.textContent.trim());
 
       if (!currentCats.includes(item.textContent.trim())) {
+        const dataId = item.getAttribute("data_id")
         const newHtml = `
           <div class="cat-title">
-            <div>${item.textContent}</div>
+            <div id=${dataId}>${item.textContent}</div>
             <ion-icon name="close-outline"></ion-icon>
           </div>
         `;
         catContent.insertAdjacentHTML("beforeend", newHtml);
         addDeleteEvent(".cat-title");
+        addInputCategoryId(".cat-title")
       }
     });
   });
@@ -72,6 +74,7 @@ if (inputBox) {
           `;
           tagContent.insertAdjacentHTML("beforeend", newTagHtml);
           addDeleteEvent(".tag-title");
+          addInputTags(".tag-title")
         }
         inputBox.value = "";
       }
@@ -93,4 +96,32 @@ function addDeleteEvent(selector) {
       }
     };
   });
+}
+
+// ---- HÀM LẤY DỮ LIỆU ĐỂ VÀO INPUT -------
+function addInputTags(selector) {
+  // lấy danh sách các tiêu đề trên wrapper
+  const nodeList = Array.from(document.querySelectorAll(`${selector} div`))
+
+  const texts = nodeList.map(item => item.textContent.trim())
+
+  const inputTagetTag = document.querySelector("input[name=tags]")
+  
+  inputTagetTag.value = texts.toString();
+}
+
+
+function addInputCategoryId(selector) {
+  // lấy danh sách các tiêu đề trên wrapper
+  const nodeList = document.querySelectorAll(`${selector} div`)
+  const ids = []
+  nodeList.forEach(item => {
+    ids.push(`${item.getAttribute("id")}-${item.textContent.trim()}`)
+  })
+
+  const inputTagetCategory = document.querySelector("input[name=blog_category]")
+
+  inputTagetCategory.value = ids.toString()
+
+  console.log(inputTagetCategory.value)
 }

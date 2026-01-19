@@ -14,10 +14,15 @@ const blogSchema = new mongoose.Schema(
     detail: { type: String, default: "" },
 
     // Một bài viết có thể thuộc 1 hoặc nhiều danh mục khác nhau
-    blog_category: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "BlogCategory",
-    }],
+    blog_category: [
+      {
+        categoryId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "BlogCategory",
+        },
+        title: String,
+      },
+    ],
 
     // Ảnh nổi bật
     thumbnail: { type: String },
@@ -42,7 +47,7 @@ const blogSchema = new mongoose.Schema(
       type: Boolean,
       default: false, // Mặc định là false (không nổi bật)
     },
-    
+
     position: { type: Number, default: 0 },
 
     // Google tìm kiếm thường hiển thị title và description khác với nội dung trên trang
@@ -53,7 +58,7 @@ const blogSchema = new mongoose.Schema(
     // Lượt xem bài viết
     views: {
       type: Number,
-      default: 0
+      default: 0,
     },
 
     // Ngày xuất bản (Quan trọng)
@@ -61,7 +66,7 @@ const blogSchema = new mongoose.Schema(
     // Dùng để lập lịch đăng bài (Schedule Post).
     publishedAt: {
       type: Date,
-      default: null // Khi nào chuyển status sang 'active' thì cập nhật trường này
+      default: null, // Khi nào chuyển status sang 'active' thì cập nhật trường này
     },
 
     // nguời tạo
@@ -72,8 +77,8 @@ const blogSchema = new mongoose.Schema(
       },
       createdAt: {
         type: Date,
-        default: Date.now
-      }
+        default: Date.now,
+      },
     },
 
     // người chỉnh SỬA
@@ -85,9 +90,9 @@ const blogSchema = new mongoose.Schema(
         },
         updatedAt: {
           type: Date,
-          default: Date.now
-        }
-      }
+          default: Date.now,
+        },
+      },
     ],
 
     // người xoá
@@ -98,22 +103,20 @@ const blogSchema = new mongoose.Schema(
       },
       deletedAt: {
         type: Date,
-        default: Date.now
-      }
+        default: Date.now,
+      },
     },
 
     // Xóa mềm
     deleted: { type: Boolean, default: false },
-    
   },
   { timestamps: true }
 );
 
 // Đánh index
-blogSchema.index({slug: 1})
-blogSchema.index({deleted: 1, status: 1})
-blogSchema.index({blog_category: 1, createAt: -1})
+blogSchema.index({ slug: 1 });
+blogSchema.index({ deleted: 1, status: 1 });
+blogSchema.index({ blog_category: 1, createAt: -1 });
 
 const Blog = mongoose.model("Blog", blogSchema, "blog");
 module.exports = Blog;
-

@@ -1,5 +1,5 @@
 tinymce.init({
-  selector: 'textarea#description',
+  selector: 'textarea#description, textarea#detail',
   plugins: 'lists link image table code help wordcount',
   automatic_uploads: true,
   // Xóa dòng images_upload_url đi vì chúng ta xử lý thủ công bên dưới
