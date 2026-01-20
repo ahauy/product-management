@@ -1,8 +1,24 @@
 extends ../../layout/default.pug
 include ../../mixins/modal.pug
 
-block main 
+block main
   link(rel="stylesheet", href="/css/admin/blog/modal.css")
+  style.
+
+    .cat-title {
+      padding: 5px 10px;
+      margin: 8px 0px;
+      background: #d5e6e9;
+      width: max-content;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .table-css tr:hover .cat-title {
+      color: black;
+    }
 
   if (role.permissions.includes("blog_view"))
 
@@ -117,12 +133,17 @@ block main
                     td 
                       img( alt=item.title width='100px' class="img-thumbnail")
                     td=item.title
-                    td 
-                      if item.category 
-                        | #{item.category.title}
+                    td
+                      if item.blog_category.length > 0
+                        each cat in item.blog_category 
+                          .cat-title #{cat.title}
                       else 
-                        | No Category
-                    td vutuanhau
+                        .cat-title No Category
+                    td
+                      if (item.createdBy && item.createdBy.accountId)
+                        | #{item.createdBy.accountId.fullName}
+                      else
+                        | N/A
                     if (role.permissions.includes('blog_edit'))              
                       td 
                         form(
@@ -169,9 +190,10 @@ block main
                           p.text-success True
                         else 
                           p.text-danger False
-                    td Pending
+                    td=item.status
                     td 
-                      p 19/01/2026 - 11:23
+                      p #{moment(item.createdAt).format("DD/MM/YYYY")}
+                      i #{moment(item.createdAt).format("HH:mm")}
                     td  
                       a(
                           href=`${prefixAdmin}/blog/read/${item._id}`

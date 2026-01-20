@@ -30,11 +30,11 @@ const blogSchema = new mongoose.Schema(
     // Quản lý hiển thị
     tags: [{ type: String }],
 
-    // Thời gian tạo - hiển thị bên phía khách hàng
-    date_client: {
-      type: Date,
-      default: null,
-    },
+    // // Thời gian tạo - hiển thị bên phía khách hàng
+    // date_client: {
+    //   type: Date,
+    //   default: null,
+    // },
 
     status: {
       type: String,

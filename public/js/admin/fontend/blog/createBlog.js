@@ -116,7 +116,7 @@ function addInputCategoryId(selector) {
   const nodeList = document.querySelectorAll(`${selector} div`)
   const ids = []
   nodeList.forEach(item => {
-    ids.push(`${item.getAttribute("id")}-${item.textContent.trim()}`)
+    ids.push(`${item.getAttribute("id")}/${item.textContent.trim()}`)
   })
 
   const inputTagetCategory = document.querySelector("input[name=blog_category]")
