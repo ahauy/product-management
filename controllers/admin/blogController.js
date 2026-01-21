@@ -286,3 +286,21 @@ module.exports.deleteBlog = async (req, res) => {
     res.redirect(`${systemAdmin.prefixAdmin}/blog`);
   }
 };
+
+
+// [GET] admin/blog/read/:id
+module.exports.getRead = async (req, res) => {
+  const id  = req.params.id
+
+  const find = {
+    _id: id, 
+    deleted: false
+  }
+
+  const blog = await Blog.findOne(find)
+
+
+  res.render("admin/pages/blog/readBlog.pug", {
+    blog: blog
+  })
+}

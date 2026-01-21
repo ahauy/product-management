@@ -14,4 +14,6 @@ routes.patch("/change-featured/:featured/:id", controller.changeFeatured)
 
 routes.delete("/delete-blog/:id", controller.deleteBlog)
 
+routes.get("/read/:id", controller.getRead)
+
 module.exports = routes;

@@ -1,5 +1,5 @@
 .archive-post {
-  padding: 50px 50px 0px 50px;
+  padding: 50px;
 }
 
 
@@ -71,7 +71,6 @@ article .article__content > ul li strong {
 }
 
 article .article__content .image {
-  margin-top: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,6 +84,18 @@ article .article__content figcaption > p {
 
 article .article__content .image img {
   width: 80%;
+}
+
+figure.image:has(> img) {
+  margin: 20px;
+}
+
+.wp-caption {
+  margin-bottom: 0px;
+}
+
+figure.image {
+  margin-bottom: 0;
 }
 
 /* 1. Xóa các animation cũ ở thẻ menu cha */
@@ -174,4 +185,60 @@ article .article__content .image img {
 .article__content h4,
 .article__content span {
     scroll-margin-top: 100px; /* Bạn chỉnh số này tùy ý cho vừa mắt */
+}
+
+
+/* xem chi tiết bên phái admin */
+.archive-post--admin article .article__title{
+  font-size: 1.6rem;
+}
+
+.archive-post--admin article .article__content > h1 {
+  font-size: 1.6rem;
+}
+
+.archive-post--admin article .article__content > h2 {
+  font-size: 1.4rem;
+}
+
+.archive-post--admin article .article__content > h3 {
+  font-size: 1.2rem;
+}
+
+.archive-post--admin article .article__content > h4 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.archive-post--admin article .article__content figcaption {
+  font-size: 0.8rem;
+}
+
+.archive-post--admin article .article__content > * {
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.archive-post--admin .menu__body nav ul li a {
+  font-size: 1rem;
+}
+
+.archive-post--admin .menu__body ul ul {
+  margin-left: 0;
+}
+
+.archive-post--admin menu {
+  position: unset;
+}
+
+/* 1. Tác động vào CỘT CHA bao ngoài cùng */
+.archive-post__col--fixed {
+  display: flex;
+  flex-direction: column;
+  /* Bắt buộc phải có chiều cao cố định để tính toán cuộn. 
+     Thường sidebar sẽ cao bằng màn hình (100vh) hoặc inherit từ cha */
+  height: max-content;
+  position: sticky; /* Giữ cột đứng yên khi cuộn trang chính (nếu cần) */
+  row-gap: 10px;
+  top: 50px;
 }

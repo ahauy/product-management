@@ -1,0 +1,32 @@
+extends ../../layout/default.pug
+
+block main 
+
+  link(rel="stylesheet", href="/css/client/blogDetail.css")
+
+  .archive-post.archive-post--admin
+    .archive-post__content
+      .archive-post__col 
+        article 
+          .article__title #{blog.title}
+          .article__date 
+            .article__date-icon
+              <ion-icon name="calendar-outline"></ion-icon>
+            .article__date-time #{moment(blog.publishedAt).format("DD/MM/YYYY")}
+          .article__intro #{blog.description}
+          .article__content #{blog.detail}
+      .archive-post__col 
+        .archive-post__col--fixed
+          menu 
+            .menu__header
+              .menu__header--left Mục lục
+              .menu__header--right 
+                <i class="fa-solid fa-bars"></i>
+            .menu__body 
+              nav   
+          .back.text-end 
+            button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px" onclick="history.back()")
+              <i class="fa-solid fa-rotate-right"></i> Back
+  
+  script(type="module", src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js") 
+  script(src="/js/client/blogDetail.js")

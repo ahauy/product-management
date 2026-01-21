@@ -43,6 +43,10 @@ block main
       color: rgb(70, 201, 88);
     }
 
+    .status.conceal {
+      color: rgb(233, 45, 45);
+    }
+
     .status ion-icon {
       margin-right: 6px;
     }
@@ -204,9 +208,12 @@ block main
                       else if item.status === "pending"
                         div.status.pending 
                           <ion-icon name="radio-button-on-outline"></ion-icon> </i> Pending 
-                      else 
+                      else if item.status === "publish"
                         div.status.publish
                           <ion-icon name="radio-button-on-outline"></ion-icon> </i> Publish 
+                      else 
+                        div.status.conceal
+                          <ion-icon name="radio-button-on-outline"></ion-icon> </i> Conceal
                     td 
                       if (item.publishedAt) 
                         p #{moment(item.createdAt).format("DD/MM/YYYY")}

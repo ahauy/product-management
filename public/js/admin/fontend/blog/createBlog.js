@@ -7,12 +7,22 @@ const inputBox = document.querySelector(".input_box");
 const catContent = document.querySelector(".cat-content");
 const tagContent = document.querySelector(".tag-content");
 
+const catWrapper = document.querySelector(".cat-wrapper")
+const tagWrapper = document.querySelector(".tag-wrapper")
+
 // --- XỬ LÝ CATEGORY ---
 if (btnCat) {
   btnCat.addEventListener("click", (e) => {
     selectItemBox.classList.toggle("hide");
     btnCat.classList.toggle("rotate");
   });
+}
+
+if(catWrapper) {
+  catWrapper.addEventListener("click", e => {
+    selectItemBox.classList.toggle("hide");
+    btnCat.classList.toggle("rotate");
+  })
 }
 
 if (arrSelectItem.length > 0) {
@@ -49,6 +59,13 @@ if (btnTag) {
     inputBox.classList.toggle("hide");
     btnTag.classList.toggle("rotate");
   });
+}
+
+if(tagWrapper) {
+  tagWrapper.addEventListener("click", e => {
+    inputBox.classList.toggle("hide");
+    btnTag.classList.toggle("rotate");
+  })
 }
 
 if (inputBox) {
