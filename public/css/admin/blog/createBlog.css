@@ -60,6 +60,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 9999;
 }
 
 .cat-wrapper .cat-icon ion-icon {
@@ -133,6 +134,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 9999;
 }
 
 .tag-wrapper .tag-icon ion-icon {

@@ -2,6 +2,22 @@ extends ../../layout/default.pug
 include ../../mixins/modal.pug
 
 block main
+
+  - if (messages.success)
+    div(
+      class="notifications" 
+      data-status="success" 
+      data-mess= messages.success[0]
+    )
+  
+  - if (messages.error)
+    div(
+      class="notifications" 
+      data-status="error" 
+      data-mess= messages.error[0]
+    )
+
+
   link(rel="stylesheet", href="/css/admin/products/modal.css")
   style.
     .cat-title {
@@ -167,7 +183,7 @@ block main
                     td
                       if item.blog_category.length > 0
                         each cat in item.blog_category 
-                          .cat-title #{cat.title}
+                          .cat-title #{cat.title.split("-- ").pop()}
                       else 
                         .cat-title No Category
                     td

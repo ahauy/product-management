@@ -16,4 +16,10 @@ routes.delete("/delete-blog/:id", controller.deleteBlog)
 
 routes.get("/read/:id", controller.getRead)
 
+routes.get("/edit/:id", controller.getEdit)
+
+routes.patch("/edit/:id", upload.single("thumbnail") ,controller.patchEdit)
+
+routes.patch("/edit/:id/:status", upload.single("thumbnail"), controller.patchEditStatus)
+
 module.exports = routes;

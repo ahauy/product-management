@@ -1,0 +1,122 @@
+extend ../../layout/default.pug
+
+block main 
+  link(rel="stylesheet", href="/css/admin/blog/createBlog.css")
+  if (role.permissions.includes('blog_edit'))
+    form(
+      action=`${prefixAdmin}/blog/edit/${blog.id}?_method=PATCH`
+      data-path=`${prefixAdmin}/blog/edit/${blog.id}`
+      method="POST"
+      enctype="multipart/form-data"
+      form-edit-blog
+    ) 
+      .row 
+        .col-6 
+          h1.title #{title} 
+        .col-6.text-end
+          a.btn.border.border-primary.p-2.pr-3.pl-3.text-primary.mr-2(href="javascript;") 
+            <i class="fa-regular fa-eye"></i> Preview
+          if (role.title.includes("Quản trị viên"))
+            if (blog.status === "publish")
+              button.btn.btn-danger.p-2.pr-5.pl-5.mr-2(type="submit" style="margin: 20px 0px;" btn-conceal)
+                <i class="fa-solid fa-arrow-rotate-right"></i> Conceal
+            else
+              button.btn.btn-primary.p-2.pr-5.pl-5.mr-2(type="submit" style="margin: 20px 0px;" btn-publish)
+                <i class="fa-solid fa-upload"></i> Publish
+          else 
+            if (blog.status === "draft")
+              button.btn.btn-warning.p-2.pr-5.pl-5.mr-2(type="submit" style="margin: 20px 0px;" btn-pending)
+                <i class="fa-solid fa-hourglass-start"></i> Pending
+            else if (blog.status == "pending")
+              button.btn.btn-secondary.p-2.pr-5.pl-5(type="submit" style="margin: 20px 0px;" btn-draft)
+                <i class="fa-solid fa-arrow-rotate-right"></i> Draft
+          button.btn.btn-success.p-2.pr-3.pl-3(type="submit" style="margin: 20px 0px")
+            <i class="fa-solid fa-check pr-2"></i> Edit Product
+
+      .container-fluid.pt-2
+        .row
+          .col-9
+            // Card general information - start
+            .card.shadow-css.p-3.mb-5
+              .card-body
+                h3.card-title.pb-3 General Information
+                .row
+                  label.form-label(for='title') Blog title <span style="color: red">*</span>
+                  input.mb-4.form-control(type='' id='title' placeholder='Blog title...' name="title" value=blog.title)
+                  label.form-label(for='detail') Blog Detail <span style="color: red">*</span>
+                  textarea.form-control(id='detail' row="7" name="detail")=blog.detail
+                  label.mt-4.form-label(for='description') Brief description <span style="color: red">*</span>
+                  textarea.form-control(id='description' name="description")=blog.description
+            // Card general information - end
+
+          .col-3
+            // Card upload image - start
+            .card.shadow-css.p-3.mb-4
+              .card-body
+                h3.card-title.pb-3 Feature Image
+                .row
+                  .col-12
+                    label.label-image(for='form-image-0')
+                      div.thumbnail.d-none=blog.thumbnail
+                      input#form-image-0.form-image(type='file' accept='image/*' hidden='' name="thumbnail")
+                      .show-image
+                        div
+                          i.fa-solid.fa-plus(style='color: #ffffff;')
+            // Card upload image - end
+
+            // Card Add Information- start
+            .card.shadow-css.p-3
+              .card-body
+                h3.card-title.pb-3 Add information
+                //- .row.mb-2
+                //-   label(for="") Blog Date (Optional)
+                //-   div.date
+                //-     label.input-date
+                //-       input(type="date" name="date_client")
+                //-       <i class="fa-regular fa-calendar"></i>
+                //-     label.input-time
+                //-       input(type="time" disabled)
+                //-       <i class="fa-regular fa-clock"></i>
+
+                .row.mb-3
+                  div.d-none(
+                    data-blog-category=JSON.stringify(blog.blog_category) 
+                  )
+                  label(for="") Category
+                  label.cat-wrapper
+                    .cat-content 
+                      //- .cat-title 
+                      //-   div Big Data
+                      //-   <ion-icon name="close-outline"></ion-icon>
+                    .cat-icon
+                      <ion-icon name="add-circle-outline" btn-cat></ion-icon>
+                  .select_item_box.hide 
+                    each item, index in newRecord 
+                      if (index === 0)
+                        .select_item.active(data_id=item._id) #{item.prefixTitle}
+                      else 
+                        .select_item(data_id=item._id) #{item.prefixTitle}
+                  input.d-none(type="text" name="blog_category")
+
+                .row
+                  div.d-none(data-tags=JSON.stringify(blog.tags))
+                  label(for="") Tag
+                  label.tag-wrapper
+                    .tag-content 
+                      //- .tag-title 
+                      //-   div Big Data
+                      //-   <ion-icon name="close-outline"></ion-icon>
+                    .tag-icon
+                      <ion-icon name="add-circle-outline" btn-tag></ion-icon>
+                  input.form-control.input_box.hide(type="text" placeholder="Input tag ...")
+                  input.d-none(type="text" name="tags")
+            // Card Add Information - end
+
+    script(src="/js/admin/fontend/labelImage.js")
+    script(src="/js/admin/fontend/blog/createBlog.js")
+    script(src="/js/admin/fontend/blog/editBlog.js")
+    script(src="/js/admin/pathEditBlog.js")
+    script(src="/js/admin/fontend/labelImage.js")
+    script(src="/js/admin/fontend/editProductCategory.js")
+  else 
+    h3.notFound Bạn không có quyền thêm danh mục sản phẩm

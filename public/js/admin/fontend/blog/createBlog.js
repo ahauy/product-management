@@ -1,14 +1,14 @@
-const btnCat = document.querySelector("[btn-cat]");
-const btnTag = document.querySelector("[btn-tag]");
-const selectItemBox = document.querySelector(".select_item_box");
-const arrSelectItem = document.querySelectorAll(".select_item");
-const inputBox = document.querySelector(".input_box");
+let btnCat = document.querySelector("[btn-cat]");
+let btnTag = document.querySelector("[btn-tag]");
+let selectItemBox = document.querySelector(".select_item_box");
+let arrSelectItem = document.querySelectorAll(".select_item");
+let inputBox = document.querySelector(".input_box");
 
-const catContent = document.querySelector(".cat-content");
-const tagContent = document.querySelector(".tag-content");
+let catContent = document.querySelector(".cat-content");
+let tagContent = document.querySelector(".tag-content");
 
-const catWrapper = document.querySelector(".cat-wrapper")
-const tagWrapper = document.querySelector(".tag-wrapper")
+let catWrapper = document.querySelector(".cat-wrapper")
+let tagWrapper = document.querySelector(".tag-wrapper")
 
 // --- XỬ LÝ CATEGORY ---
 if (btnCat) {
@@ -20,6 +20,9 @@ if (btnCat) {
 
 if(catWrapper) {
   catWrapper.addEventListener("click", e => {
+    if (e.target.closest('ion-icon')) {
+      return; // Thoát ra, không chạy code bên dưới
+    }
     selectItemBox.classList.toggle("hide");
     btnCat.classList.toggle("rotate");
   })
@@ -63,6 +66,9 @@ if (btnTag) {
 
 if(tagWrapper) {
   tagWrapper.addEventListener("click", e => {
+    if (e.target.closest('ion-icon')) {
+      return; // Thoát ra, không chạy code bên dưới
+    }
     inputBox.classList.toggle("hide");
     btnTag.classList.toggle("rotate");
   })
@@ -139,6 +145,4 @@ function addInputCategoryId(selector) {
   const inputTagetCategory = document.querySelector("input[name=blog_category]")
 
   inputTagetCategory.value = ids.toString()
-
-  console.log(inputTagetCategory.value)
 }
