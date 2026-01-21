@@ -2,9 +2,8 @@ extends ../../layout/default.pug
 include ../../mixins/modal.pug
 
 block main
-  link(rel="stylesheet", href="/css/admin/blog/modal.css")
+  link(rel="stylesheet", href="/css/admin/products/modal.css")
   style.
-
     .cat-title {
       padding: 5px 10px;
       margin: 8px 0px;
@@ -19,6 +18,35 @@ block main
     .table-css tr:hover .cat-title {
       color: black;
     }
+
+    .line {
+      width: max-content;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: max-content;
+      font-weight: bold;
+    }
+
+    .status.draft {
+      color: rgb(115, 115, 115);
+    }
+
+    .status.pending {
+      color: rgb(199, 192, 93);
+    }
+
+    .status.publish {
+      color: rgb(70, 201, 88);
+    }
+
+    .status ion-icon {
+      margin-right: 6px;
+    }
+
 
   if (role.permissions.includes("blog_view"))
 
@@ -35,11 +63,11 @@ block main
                 label.form-label(for='filter-name') Filter name: 
                 input.form-control(type='text' placeholder="Input name ..." id="filter-name")
               .col-2
-                label.form-label(for='filter-active') Filter active: 
+                label.form-label(for='filter-active') Filter status: 
                 select.form-select(name='' id='filter-active')
                   option(value="") All
-                  option(value="active") Active 
-                  option(value="inactive") Inactive
+                  option(value="active") Publish
+                  option(value="inactive") Conceal
                   option(value="pending") Pending 
                   option(value="draft") Draft
 
@@ -53,15 +81,15 @@ block main
                 label.form-label(for='filter-sort') Filter sort: 
                 select.form-select(name='' id='filter-sort')
                   option(value="") Sort 
-                  option(value="position-desc") Vị trí giảm dần  
-                  option(value="position-asc") Vị trí tăng dần
+                  option(value="createdAt-desc") Mới nhất 
+                  option(value="createdAt-asc") Cũ nhất
               .col-3
                 label.form-label(for='filter-sort') Filter category:
                 select.form-select(name='' id="filter-category")
                   option(value='') All
-                    //- if (newRecords)
-                    //-   each item in newRecords
-                    //-     option(value=item._id) #{item.prefixTitle} (#{item.productCount})
+                    if (newRecords)
+                      each item in newRecords
+                        option(value=item._id) #{item.prefixTitle}
             .row.mt-2
               .col-3
                 button.btn.btn-primary(type="submit" btn-filter)
@@ -89,8 +117,8 @@ block main
                     .input-group
                       select.form-select(name='type' id='')
                         option(disable selected) Choose active
-                        option(value="active") Active 
-                        option(value="inactive") Inactive 
+                        option(value="active") Publish
+                        option(value="inactive") Conceal 
                         option(value="pending") Pending 
                         option(value="draft") Draft 
                         option(value="featured-true") Featured true
@@ -119,19 +147,18 @@ block main
                   td(scope='col') Title
                   td(scope="col") Category
                   td(scope='col') Author
-                  td(scope='col') Position
                   td(scope='col') Featured
                   td(scope='col') Status
                   td(scope='col') PublishAt
                   td(scope='col') Action
               tbody
-                each item, index in blog
+                each item, index in blogs
                   tr 
                     if (role.permissions.includes('blog_edit'))
                       td 
-                        input(type="checkbox" name="id" value=item.id)
+                        input(type="checkbox" name="id" value=item._id)
                     td 
-                      img( alt=item.title width='100px' class="img-thumbnail")
+                      img(src=item.thumbnail alt=item.title width='100px' class="img-thumbnail")
                     td=item.title
                     td
                       if item.blog_category.length > 0
@@ -141,29 +168,9 @@ block main
                         .cat-title No Category
                     td
                       if (item.createdBy && item.createdBy.accountId)
-                        | #{item.createdBy.accountId.fullName}
+                        .line #{item.createdBy.accountId.fullName}
                       else
                         | N/A
-                    if (role.permissions.includes('blog_edit'))              
-                      td 
-                        form(
-                          action="" 
-                          form-change-position
-                          method="POST"
-                          data-path=`${prefixAdmin}/blog/change-position`
-                        )
-                          input(
-                            change-position
-                            type="text"
-                            min="1"
-                            name="position"
-                            value=item.position 
-                            idItem=item._id
-                            class="form-control"
-                            style="width: 50px; text-align: center"
-                          ) 
-                    else 
-                      td.text-center=item.position
                     if (role.permissions.includes('blog_edit'))
                       td 
                         if(item.featured == true)
@@ -190,10 +197,22 @@ block main
                           p.text-success True
                         else 
                           p.text-danger False
-                    td=item.status
                     td 
-                      p #{moment(item.createdAt).format("DD/MM/YYYY")}
-                      i #{moment(item.createdAt).format("HH:mm")}
+                      if item.status === "draft"
+                        div.status.draft 
+                          <ion-icon name="radio-button-on-outline"></ion-icon> </i> Draft 
+                      else if item.status === "pending"
+                        div.status.pending 
+                          <ion-icon name="radio-button-on-outline"></ion-icon> </i> Pending 
+                      else 
+                        div.status.publish
+                          <ion-icon name="radio-button-on-outline"></ion-icon> </i> Publish 
+                    td 
+                      if (item.publishedAt) 
+                        p #{moment(item.createdAt).format("DD/MM/YYYY")}
+                        i #{moment(item.createdAt).format("HH:mm")}
+                      else 
+                        .line.status.draft Chưa phát hành
                     td  
                       a(
                           href=`${prefixAdmin}/blog/read/${item._id}`
@@ -241,7 +260,7 @@ block main
                         ) <i class="fa-solid fa-chart-bar"></i>
 
 
-          //- .row
+          .row
             if (role.permissions.includes('blog_delete'))
               .col-9
                 nav(aria-label='Page navigation example')
@@ -318,7 +337,7 @@ block main
         action=""
         method="POST"
         id = 'form-delete'
-        data-path = `${prefixAdmin}/blog/delete-product`
+        data-path = `${prefixAdmin}/blog/delete-blog`
       ) 
                 
       // LIST PRODUCTS END

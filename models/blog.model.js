@@ -38,7 +38,7 @@ const blogSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["active", "inactive", "draft", "pending"],
+      enum: ["publish", "conceal", "draft", "pending"],
       default: "draft",
     },
 

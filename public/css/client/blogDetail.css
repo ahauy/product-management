@@ -1,0 +1,177 @@
+.archive-post {
+  padding: 50px 50px 0px 50px;
+}
+
+
+.archive-post__content {
+  display: grid;
+  grid-template-columns: 5fr 3fr;
+  column-gap: 50px;
+}
+
+article .article__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding: 20px 0px;
+  border-bottom: 1px solid #ccc;
+}
+
+a {
+  color: rgb(33, 33, 243);
+}
+
+article .article__date {
+  display: flex;
+  padding: 20px 0px 10px 0px;
+  align-items: center;
+  column-gap: 10px;
+}
+
+article .article__intro {
+  line-height: 1.5;
+}
+
+article .article__content > h1 {
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+article .article__content > h2 {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+article .article__content > h3 {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+article .article__content > h4 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+article .article__content figcaption {
+  text-align: center;
+  opacity: 0.8;
+  font-size: 1rem;
+}
+
+article .article__content > * {
+  line-height: 1.5;
+  font-size: 1.2rem;
+}
+
+article .article__content > ul {
+  padding-left: 1rem;
+}
+
+article .article__content > ul li strong {
+  font-weight: 600;
+}
+
+article .article__content .image {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+article .article__content figcaption > p {
+  margin: 0px;
+}
+
+article .article__content .image img {
+  width: 80%;
+}
+
+/* 1. Xóa các animation cũ ở thẻ menu cha */
+.archive-post__col menu {
+  background: #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  /* Bỏ min-height, animation, overflow ở đây đi */ 
+  transition: all 0.3s ease; /* Thêm transition nếu muốn mượt cả padding */
+  position: -webkit-sticky; /* Hỗ trợ Safari */
+  position: sticky;         /* Thuộc tính chính */
+  top: 100px;               /* Khoảng cách muốn giữ với mép trên trình duyệt */
+  z-index: 10;
+}
+
+/* 2. Thiết lập trạng thái MỞ cho phần body (Mặc định) */
+.menu__body {
+  /* Kỹ thuật Grid Magic */
+  display: grid;
+  grid-template-rows: 1fr; /* 1fr = chiều cao tối đa của nội dung */
+  
+  /* Tạo chuyển động mượt */
+  transition: grid-template-rows 0.4s ease-out, margin-top 0.4s ease-out, opacity 0.4s ease;
+  
+  /* Các thuộc tính hiển thị */
+  margin-top: 20px;
+  opacity: 1;
+}
+
+/* 3. Bọc nội dung để Grid hoạt động đúng */
+/* Quan trọng: Padding phải nằm ở thẻ con bên trong (nav) chứ không phải .menu__body */
+.menu__body > nav {
+  overflow: hidden; /* Bắt buộc để ẩn nội dung khi co lại */
+  /* Chuyển padding từ .menu__body cũ vào đây nếu cần */
+  padding: 5px 0; 
+}
+
+/* 4. Thiết lập trạng thái ĐÓNG (khi có class .close) */
+.archive-post__col menu.close .menu__body {
+  grid-template-rows: 0fr; /* Co về 0 */
+  margin-top: 0;           /* Thu gọn cả margin để không bị hở */
+  opacity: 0;              /* Mờ dần đi cho đẹp */
+}
+
+/* (Tùy chọn) Xoay icon khi đóng */
+.menu__header--right i {
+  transition: transform 0.3s;
+}
+
+.archive-post__col menu .menu__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5rem;
+  padding: 10px 0px 20px 0px;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+}
+
+.menu__body {
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+
+.menu__body nav ul li {
+  list-style-type: none;
+}
+
+.menu__body ul ul {
+  margin-left: 1rem;
+}
+
+.menu__body a:hover {
+  text-decoration: underline;
+}
+
+.menu__body nav ul li a {
+  color: black;
+  line-height: 1.5;
+  font-size: 1.2rem;
+}
+
+/* Khi click vào menu, nội dung sẽ cách mép trên 100px thay vì dính sát */
+.article__content h1,
+.article__content h2,
+.article__content h3,
+.article__content h4,
+.article__content span {
+    scroll-margin-top: 100px; /* Bạn chỉnh số này tùy ý cho vừa mắt */
+}

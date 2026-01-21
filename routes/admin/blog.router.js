@@ -10,4 +10,8 @@ routes.get("/create", controller.getCreate)
 
 routes.post("/create/:status", upload.single("thumbnail"), controller.postCreate)
 
+routes.patch("/change-featured/:featured/:id", controller.changeFeatured)
+
+routes.delete("/delete-blog/:id", controller.deleteBlog)
+
 module.exports = routes;
