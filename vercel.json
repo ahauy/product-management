@@ -13,7 +13,7 @@
   ],
   "functions": {
     "index.js": {
-      "includeFiles": "node_modules/mongodb/lib/**/*.js"
+      "includeFiles": "node_modules/mongodb/**"
     }
   }
 }
