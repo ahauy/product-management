@@ -50,6 +50,6 @@ routeAdmin(app) // admin
 app.locals.prefixAdmin = systemAdmin.prefixAdmin
 app.locals.apiTinymce = process.env.API_KEY_TINYMCE
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+// app.listen(port, () => {
+//   console.log(`Example app listening on port ${port}`)
+// })
