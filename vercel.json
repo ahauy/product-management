@@ -1,28 +1,8 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "routes/**",
-          "views/**",
-          "public/**",
-          "config/**",
-          "validate/**",
-          "middlewares/**",
-          "helpers/**",
-          "models/**",
-          "controllers/**"
-        ]
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "api/index.js"
+      "source": "/(.*)",
+      "destination": "/api/index.js"
     }
   ]
 }
