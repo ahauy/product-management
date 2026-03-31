@@ -1,7 +1,6 @@
 const express = require('express')
 const routes = express.Router()
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' });
+const upload = require('../../config/multer.config.js');
 const cloudinary = require('../../config/cloudinary.config')
 
 // upload ảnh trong tinymce

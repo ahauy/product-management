@@ -1,8 +1,8 @@
 const express = require("express");
 const routes = express.Router();  
 const controller = require("../../controllers/admin/blogController");
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' });
+const upload = require('../../config/multer.config.js');
+
 
 routes.get("/", controller.index);
 

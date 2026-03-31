@@ -3,8 +3,8 @@ const routes = express.Router();
 const controller = require("../../controllers/admin/productCategoryController");
 const validate = require('../../validate/admin/product.validate')
 const storageMulter = require('../../helpers/admin/storageMulter')
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' });
+const upload = require('../../config/multer.config.js');
+
 
 routes.get("/", controller.index);
 

@@ -4,9 +4,8 @@ const controller = require("../../controllers/admin/productsController");
 const cloudinary = require('cloudinary').v2;
 const validate = require('../../validate/admin/product.validate')
 const storageMulter = require('../../helpers/admin/storageMulter')
-const multer  = require('multer')
-// const upload = multer({ storage: storageMulter() })
-const upload = multer({ dest: 'uploads/' });
+const upload = require('../../config/multer.config.js');
+
 
 routes.get("/", controller.index);
 
